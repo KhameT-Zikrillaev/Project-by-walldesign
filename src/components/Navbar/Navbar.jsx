@@ -35,7 +35,7 @@ const Navbar = () => {
               clipRule="evenodd"
             />
           </svg>
-          Logout
+          Chiqish
         </Link>
       </div>
     </div>

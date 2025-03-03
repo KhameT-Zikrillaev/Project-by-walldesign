@@ -31,7 +31,10 @@ export default function Login() {
         // Здесь можно добавить логику проверки логина и пароля
         if (username === 'admin' && password === 'admin123') {
             navigate('/Admin'); // Перенаправление на домашнюю страницу
-        } else {
+        } if (username === 'sklad' && password === 'sklad123') {
+            navigate('/sklad'); // Перенаправление на домашнюю страницу
+        }
+        else {
             setError('Неверный логин или пароль');
         }
     };

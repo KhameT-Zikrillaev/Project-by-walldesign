@@ -1,160 +1,117 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card } from "antd"; // Импортируем компоненты из Ant Design
-import { Link } from "react-router-dom"; // Импортируем Link для создания ссылок
-import bgsklad from "../../assets/images/bg-sklad.png";
-import logo from "../../assets/images/logo.png";
+import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Loading from "../../components/Loading/Loading";
 import {
-  FaShoppingCart,
-  FaCashRegister,
-  FaTachometerAlt,
-  FaExchangeAlt,
   FaCog,
   FaListAlt,
   FaMoneyBillAlt,
   FaChartLine,
+  FaShoppingCart,
+  FaCashRegister,
+  FaTachometerAlt,
+  FaExchangeAlt,
 } from "react-icons/fa";
+import { AiOutlineUser } from "react-icons/ai";
+import bgsklad from "../../assets/images/bg-sklad.png"; // Ваша картинка
+
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true); // Лоадер по умолчанию включен
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoading(false); // Выключаем лоадер через 3 секунды
+      setIsLoading(false);
     }, 2000);
 
-    return () => clearTimeout(timer); // Очистка таймера при размонтировании компонента
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#17212b] p-4">
+    <div
+      className="min-h-screen bg-cover bg-center p-4"
+      style={{ backgroundImage: `url(${bgsklad})` }}
+    >
       {isLoading && <Loading />}
-      {/* Логотип (наверху на мобильных устройствах) */}
       <Navbar />
 
-      {/* Основной контент (сетка для десктопа и колонка для мобильных) */}
-      <div className="flex mt-[120px]   flex-col-reverse md:flex-row gap-6">
-        {/* Левая часть (60% на десктопе, полная ширина на мобильных) */}
-        <div className="w-full bg-[#17212b] p-6 rounded-lg shadow-lg">
-          {/* Карточка "Доступы админа" */}
-          <Card
-            title="Доступы админа"
-            className="mb-6 shadow-sm uppercase border-0 text-center"
-            headStyle={{ backgroundColor: "#7f8c8d", color: "white" }}
-            bodyStyle={{ backgroundColor: "#17212b" }}
-          >
-            <div className="grid w-full max-w-[800px] bg-[#17212b] mx-auto grid-cols-1 md:grid-cols-2 gap-6">
-              <Link
-                to="/admin-panel/statistics"
-                className="flex flex-col items-center justify-center text-base md:text-lg font-medium  bg-white hover:bg-gray-50 p-6 border border-gray-200 rounded-lg transition-all duration-300 hover:shadow-md"
-              >
-                <FaCog className="text-[#7f8c8d] text-2xl mb-2" />{" "}
-                {/* Иконка настроек */}
-                <span className="text-[#7f8c8d] font-medium">Админ панель</span>
-              </Link>
-              <Link
-                to="/operations"
-                className="flex flex-col items-center justify-center text-base md:text-lg font-medium  bg-white hover:bg-gray-50 p-6 border border-gray-200 rounded-lg transition-all duration-300 hover:shadow-md"
-              >
-                <FaListAlt className="text-[#7f8c8d] text-2xl mb-2" />{" "}
-                {/* Иконка списка */}
-                <span className="text-[#7f8c8d] font-medium">
-                  Операции с номенклатурой
-                </span>
-              </Link>
-              <Link
-                to="/close-cash"
-                className="flex flex-col items-center justify-center text-base md:text-lg font-medium  bg-white hover:bg-gray-50 p-6 border border-gray-200 rounded-lg transition-all duration-300 hover:shadow-md"
-              >
-                <FaMoneyBillAlt className="text-[#7f8c8d] text-2xl mb-2" />{" "}
-                {/* Иконка денег */}
-                <span className="text-[#7f8c8d] font-medium">
-                  Закрыть кассу
-                </span>
-              </Link>
-              <Link
-                to="/main-reports"
-                className="flex flex-col items-center justify-center text-base md:text-lg font-medium  bg-white hover:bg-gray-50 p-6 border border-gray-200 rounded-lg transition-all duration-300 hover:shadow-md"
-              >
-                <FaChartLine className="text-[#7f8c8d] text-2xl mb-2" />{" "}
-                {/* Иконка графиков */}
-                <span className="text-[#7f8c8d] font-medium">
-                  Главные отчеты
-                </span>
-              </Link>
-            </div>
-          </Card>
+      {/* Размытый фон */}
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm z-0"></div>
 
-          {/* Карточка "СКЛАД" */}
+      {/* Основной контент */}
+      <div className="relative z-10 flex flex-col items-center justify-center mt-[120px]">
+        {/* Блок с пользователем */}
+        <div className="flex items-center justify-center gap-3 mb-6 p-4 bg-white/10 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/20 transition-all duration-300">
+          <AiOutlineUser className="text-3xl text-white" />
+          <span className="text-xl font-semibold text-white">Администратор</span>
         </div>
 
-        <div className="w-full  p-6 bg-[#17212b] rounded-lg shadow-lg">
-          <Card
-            title="Дополнительная информация"
-            className="shadow-lg border-0"
-            headStyle={{ backgroundColor: "#7f8c8d", color: "white" }}
-            bodyStyle={{ backgroundColor: "#17212b" }}
-          >
-            <p>Здесь может быть что-то полезное.</p>
-          </Card>
+        {/* Заголовок */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-white mb-2">Панель управления</h1>
+          <p className="text-gray-200">Выберите раздел для работы</p>
         </div>
-      </div>
 
-      {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~нижний контент~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-
-      <div className="section-2 flex flex-col md:flex-row items-center md:items-start">
-        <img
-          className=" md:w-[30%]  max-w-[300px] md:max-w-[500px] md:max-h-[350px] p-4 md:p-6"
-          src={bgsklad}
-          alt=""
-        />
-        <div className="w-full md:w-[70%] mt-6 md:mt-12 md:ml-6">
-          <Card
-            title="СКЛАД"
-            className="shadow-sm text-center border border-gray-200 rounded-lg overflow-hidden bg-white"
-            headStyle={{
-              backgroundColor: "#7f8c8d",
-              color: "white",
-              fontSize: "1.25rem",
-              fontWeight: "600",
-              padding: "1rem",
-              borderBottom: "1px solid #E5E7EB",
-            }}
-            bodyStyle={{ backgroundColor: "#17212b" }}
+        {/* Кнопки */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl px-4">
+          {/* Админ панель */}
+          <Link
+            to="/admin-panel/statistics"
+            className="flex flex-col items-center justify-center p-8 bg-white/10 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-105"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-              <Link
-                to="/sales"
-                className="flex items-center p-4 bg-white hover:bg-gray-50 rounded-lg transition-all duration-200 border border-gray-200 hover:border-purple-300"
-              >
-                <FaShoppingCart className="text-[#7f8c8d] text-xl mr-3" />
-                <span className="text-[#7f8c8d] font-medium">Продажа</span>
-              </Link>
-              <Link
-                to="/purchases"
-                className="flex items-center p-4 bg-white hover:bg-gray-50 rounded-lg transition-all duration-200 border border-gray-200 hover:border-purple-300"
-              >
-                <FaCashRegister className="text-[#7f8c8d] text-xl mr-3" />
-                <span className="text-[#7f8c8d] font-medium">Покупка</span>
-              </Link>
-              <Link
-                to="/counter"
-                className="flex items-center p-4 bg-white hover:bg-gray-50 rounded-lg transition-all duration-200 border border-gray-200 hover:border-purple-300"
-              >
-                <FaTachometerAlt className="text-[#7f8c8d] text-xl mr-3" />
-                <span className="text-[#7f8c8d] font-medium">Счетчик</span>
-              </Link>
-              <Link
-                to="/counter-movement"
-                className="flex items-center p-4 bg-white hover:bg-gray-50 rounded-lg transition-all duration-200 border border-gray-200 hover:border-purple-300"
-              >
-                <FaExchangeAlt className="text-[#7f8c8d] text-xl mr-3" />
-                <span className="text-[#7f8c8d] font-medium">
-                  Движение по счетчикам
-                </span>
-              </Link>
-            </div>
-          </Card>
+            <FaCog className="text-4xl text-white mb-4" />
+            <span className="text-xl font-semibold text-white">Админ панель</span>
+            <p className="text-gray-200 text-center mt-2">Управление системой</p>
+          </Link>
+
+          {/* Касса */}
+          <Link
+            to="/operations"
+            className="flex flex-col items-center justify-center p-8 bg-white/10 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-105"
+          >
+            <FaListAlt className="text-4xl text-white mb-4" />
+            <span className="text-xl font-semibold text-white">Касса</span>
+            <p className="text-gray-200 text-center mt-2">Операции с финансами</p>
+          </Link>
+
+          {/* История операций */}
+          <Link
+            to="/close-cash"
+            className="flex flex-col items-center justify-center p-8 bg-white/10 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-105"
+          >
+            <FaMoneyBillAlt className="text-4xl text-white mb-4" />
+            <span className="text-xl font-semibold text-white">История операций</span>
+            <p className="text-gray-200 text-center mt-2">Просмотр всех транзакций</p>
+          </Link>
+
+          {/* Отчеты */}
+          <Link
+            to="/main-reports"
+            className="flex flex-col items-center justify-center p-8 bg-white/10 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-105"
+          >
+            <FaChartLine className="text-4xl text-white mb-4" />
+            <span className="text-xl font-semibold text-white">Отчеты</span>
+            <p className="text-gray-200 text-center mt-2">Аналитика и статистика</p>
+          </Link>
+
+          {/* Продажи */}
+          <Link
+            to="/sales"
+            className="flex flex-col items-center justify-center p-8 bg-white/10 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-105"
+          >
+            <FaShoppingCart className="text-4xl text-white mb-4" />
+            <span className="text-xl font-semibold text-white">Продажи</span>
+            <p className="text-gray-200 text-center mt-2">Управление продажами</p>
+          </Link>
+
+          {/* Покупки */}
+          <Link
+            to="/purchases"
+            className="flex flex-col items-center justify-center p-8 bg-white/10 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-105"
+          >
+            <FaCashRegister className="text-4xl text-white mb-4" />
+            <span className="text-xl font-semibold text-white">Покупки</span>
+            <p className="text-gray-200 text-center mt-2">Управление закупками</p>
+          </Link>
         </div>
       </div>
     </div>
