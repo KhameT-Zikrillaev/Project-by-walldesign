@@ -4,18 +4,18 @@ import logo from "../../assets/images/logo.png"; // Укажите правил�
 
 const Navbar = () => {
   return (
-    <div className="w-full h-[105px] top-0 flex justify-between fixed z-10 items-center mb-6 md:mb-10 p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg shadow-xl">
+    <div className="w-full h-[105px] left-0 top-0 flex justify-between fixed z-10 items-center mb-6 md:mb-10 py-6 px-6 md:px-6 bg-[#17212b] rounded-lg shadow-xl">
       {/* Логотип */}
       <div className="left-content">
         <div>
-          <img className="max-w-[180px] w-full" src={logo} alt="Logo" />
+          <img className=" max-w-[120px] md:max-w-[180px] w-full" src={logo} alt="Logo" />
         </div>
       </div>
 
       {/* Правая часть: Имя пользователя и кнопка выхода */}
       <div className="right-content flex items-center space-x-4">
         <div className="text-right">
-          <h2 className="text-lg font-semibold text-black">
+          <h2 className=" text-sm md:text-lg font-semibold text-white">
             Xamidullabek <br /> <span className="text-blue-600">Admin</span>
           </h2>
         </div>

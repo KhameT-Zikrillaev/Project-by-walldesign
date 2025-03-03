@@ -31,7 +31,7 @@ const SideBar = () => {
 
       {/* Сайдбар */}
       <div
-        className={`bg-gradient-to-br from-gray-50 shadow-xl to-gray-100 text-white w-64 space-y-6 py-7 px-2 fixed inset-y-0 left-0 transform ${
+        className={`bg-[#17212b] shadow-xl to-gray-100 text-white w-64 space-y-6 py-7 px-2 fixed inset-y-0 left-0 transform ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0 transition duration-200 ease-in-out mt-[105px] z-40`}
       >
@@ -63,12 +63,12 @@ const SideBar = () => {
                 to="/admin-panel/statistics"
                 className={`block py-2.5 px-4 rounded transition duration-200 ${
                     location.pathname === '/admin-panel/statistics' // Проверяем активный маршрут
-                      ? 'bg-gray-500 text-white' // Стиль для активной кнопки
+                      ? 'bg-[#7f8c8d] text-white' // Стиль для активной кнопки
                       : 'text-black hover:bg-gray-700' // Стиль для неактивной кнопки
                   }`}
                   onClick={() => setIsSidebarOpen(false)}
               >
-                Статистика
+                   <span className="text-white font-medium">Статистика</span>
               </Link>
             </li>
             <li>
@@ -76,12 +76,12 @@ const SideBar = () => {
                 to="/admin-panel/users"
                 className={`block py-2.5 px-4 rounded transition duration-200 ${
                     location.pathname === '/admin-panel/users' // Проверяем активный маршрут
-                      ? 'bg-gray-500 text-white' // Стиль для активной кнопки
+                      ? 'bg-[#7f8c8d] text-white' // Стиль для активной кнопки
                       : 'text-black hover:bg-gray-700' // Стиль для неактивной кнопки
                   }`}
                   onClick={() => setIsSidebarOpen(false)}// Закрыть сайдбар после клика
               >
-                Пользователи
+              <span className="text-white font-medium">Пользователи</span>
               </Link>
             </li>
           </ul>
