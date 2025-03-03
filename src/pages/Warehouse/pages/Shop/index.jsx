@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function  Shop() {
   return (
-    <div>Магазин</div>
+    <><h3 className='text-white'>Магазин</h3></>
   )
 }

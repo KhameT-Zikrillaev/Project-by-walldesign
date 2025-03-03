@@ -22,7 +22,7 @@ export const AdminCards = [
     }),
     title: "Kassa",
     description: "Moliya operatsiyalari",
-    link: "/operations",
+    link: "/admin/cash-register",
   },
   {
     icon: React.createElement(FaMoneyBillAlt, {
@@ -30,7 +30,7 @@ export const AdminCards = [
     }),
     title: "Operatsiyalar tarixi",
     description: "Barcha tranzaksiyalarni ko'rish",
-    link: "/close-cash",
+    link: "/admin/transaction-history",
   },
   {
     icon: React.createElement(FaChartLine, {
@@ -38,22 +38,6 @@ export const AdminCards = [
     }),
     title: "Hisobotlar",
     description: "Analitika va statistika",
-    link: "/main-reports",
-  },
-  {
-    icon: React.createElement(FaShoppingCart, {
-      className: "text-4xl text-white mb-4",
-    }),
-    title: "Sotuvlar",
-    description: "Sotuvlarni boshqarish",
-    link: "/sales",
-  },
-  {
-    icon: React.createElement(FaCashRegister, {
-      className: "text-4xl text-white mb-4",
-    }),
-    title: "Xaridlar",
-    description: "Xaridlarni boshqarish",
-    link: "/purchases",
-  },
+    link: "/admin/report",
+  }
 ];

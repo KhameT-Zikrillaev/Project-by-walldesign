@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function Products() {
   return (
-    <div>Товары</div>
+    <><h3 className='text-white'>Товары</h3></>
   )
 }

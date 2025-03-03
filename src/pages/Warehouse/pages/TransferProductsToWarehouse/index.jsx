@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function TransferProductsToWarehouse() {
   return (
-    <div>Перемещение товаров на другой склад</div>
+    <><h3 className='text-white'>Перемещение товаров на другой склад</h3></>
   )
 }
