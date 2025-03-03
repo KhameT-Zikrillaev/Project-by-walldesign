@@ -21,10 +21,7 @@ export default function RouterConfig() {
       <Route path="/" element={<Login />} />
 
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ADMIN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <Route path="/admin" element={<Profile />} />
-      <Route path="/warehouse" element={<Profile />} />
-
-      
+      <Route path="/admin" element={<Profile />} />   
       <Route path="/admin">
         <Route path="admin-panel" element={<AdminPanel />}>
           <Route path="statistics" element={<Statistics />} /> {/* /admin/admin-panel/statistics */}
@@ -36,6 +33,7 @@ export default function RouterConfig() {
 
 
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~WAREHOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+      <Route path="/warehouse" element={<Profile />} />
       <Route path="/warehouse">
         <Route path="products" element={<Products />} /> {/* /warehouse/products */}
         <Route path="send-to-showcase" element={<SendProductsToShopView />} /> {/* /warehouse/send-to-showcase */}
