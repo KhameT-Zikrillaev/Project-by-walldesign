@@ -3,14 +3,15 @@ import { Link, useLocation } from 'react-router-dom';
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const location = useLocation(); 
+  const location = useLocation();
+
   return (
     <>
       {/* Бургер-иконка для мобильных устройств */}
-      {!isSidebarOpen && ( // Показывать бургер только если сайдбар закрыт
+      {!isSidebarOpen && (
         <button
-          className="md:hidden fixed top-8 left-4 z-50 p-2 bg-[#95a5a6] text-white rounded"
-          onClick={() => setIsSidebarOpen(true)} // Открыть сайдбар
+          className="md:hidden fixed top-8 left-4 z-50 p-2 bg-gray-600 text-white rounded shadow-md"
+          onClick={() => setIsSidebarOpen(true)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -31,14 +32,14 @@ const SideBar = () => {
 
       {/* Сайдбар */}
       <div
-        className={`bg-[#17212b] shadow-xl to-gray-100 text-white w-64 space-y-6 py-7 px-2 fixed inset-y-0 left-0 transform ${
+        className={`bg-[#17212b] shadow-lg text-white w-64 space-y-6 py-7 px-4 fixed inset-y-0 left-0 transform ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 transition duration-200 ease-in-out mt-[105px] z-40`}
+        } md:translate-x-0 transition duration-300 ease-in-out mt-[105px] z-40 rounded-r-2xl`}
       >
         {/* Кнопка закрытия (крестик) для мобильных устройств */}
         <button
-          className="md:hidden absolute top-0 right-1 p-2 text-black"
-          onClick={() => setIsSidebarOpen(false)} // Закрыть сайдбар
+          className="md:hidden absolute top-3 right-3 p-2 bg-gray-700 rounded-full text-white shadow-md "
+          onClick={() => setIsSidebarOpen(false)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -56,32 +57,32 @@ const SideBar = () => {
           </svg>
         </button>
 
-        <nav className='mt-[10px]'>
-          <ul className="space-y-2">
+        <nav className="mt-4">
+          <ul className="space-y-3">
             <li>
               <Link
                 to="/admin-panel/statistics"
-                className={`block py-2.5 px-4 rounded transition duration-200 ${
-                    location.pathname === '/admin-panel/statistics' // Проверяем активный маршрут
-                      ? 'bg-[#7f8c8d] text-white' // Стиль для активной кнопки
-                      : 'text-black hover:bg-gray-700' // Стиль для неактивной кнопки
-                  }`}
-                  onClick={() => setIsSidebarOpen(false)}
+                className={`block py-3 px-4 rounded-lg transition duration-200 font-medium border-b-2 border-gray-900  ${
+                  location.pathname === '/admin-panel/statistics'
+                    ? 'bg-gray-700 text-white'
+                    : 'text-gray-300 hover:bg-gray-800'
+                }`}
+                onClick={() => setIsSidebarOpen(false)}
               >
-                   <span className="text-white font-medium">Статистика</span>
+                Статистика
               </Link>
             </li>
             <li>
               <Link
                 to="/admin-panel/users"
-                className={`block py-2.5 px-4 rounded transition duration-200 ${
-                    location.pathname === '/admin-panel/users' // Проверяем активный маршрут
-                      ? 'bg-[#7f8c8d] text-white' // Стиль для активной кнопки
-                      : 'text-black hover:bg-gray-700' // Стиль для неактивной кнопки
-                  }`}
-                  onClick={() => setIsSidebarOpen(false)}// Закрыть сайдбар после клика
+                className={`block py-3 px-4 rounded-lg transition duration-200 font-medium border-b-2 border-gray-900  ${
+                  location.pathname === '/admin-panel/users'
+                    ? 'bg-gray-700 text-white'
+                    : 'text-gray-300 hover:bg-gray-800'
+                }`}
+                onClick={() => setIsSidebarOpen(false)}
               >
-              <span className="text-white font-medium">Пользователи</span>
+                Пользователи
               </Link>
             </li>
           </ul>
@@ -91,8 +92,8 @@ const SideBar = () => {
       {/* Затемнение фона при открытом сайдбаре на мобильных устройствах */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0  z-30 md:hidden"
-          onClick={() => setIsSidebarOpen(false)} // Закрыть сайдбар при клике на затемнение
+          className="fixed inset-0 bg-black bg-opacity-40 z-30 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
         ></div>
       )}
     </>

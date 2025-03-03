@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card } from "antd"; // Импортируем компоненты из Ant Design
+import {Card } from "antd"; // Импортируем компоненты из Ant Design
 import { Link } from "react-router-dom"; // Импортируем Link для создания ссылок
 import bgsklad from "../../assets/images/bg-sklad.png";
-import logo from "../../assets/images/logo.png";
 import Navbar from "../../components/Navbar/Navbar";
 import Loading from "../../components/Loading/Loading";
 import {
