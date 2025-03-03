@@ -1,7 +1,7 @@
-import React from 'react';
-import Navbar from '../../../../components/Navbar/Navbar'; // Импортируйте ваш Navbar
-import SideBar from './components/SideBar'; // Создайте SideBar (см. ниже)
-import { Outlet } from 'react-router-dom';
+import React from "react";
+import Navbar from "../../../../components/Navbar/Navbar"; // Импортируйте ваш Navbar
+import SideBar from "./components/SideBar"; // Создайте SideBar (см. ниже)
+import { Outlet } from "react-router-dom";
 
 const AdminPanel = () => {
   return (
@@ -13,8 +13,11 @@ const AdminPanel = () => {
         {/* Sidebar */}
         <SideBar />
         {/* Правый контейнер для отображения контента */}
-        <div className="flex-1 overflow-y-auto p-8 md:ml-64 mt-[105px]">
-          <Outlet /> {/* Здесь будут отображаться вложенные маршруты (статистика, пользователи) */}
+        <div className="flex-1 overflow-y-auto p-8 md:ml-64 mt-[105px] bg-gray-900">
+          <div className="w-full h-full bg-[#17212b] rounded-xl">
+            <Outlet />
+          </div>{" "}
+          {/* Здесь будут отображаться вложенные маршруты (статистика, пользователи) */}
         </div>
       </div>
     </div>
