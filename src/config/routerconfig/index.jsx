@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Profile from '@/pages/Profile';
 import Login from '@/pages/Login';
 import AdminPanel from '@/pages/Admin/pages/Admin-ponel/index'; // Ваш существующий компонент админ-панели
-import Statistics from '@/pages/Admin/pages/Admin-ponel/pages/Statistics'; // Страница статистики
+import Storage from '@/pages/Admin/pages/Admin-ponel/pages/storege'; // Страница статистики
 import Users from '@/pages/Admin/pages/Admin-ponel/pages/users'; // Страница пользователей
 
 // Импортируем Warehouse и его страницы
@@ -16,11 +16,11 @@ import OrderProducts from '@/pages/Warehouse/pages/OrderProducts';
 import Shop from '@/pages/Warehouse/pages/Shop';
 import NotFound from '@/pages/Error404';
 
-import Warehouse from '../../pages/Warehouse';
+import Warehouse from '@/pages/Warehouse';
 
-import Cashregister from '../../pages/Admin/pages/Cashregister';
-import TransactionHistory from '../../pages/Admin/pages/TransactionHistory';
-import Report from '../../pages/Admin/pages/Report';
+import Cashregister from '@/pages/Admin/pages/Cashregister';
+import TransactionHistory from '@/pages/Admin/pages/TransactionHistory';
+import Report from '@/pages/Admin/pages/Report';
 export default function RouterConfig() {
   return (
     <Routes>
@@ -32,7 +32,7 @@ export default function RouterConfig() {
       <Route path="/admin">
 
       <Route path="admin-panel" element={<AdminPanel />}>
-          <Route path="statistics" element={<Statistics />} /> {/* /admin/admin-panel/statistics */}
+          <Route path="storage" element={<Storage />} /> {/* /admin/admin-panel/statistics */}
           <Route path="users" element={<Users />} /> {/* /admin/admin-panel/users */}
       </Route>
       <Route path="cash-register" element={<Cashregister />}></Route>
