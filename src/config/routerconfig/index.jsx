@@ -7,18 +7,20 @@ import Statistics from '@/pages/Admin/pages/Admin-ponel/pages/Statistics'; // С
 import Users from '@/pages/Admin/pages/Admin-ponel/pages/users'; // Страница пользователей
 
 // Импортируем Warehouse и его страницы
-import Warehouse from '../../pages/Warehouse';
-import Products from '../../pages/Warehouse/pages/Products';
-import SendProductsToShopView from '../../pages/Warehouse/pages/SendProductsToShowcase';
-import RemoveProductsFromShowcase from '../../pages/Warehouse/pages/RemoveProductsFromShowcase';
-import TransferProductsToWarehouse from '../../pages/Warehouse/pages/TransferProductsToWarehouse';
-import OrderProducts from '../../pages/Warehouse/pages/OrderProducts';
-import Shop from '../../pages/Warehouse/pages/Shop';
+// import Warehouse from '../../pages/Warehouse';
+import Products from '@/pages/Warehouse/pages/Products';
+import SendProductsToShopView from '@/pages/Warehouse/pages/SendProductsToShowcase';
+import RemoveProductsFromShowcase from '@/pages/Warehouse/pages/RemoveProductsFromShowcase';
+import TransferProductsToWarehouse from '@/pages/Warehouse/pages/TransferProductsToWarehouse';
+import OrderProducts from '@/pages/Warehouse/pages/OrderProducts';
+import Shop from '@/pages/Warehouse/pages/Shop';
+import NotFound from '@/pages/Error404';
 
 export default function RouterConfig() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
+      <Route path='/*' element={<NotFound />}/>
 
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ADMIN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <Route path="/admin" element={<Profile />} />   
@@ -27,8 +29,9 @@ export default function RouterConfig() {
           <Route path="statistics" element={<Statistics />} /> {/* /admin/admin-panel/statistics */}
           <Route path="users" element={<Users />} /> {/* /admin/admin-panel/users */}
         </Route>
+        
       </Route>
-
+      
 
 
 
@@ -44,7 +47,7 @@ export default function RouterConfig() {
       </Route>
 
 
-
+      
       {/* <Route path="/*" element={<Error />} /> */}
     </Routes>
   );
