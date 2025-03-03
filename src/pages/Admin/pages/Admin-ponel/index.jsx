@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "@/components/Navbar/Navbar"; // Импортируйте ваш Navbar
-import SideBar from "./components/SideBar"; // Создайте SideBar (см. ниже)
+import SideBar from "@/pages/Admin/pages/Admin-ponel/components/SideBar"; // Создайте SideBar (см. ниже)
 import { Outlet } from "react-router-dom";
 
 const AdminPanel = () => {

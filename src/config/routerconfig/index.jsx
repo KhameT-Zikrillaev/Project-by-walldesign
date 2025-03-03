@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
-import Profile from '../../pages/Profile';
-import Login from '../../pages/Login';
-import AdminPanel from '../../pages/Admin/pages/Admin-ponel/index'; // Ваш существующий компонент админ-панели
-import Statistics from '../../pages/Admin/pages/Admin-ponel/pages/Statistics'; // Страница статистики
-import Users from '../../pages/Admin/pages/Admin-ponel/pages/users'; // Страница пользователей
+import Profile from '@/pages/Profile';
+import Login from '@/pages/Login';
+import AdminPanel from '@/pages/Admin/pages/Admin-ponel/index'; // Ваш существующий компонент админ-панели
+import Statistics from '@/pages/Admin/pages/Admin-ponel/pages/Statistics'; // Страница статистики
+import Users from '@/pages/Admin/pages/Admin-ponel/pages/users'; // Страница пользователей
 
 export default function RouterConfig() {
   return (
