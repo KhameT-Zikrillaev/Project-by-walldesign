@@ -1,0 +1,77 @@
+/* Затемнение фона и центрирование */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff; /* Белый фон (непрозрачный) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Убедимся, что лоадер поверх всего */
+}
+
+/* Контейнер для лоадера */
+.loading-container {
+    text-align: center;
+}
+
+/* Полоски, напоминающие обои */
+.loading-stripes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Расстояние между полосками */
+}
+
+/* Отдельная полоска */
+.stripe {
+    width: 10px;
+    height: 50px;
+    background: linear-gradient(45deg, #a8c0ff, #3f2b96); /* Градиент, напоминающий текстуру обоев */
+    animation: stretch 1.5s infinite ease-in-out;
+}
+
+/* Анимация растяжения полосок */
+@keyframes stretch {
+    0%, 100% {
+        transform: scaleY(1);
+    }
+    50% {
+        transform: scaleY(1.5);
+    }
+}
+
+/* Задержка анимации для каждой полоски */
+.stripe:nth-child(1) {
+    animation-delay: 0s;
+}
+.stripe:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.stripe:nth-child(3) {
+    animation-delay: 0.4s;
+}
+.stripe:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+/* Текст под лоадером */
+.loading-text {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #3f2b96; /* Цвет текста, сочетающийся с градиентом */
+    font-weight: bold;
+    animation: fade 1.5s infinite;
+}
+
+/* Анимация текста */
+@keyframes fade {
+    0%, 100% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+}
