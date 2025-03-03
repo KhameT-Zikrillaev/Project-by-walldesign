@@ -23,7 +23,7 @@ export default function Home() {
   let userRole = "";
   let cards = [];
 
-  if (location.pathname === "/Admin") {
+  if (location.pathname === "/admin") {
     userRole = "Administrator";
     cards = AdminCards;
   } else if (location.pathname === "/warehouse") {

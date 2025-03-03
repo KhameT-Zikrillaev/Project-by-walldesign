@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function SendProductsToShowcase() {
   return (
-    <div>Отправка товаров на витрину</div>
+    <><h3 className='text-white'>Отправка товаров на витрину</h3></>
   )
 }

@@ -16,13 +16,13 @@ import {
       icon: React.createElement(FaBox, { className: "text-4xl text-white mb-4" }),
       title: "Tovarlar",
       description: "Tovarlarni boshqarish",
-      link: "/products",
+      link: "/warehouse/products",
     },
     {
       icon: React.createElement(FaTruck, { className: "text-4xl text-white mb-4" }),
       title: "Tovarlarni vitrinaga jo'natish",
       description: "Tovarlarni vitrinaga jo'natish",
-      link: "/send-to-showcase",
+      link: "/warehouse/send-to-showcase",
     },
     {
       icon: React.createElement(FaWarehouse, {
@@ -30,19 +30,19 @@ import {
       }),
       title: "Tovarlarni vitrinadan o'chirish",
       description: "Tovarlarni vitrinadan o'chirish",
-      link: "/remove-from-showcase",
+      link: "/warehouse/remove-from-showcase",
     },
     {
       icon: React.createElement(FaTruck, { className: "text-4xl text-white mb-4" }),
       title: "Mahsulotlarni boshqa omborga jo'natish",
       description: "Mahsulotlarni boshqa omborga jo'natish",
-      link: "/send-to-warehouse",
+      link: "/warehouse/transfer-to-warehouse",
     },
     {
       icon: React.createElement(FaUndo, { className: "text-4xl text-white mb-4" }),
       title: "Vazvrat",
       description: "Vazvrat operatsiyalari",
-      link: "/returns",
+      link: "/warehouse/returns",
     },
     {
       icon: React.createElement(FaCashRegister, {
@@ -50,13 +50,13 @@ import {
       }),
       title: "Kassa",
       description: "Moliya operatsiyalarini boshqarish",
-      link: "/cash-register",
+      link: "/warehouse/cash-register",
     },
     {
       icon: React.createElement(FaStore, { className: "text-4xl text-white mb-4" }),
       title: "Do'kon",
       description: "Do'konlarni boshqarish",
-      link: "/stores",
+      link: "/warehouse/shop",
     },
     {
       icon: React.createElement(FaArchive, {
@@ -64,7 +64,7 @@ import {
       }),
       title: "Arxiv",
       description: "Arxiv ma'lumotlari",
-      link: "/archive",
+      link: "/warehouse/archive",
     },
     {
       icon: React.createElement(FaShoppingCart, {
@@ -72,6 +72,6 @@ import {
       }),
       title: "Mahsulot zakaz qilish",
       description: "Yangi mahsulotlar zakaz qilish",
-      link: "/order-products",
+      link: "/warehouse/order-products",
     },
   ];

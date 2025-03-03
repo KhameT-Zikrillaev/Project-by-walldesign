@@ -16,6 +16,11 @@ import OrderProducts from '@/pages/Warehouse/pages/OrderProducts';
 import Shop from '@/pages/Warehouse/pages/Shop';
 import NotFound from '@/pages/Error404';
 
+import Warehouse from '../../pages/Warehouse';
+
+import Cashregister from '../../pages/Admin/pages/Cashregister';
+import TransactionHistory from '../../pages/Admin/pages/TransactionHistory';
+import Report from '../../pages/Admin/pages/Report';
 export default function RouterConfig() {
   return (
     <Routes>
@@ -25,15 +30,15 @@ export default function RouterConfig() {
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ADMIN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <Route path="/admin" element={<Profile />} />   
       <Route path="/admin">
-        <Route path="admin-panel" element={<AdminPanel />}>
+
+      <Route path="admin-panel" element={<AdminPanel />}>
           <Route path="statistics" element={<Statistics />} /> {/* /admin/admin-panel/statistics */}
           <Route path="users" element={<Users />} /> {/* /admin/admin-panel/users */}
-        </Route>
-        
       </Route>
-      
-
-
+      <Route path="cash-register" element={<Cashregister />}></Route>
+      <Route path="transaction-history" element={<TransactionHistory />}></Route>
+      <Route path="report" element={<Report />}></Route>
+      </Route>
 
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~WAREHOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <Route path="/warehouse" element={<Profile />} />
