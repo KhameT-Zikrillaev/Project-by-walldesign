@@ -38,12 +38,12 @@ import {
       description: "Mahsulotlarni boshqa omborga jo'natish",
       link: "/warehouse/transfer-to-warehouse",
     },
-    {
-      icon: React.createElement(FaUndo, { className: "text-4xl text-white mb-4" }),
-      title: "Vazvrat",
-      description: "Vazvrat operatsiyalari",
-      link: "/warehouse/returns",
-    },
+    // {
+    //   icon: React.createElement(FaUndo, { className: "text-4xl text-white mb-4" }),
+    //   title: "Vazvrat",
+    //   description: "Vazvrat operatsiyalari",
+    //   link: "/warehouse/return-products",
+    // },
     {
       icon: React.createElement(FaCashRegister, {
         className: "text-4xl text-white mb-4",
@@ -58,14 +58,14 @@ import {
       description: "Do'konlarni boshqarish",
       link: "/warehouse/shop",
     },
-    {
-      icon: React.createElement(FaArchive, {
-        className: "text-4xl text-white mb-4",
-      }),
-      title: "Arxiv",
-      description: "Arxiv ma'lumotlari",
-      link: "/warehouse/archive",
-    },
+    // {
+    //   icon: React.createElement(FaArchive, {
+    //     className: "text-4xl text-white mb-4",
+    //   }),
+    //   title: "Arxiv",
+    //   description: "Arxiv ma'lumotlari",
+    //   link: "/warehouse/archive",
+    // },
     {
       icon: React.createElement(FaShoppingCart, {
         className: "text-4xl text-white mb-4",

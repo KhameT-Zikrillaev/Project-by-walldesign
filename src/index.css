@@ -4,3 +4,24 @@
 body{
     background: #17212b;
 }
+.glowing-image {
+    width: 300px; /* Размер изображения */
+    height: auto;
+    filter: drop-shadow(0 0 2px rgba(255, 223, 0, 0.7)); /* Тонкое свечение */
+    transition: filter 0.3s ease;
+  }
+  .glowing-image-banner {
+    width: 300px; /* Размер изображения */
+    height: auto;
+    filter: drop-shadow(0 0 2px rgba(255, 223, 0, 0.7)); /* Начальное свечение */
+    animation: neonGlow 0.7s infinite alternate; /* Анимация */
+}
+
+@keyframes neonGlow {
+    0% {
+        filter: drop-shadow(0 0 6px rgba(255, 223, 0, 0.7)); /* Начальное свечение */
+    }
+    100% {
+        filter: drop-shadow(0 0 10px rgba(255, 223, 0, 1)); /* Яркое свечение */
+    }
+}
