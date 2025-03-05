@@ -74,15 +74,28 @@ const SideBar = () => {
             </li>
             <li>
               <Link
-                to="/admin/admin-panel/users"
+                to="/admin/admin-panel/seller"
                 className={`block py-3 px-4 rounded-lg transition duration-200 font-medium border-b-2 border-gray-900  ${
-                  location.pathname === '/admin/admin-panel/users'
+                  location.pathname === '/admin/admin-panel/seller'
                     ? 'bg-gray-700 text-white'
                     : 'text-gray-300 hover:bg-gray-800'
                 }`}
                 onClick={() => setIsSidebarOpen(false)}
               >
-                Пользователи
+                Sotuvchilar
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/admin/admin-panel/products"
+                className={`block py-3 px-4 rounded-lg transition duration-200 font-medium border-b-2 border-gray-900  ${
+                  location.pathname === '/admin/admin-panel/products'
+                    ? 'bg-gray-700 text-white'
+                    : 'text-gray-300 hover:bg-gray-800'
+                }`}
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                Mahsulotlar
               </Link>
             </li>
           </ul>

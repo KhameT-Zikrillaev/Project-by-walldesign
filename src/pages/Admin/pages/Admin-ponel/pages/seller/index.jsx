@@ -3,30 +3,87 @@ import { Table, Button, Space, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Input } from 'antd';
 import ModalComponent from "@/components/modal/Modal";
-import AddStorage from "./components/AddStorage";
-import EditStorage from "./components/EditStorage";
+import AddSeller from "./components/AddSeller";
+import EditSeller from "./components/EditSeller";
 const { Search } = Input;
 
 const data = [
-  { key: "1", name: "Markaziy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "2", name: "Janubiy Filial", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "3", name: "Shimoliy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "4", name: "Sharqiy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "5", name: "G‘arbiy Filial", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "6", name: "Bosh Ofis Ombori", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "7", name: "Kichik Ombor 1", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "8", name: "Kichik Ombor 2", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "9", name: "Katta Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "10", name: "Mahalliy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "11", name: "Eksport Ombori", login: "admin", password: "admin123", phone_number: "123456789" },
-];
+  {
+    key: 1,
+    name: "Sotuvchi 1",
+    login: "o31dB5NN",
+    password: "0WwYjrvtAv"
+  },
+  {
+    key: 2,
+    name: "Sotuvchi 2",
+    login: "YmTkjoV1",
+    password: "kkkrQmvF4e"
+  },
+  {
+    key: 3,
+    name: "Sotuvchi 3",
+    login: "y5q4qGGt",
+    password: "OdB9jiJm5G"
+  },
+  {
+    key: 4,
+    name: "Sotuvchi 4",
+    login: "WkP03NOr",
+    password: "p4PMQ9Xjfk"
+  },
+  {
+    key: 5,
+    name: "Sotuvchi 5",
+    login: "MGqOL7vT",
+    password: "HLFDu7stv1"
+  },
+  {
+    key: 6,
+    name: "Sotuvchi 6",
+    login: "VO5qDouV",
+    password: "Sli4tbrjbT"
+  },
+  {
+    key: 7,
+    name: "Sotuvchi 7",
+    login: "g7Zlez68",
+    password: "GQDjjGKTqL"
+  },
+  {
+    key: 8,
+    name: "Sotuvchi 8",
+    login: "Ppb6k104",
+    password: "rwreAAC5Kj"
+  },
+  {
+    key: 9,
+    name: "Sotuvchi 9",
+    login: "QLyc76vY",
+    password: "miO8IWiMBw"
+  },
+  {
+    key: 10,
+    name: "Sotuvchi 10",
+    login: "GvRez2ap",
+    password: "ezb9ilSxrC"
+  },
+  {
+    key: 11,
+    name: "Sotuvchi 11",
+    login: "Uv0uKgFR",
+    password: "Y22SRWw1pC"
+  }
+]
 
 
 
-const Statistics = () => {
+
+const Seller = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [storageSingleData, setStorageSingleData] = useState(null);
+  const [sellerSingleData, setSellerSingleData] = useState(null);
   const [formType, setFormType] = useState(null);
+
 
   const showModal = (type) => {
     setFormType(type);
@@ -35,11 +92,11 @@ const Statistics = () => {
 
   const onClose = () => {
     setIsModalOpen(false);
-    setStorageSingleData(null);
+    setSellerSingleData(null);
   };
   
   const handleEdit = (record) => {
-    setStorageSingleData(record);
+    setSellerSingleData(record);
     showModal("edit");
   };
 
@@ -54,7 +111,7 @@ const Statistics = () => {
       width: 70,
     },
     {
-      title: "Ombor nomi",
+      title: "Sotuvchi nomi",
       dataIndex: "name",
       key: "name",
       render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
@@ -69,12 +126,6 @@ const Statistics = () => {
       title: "Parol",
       dataIndex: "password",
       key: "password",
-      render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
-    },
-    {
-      title: "Telfon raqami",
-      dataIndex: "phone_number",
-      key: "phone_number",
       render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
     },
     {
@@ -104,7 +155,7 @@ const Statistics = () => {
   return (
     <div className="p-5">
       <div className="flex justify-between items-center mb-5">
-        <h1 className="text-3xl font-bold  text-gray-100">Omborlar</h1>
+        <h1 className="text-3xl font-bold  text-gray-100">Sotuvchilar</h1>
         <div className="flex gap-3 items-center">
         <Search placeholder="Qidirish" onSearch={onSearch} enterButton className="custom-search"/>
         <Button
@@ -137,12 +188,12 @@ const Statistics = () => {
       <ModalComponent
         isOpen={isModalOpen}
         onClose={onClose}
-        title={formType === "add" ? "Ombor qo'shish" : "Omborni tahrirlash"}
+        title={formType === "add" ? "Sotuvchi qo'shish" : "Sotuvchini tahrirlash"}
       >
-       {formType === "add" ?<AddStorage onClose={onClose}/> : <EditStorage onClose={onClose} storageSingleData={storageSingleData}/>} 
+       {formType === "add" ?<AddSeller onClose={onClose}/> : <EditSeller onClose={onClose} sellerSingleData={sellerSingleData}/>} 
       </ModalComponent>
     </div>
   );
 };
 
-export default Statistics;
+export default Seller;

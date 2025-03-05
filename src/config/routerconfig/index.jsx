@@ -4,8 +4,8 @@ import Profile from '@/pages/Profile';
 import Login from '@/pages/Login';
 import AdminPanel from '@/pages/Admin/pages/Admin-ponel/index'; // Ваш существующий компонент админ-панели
 import Storage from '@/pages/Admin/pages/Admin-ponel/pages/storege'; // Страница статистики
-import Users from '@/pages/Admin/pages/Admin-ponel/pages/users'; // Страница пользователей
-
+import Seller from '@/pages/Admin/pages/Admin-ponel/pages/seller';
+import Product from '@/pages/Admin/pages/Admin-ponel/pages/product';
 // Импортируем Warehouse и его страницы
 // import Warehouse from '../../pages/Warehouse';
 import Products from '@/pages/Warehouse/pages/Products';
@@ -21,6 +21,7 @@ import Warehouse from '@/pages/Warehouse';
 import Cashregister from '@/pages/Admin/pages/Cashregister';
 import TransactionHistory from '@/pages/Admin/pages/TransactionHistory';
 import Report from '@/pages/Admin/pages/Report';
+
 export default function RouterConfig() {
   return (
     <Routes>
@@ -33,7 +34,8 @@ export default function RouterConfig() {
 
       <Route path="admin-panel" element={<AdminPanel />}>
           <Route path="storage" element={<Storage />} /> {/* /admin/admin-panel/statistics */}
-          <Route path="users" element={<Users />} /> {/* /admin/admin-panel/users */}
+          <Route path="seller" element={<Seller />} /> {/* /admin/admin-panel/seller */}
+          <Route path="products" element={<Product />} /> {/* /admin/admin-panel/products */}
       </Route>
       <Route path="cash-register" element={<Cashregister />}></Route>
       <Route path="transaction-history" element={<TransactionHistory />}></Route>
