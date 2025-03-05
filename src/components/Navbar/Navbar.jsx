@@ -8,7 +8,7 @@ const Navbar = () => {
       {/* Логотип */}
       <div className="left-content">
         <div>
-          <img className=" max-w-[120px] md:max-w-[180px] w-full" src={logo} alt="Logo" />
+          <img className="glowing-image max-w-[100px] w-full" src={logo} alt="Logo" />
         </div>
       </div>
 
@@ -21,7 +21,7 @@ const Navbar = () => {
         </div>
         <Link
           to="/"
-          className="flex items-center bg-[#95a5a6] hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 ease-in-out border border-white/20 hover:border-white/30"
+          className="flex items-center bg-gradient-to-r from-yellow-400  to-yellow-700 hover:scale-105 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 ease-in-out border border-white/20 hover:border-white/30"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

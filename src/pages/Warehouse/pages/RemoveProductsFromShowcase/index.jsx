@@ -1,7 +1,12 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default function RemoveProductsFromShowcase() {
   return (
-    <><h3 className='text-white'>Удаление товаров с витрины</h3></>
-  )
+    <>
+      <div className="RemoveProductsFromShowcase mt-[150px] p-4">
+        <h3 className="text-white">Удаление товаров с витрины</h3>
+      </div>
+    </>
+  );
 }

@@ -1,7 +1,11 @@
-import React from 'react'
+import React from "react";
 
 export default function Products() {
   return (
-    <><h3 className='text-white'>Товары</h3></>
-  )
+    <>
+      <div className="Products mt-[150px] p-4">
+        <h3 className="text-white">Товары</h3>
+      </div>
+    </>
+  );
 }
