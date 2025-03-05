@@ -3,59 +3,74 @@ import { Route, Routes } from 'react-router-dom';
 import Profile from '@/pages/Profile';
 import Login from '@/pages/Login';
 import Error404 from '@/pages/Error404';
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Admin~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import Admin from '@/pages/Admin';
-import AdminPanel from '@/pages/Admin/pages/Admin-ponel/index';
-import Storege from '@/pages/Admin/pages/Admin-ponel/pages/storege';
-import Users from '@/pages/Admin/pages/Admin-ponel/pages/users';
-import Warehouse from '@/pages/Warehouse';
-import Products from '@/pages/Warehouse/pages/Products';
-import SendProductsToShopView from '@/pages/Warehouse/pages/SendProductsToShowcase';
-import RemoveProductsFromShowcase from '@/pages/Warehouse/pages/RemoveProductsFromShowcase';
-import TransferProductsToWarehouse from '@/pages/Warehouse/pages/TransferProductsToWarehouse';
-import OrderProducts from '@/pages/Warehouse/pages/OrderProducts';
-import Shop from '@/pages/Warehouse/pages/Shop';
+import AdminAdminPanel from '@/pages/Admin/pages/Admin-ponel/index';
+import AdminStorege from '@/pages/Admin/pages/Admin-ponel/pages/storege';
+import AdminUsers from '@/pages/Admin/pages/Admin-ponel/pages/users';
+import AdminReport from '@/pages/Admin/pages/Report';
 // import Cashregister from '@/pages/Admin/pages/Cashregister';
 // import TransactionHistory from '@/pages/Admin/pages/TransactionHistory';
-import Report from '@/pages/Admin/pages/Report';
-import ReturnProducts from '@/pages/Warehouse/pages/Shop/pages/ReturnProducts';
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Warehouse~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+import Warehouse from '@/pages/Warehouse';
+import WarehouseProducts from '@/pages/Warehouse/pages/Products';
+import WarehouseSendProductsToShopView from '@/pages/Warehouse/pages/SendProductsToShowcase';
+import WarehouseRemoveProductsFromShowcase from '@/pages/Warehouse/pages/RemoveProductsFromShowcase';
+import WarehouseTransferProductsToWarehouse from '@/pages/Warehouse/pages/TransferProductsToWarehouse';
+import WarehouseOrderProducts from '@/pages/Warehouse/pages/OrderProducts';
+import WarehouseShop from '@/pages/Warehouse/pages/Shop';
+import WarehouseReturnProducts from '@/pages/Warehouse/pages/Shop/pages/ReturnProducts';
 import WarehouseCashregister from '@/pages/Warehouse/pages/Cashregister';
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Seller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import Seller from '@/pages/Seller';
 import SellerProduct from '@/pages/Seller/pages/Product';
 import SellerWarehouse from '@/pages/Seller/pages/Warehouse';
 import SellerArchive from '@/pages/Seller/pages/Archive';
 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Director~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+import Director from '@/pages/Director';
+import DirectorProduct from '@/pages/Director/pages/Product';
+import DirectorSeller from '@/pages/Director/pages/Seller';
+import DirectorReport from '@/pages/Director/pages/Report';
+import ProductDetails from '@/pages/Director/pages/Product/components/ProductDetalies';
 export default function RouterConfig() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="*" element={<Error404 />} />
+
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ADMIN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <Route path="/admin" element={<Admin />}>
         <Route index element={<Profile />} /> {/* Этот компонент будет отображаться при переходе на /admin */}
         
-        <Route path="admin-panel" element={<AdminPanel />}>
-          <Route path="storege" element={<Storege />} /> {/* /admin/admin-panel/statistics */}
-          <Route path="users" element={<Users />} /> {/* /admin/admin-panel/users */}
+        <Route path="admin-panel" element={<AdminAdminPanel />}>
+          <Route path="storege" element={<AdminStorege />} /> {/* /admin/admin-panel/statistics */}
+          <Route path="users" element={<AdminUsers />} /> {/* /admin/admin-panel/users */}
         </Route>
         
         {/* <Route path="cash-register" element={<Cashregister />}></Route>
         <Route path="transaction-history" element={<TransactionHistory />}></Route> */}
-        <Route path="report" element={<Report />}></Route>
+        <Route path="report" element={<AdminReport />}></Route>
       </Route>
 
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~WAREHOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <Route path="/warehouse" element={<Warehouse />}>
         <Route index element={<Profile />} /> {/* Этот компонент будет отображаться при переходе на /warehouse */}
-        <Route path="products" element={<Products />} /> {/* /warehouse/products */}
-        <Route path="send-to-showcase" element={<SendProductsToShopView />} /> {/* /warehouse/send-to-showcase */}
-        <Route path="remove-from-showcase" element={<RemoveProductsFromShowcase />} /> {/* /warehouse/remove-from-showcase */}
-        <Route path="transfer-to-warehouse" element={<TransferProductsToWarehouse />} /> {/* /warehouse/transfer-to-warehouse */}
-        <Route path="order-products" element={<OrderProducts />} /> {/* /warehouse/order-products */}
+        <Route path="products" element={<WarehouseProducts />} /> {/* /warehouse/products */}
+        <Route path="send-to-showcase" element={<WarehouseSendProductsToShopView />} /> {/* /warehouse/send-to-showcase */}
+        <Route path="remove-from-showcase" element={<WarehouseRemoveProductsFromShowcase />} /> {/* /warehouse/remove-from-showcase */}
+        <Route path="transfer-to-warehouse" element={<WarehouseTransferProductsToWarehouse />} /> {/* /warehouse/transfer-to-warehouse */}
+        <Route path="order-products" element={<WarehouseOrderProducts />} /> {/* /warehouse/order-products */}
         <Route path="cash-register" element={<WarehouseCashregister />} /> {/* /warehouse/cash */}
-        <Route path="shop" element={<Shop />}/>
+        <Route path="shop" element={<WarehouseShop />}/>
         
         <Route path="shop">
-          <Route path="return-products" element={<ReturnProducts />} /> {/* /warehouse/shop/return-products */}
+          <Route path="return-products" element={<WarehouseReturnProducts />} /> {/* /warehouse/shop/return-products */}
         </Route>
       </Route>
 
@@ -65,7 +80,16 @@ export default function RouterConfig() {
         <Route path="product-list" element={<SellerProduct />} /> {/* /seller/product-list */}
         <Route path="warehouse" element={<SellerWarehouse />} /> {/* /seller/warehouse */}
         <Route path="archive" element={<SellerArchive />} /> {/* /seller/archive */}
-       
+      </Route>
+
+
+      {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DIRECTOR~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+      <Route path="/director" element={<Director />}>
+        <Route index element={<Profile />} /> {/* Этот компонент будет отображаться при переходе на /seller */}
+        <Route path="seller-list" element={<DirectorSeller/>} /> {/* /Director/product-list */}
+        <Route path="product-list" element={<DirectorProduct />} /> {/* /Director/product-list */}
+        <Route path="product-list/:name" element={<ProductDetails />} /> {/* Динамический маршрут */}
+        <Route path="report" element={<DirectorReport />} /> {/* /Director/report */}
       </Route>
 
       {/* <Route path="/*" element={<Error />} /> */}
