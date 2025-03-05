@@ -68,3 +68,40 @@ body {
     border-color: rgb(54, 65, 83) !important;
   }
   
+
+  .custom-input {
+    background-color: oklch(0.21 0.034 264.665) !important;
+    
+    border-radius: 8px;
+    width: 100%;
+    padding: 7px 10px;
+    color: oklch(0.967 0.003 264.542);
+  }
+
+  .custom-input:hover{
+    background-color: oklch(0.21 0.034 264.665) !important; 
+    border: 1px solid oklch(0.967 0.003 264.542) !important;
+  }
+
+  .custom-input:focus{
+    border: 1px solid oklch(0.967 0.003 264.542) !important;
+  }
+
+
+  .custom-input::placeholder {
+    color: #a0aec0 !important;
+  }
+  
+  /* Ant Design Inputni override qilish */
+   /* .custom-input .ant-input {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 8px 12px;
+  }
+  
+  .custom-input:focus .ant-input {
+    border-color: rgb(0.967 0.003 264.542) !important;
+  }  */
+  

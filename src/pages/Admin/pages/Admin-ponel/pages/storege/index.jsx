@@ -1,21 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table, Button, Space, Popconfirm } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Input } from 'antd';
+import ModalComponent from "@/components/modal/Modal";
+import AddStorage from "./components/AddStorage";
 const { Search } = Input;
 
 const data = [
-  { key: "1", name: "Markaziy Ombor" },
-  { key: "2", name: "Janubiy Filial" },
-  { key: "3", name: "Shimoliy Ombor" },
-  { key: "4", name: "Sharqiy Ombor" },
-  { key: "5", name: "G‘arbiy Filial" },
-  { key: "6", name: "Bosh Ofis Ombori" },
-  { key: "7", name: "Kichik Ombor 1" },
-  { key: "8", name: "Kichik Ombor 2" },
-  { key: "9", name: "Katta Ombor" },
-  { key: "10", name: "Mahalliy Ombor" },
-  { key: "11", name: "Eksport Ombori" },
+  { key: "1", name: "Markaziy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "2", name: "Janubiy Filial", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "3", name: "Shimoliy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "4", name: "Sharqiy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "5", name: "G‘arbiy Filial", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "6", name: "Bosh Ofis Ombori", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "7", name: "Kichik Ombor 1", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "8", name: "Kichik Ombor 2", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "9", name: "Katta Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "10", name: "Mahalliy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "11", name: "Eksport Ombori", login: "admin", password: "admin123", phone_number: "123456789" },
 ];
 
 const columns = [
@@ -30,6 +32,24 @@ const columns = [
     title: "Ombor nomi",
     dataIndex: "name",
     key: "name",
+    render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
+  },
+  {
+    title: "Login",
+    dataIndex: "login",
+    key: "login",
+    render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
+  },
+  {
+    title: "Parol",
+    dataIndex: "password",
+    key: "password",
+    render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
+  },
+  {
+    title: "Telfon raqami",
+    dataIndex: "phone_number",
+    key: "phone_number",
     render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
   },
   {
@@ -57,6 +77,15 @@ const columns = [
 ];
 
 const Statistics = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const onClose = () => {
+    setIsModalOpen(false);
+  };
 
   const onSearch = (value) => console.log(value);
 
@@ -77,6 +106,7 @@ const Statistics = () => {
             fontSize: "20px"
           }}
           className="hover:bg-[#0056b3] hover:border-[#004494] focus:bg-[#004494] "
+          onClick={showModal}
         >
           Qo'shish
         </Button>
@@ -92,6 +122,13 @@ const Statistics = () => {
           bordered
         />
       </div>
+      <ModalComponent
+        isOpen={isModalOpen}
+        onClose={onClose}
+        title={"Ombor qo'shish"}
+      >
+        <AddStorage onClose={onClose}/>
+      </ModalComponent>
     </div>
   );
 };
