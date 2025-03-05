@@ -105,7 +105,7 @@ const Statistics = () => {
             borderRadius: "8px",
             fontSize: "20px"
           }}
-          className="hover:bg-[#0056b3] hover:border-[#004494] focus:bg-[#004494] "
+          className="hover:bg-[#0056b3] hover:border-[#004494] focus:bg-[#004494]"
           onClick={showModal}
         >
           Qo'shish

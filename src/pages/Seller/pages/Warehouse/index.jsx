@@ -4,6 +4,8 @@ import 'antd/dist/reset.css';
 import bgsklad from '../../../../assets/images/bg-sklad.png';
 import SearchForm from './modules/SearchForm';
 import bg from '../../../../assets/images/bg-login.jpg';  
+import ModalComponent from "@/components/modal/Modal";
+import AddProduct from "./modules/AddProduct/AddProduct";
 const dataSource = [
   { key: '1', code: 'OB001', name: 'Обои "Синий океан"', color: '#0000FF', price: '1000 руб', stock: 10, photo: bg },
   { key: '2', code: 'OB002', name: 'Обои "Зеленый лес"', color: '#008000', price: '1200 руб', stock: 5, photo: bg },
@@ -26,6 +28,20 @@ export default function Warehouse() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [filteredData, setFilteredData] = useState(dataSource);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = (product) => {
+    setSelectedProduct(product); // Устанавливаем выбранный товар
+    setIsModalOpen(true);
+  };
+
+  const onClose = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null); // Сбрасываем выбранный товар при закрытии модального окна
+  };
+
 
   const updateItemsPerPage = () => {
     setItemsPerPage(window.innerWidth < 768 ? 4 : 10);
@@ -37,9 +53,6 @@ export default function Warehouse() {
     return () => window.removeEventListener('resize', updateItemsPerPage);
   }, []);
 
-  const handleOrder = (item) => {
-    alert(`Заказ на ${item.name} оформлен!`);
-  };
 
   const currentData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
@@ -80,18 +93,12 @@ export default function Warehouse() {
             </div>
             <Button
               type="primary"
-              onClick={() => handleOrder(item)}
-              className="mt-2"
+              onClick={() => showModal(item)}
+              style={{ backgroundColor: '#364153', borderColor: '#364153' }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#2b3445")}
+  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#364153")}
             >
               Заказать
-            </Button>
-            <Button
-              type="primary"
-              danger
-              onClick={() => handleOrder(item)}
-              className="mt-2"
-            >
-              Возврат
             </Button>
           </div>
         </Card>
@@ -109,6 +116,13 @@ export default function Warehouse() {
           />
         </div>
       </div>
+      <ModalComponent
+        isOpen={isModalOpen}
+        onClose={onClose}
+        title={"Ombordan olish"}
+      >
+       <AddProduct onClose={onClose} product={selectedProduct} />
+      </ModalComponent>
     </div>
   );
 }

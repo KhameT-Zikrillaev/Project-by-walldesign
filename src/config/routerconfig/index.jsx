@@ -14,8 +14,8 @@ import RemoveProductsFromShowcase from '@/pages/Warehouse/pages/RemoveProductsFr
 import TransferProductsToWarehouse from '@/pages/Warehouse/pages/TransferProductsToWarehouse';
 import OrderProducts from '@/pages/Warehouse/pages/OrderProducts';
 import Shop from '@/pages/Warehouse/pages/Shop';
-import Cashregister from '@/pages/Admin/pages/Cashregister';
-import TransactionHistory from '@/pages/Admin/pages/TransactionHistory';
+// import Cashregister from '@/pages/Admin/pages/Cashregister';
+// import TransactionHistory from '@/pages/Admin/pages/TransactionHistory';
 import Report from '@/pages/Admin/pages/Report';
 import ReturnProducts from '@/pages/Warehouse/pages/Shop/pages/ReturnProducts';
 import WarehouseCashregister from '@/pages/Warehouse/pages/Cashregister';
@@ -38,8 +38,8 @@ export default function RouterConfig() {
           <Route path="users" element={<Users />} /> {/* /admin/admin-panel/users */}
         </Route>
         
-        <Route path="cash-register" element={<Cashregister />}></Route>
-        <Route path="transaction-history" element={<TransactionHistory />}></Route>
+        {/* <Route path="cash-register" element={<Cashregister />}></Route>
+        <Route path="transaction-history" element={<TransactionHistory />}></Route> */}
         <Route path="report" element={<Report />}></Route>
       </Route>
 
