@@ -1,27 +1,107 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-
-body{
-    background: #17212b;
+body {
+  background: #17212b;
 }
-.glowing-image {
-    width: 300px; /* Размер изображения */
-    height: auto;
-    filter: drop-shadow(0 0 2px rgba(255, 223, 0, 0.7)); /* Тонкое свечение */
-    transition: filter 0.3s ease;
+
+.ant-table-container{
+    border: none !important;
+    border-left: 1px solid #4a5568 !important;
+}
+.ant-table-cell-row-hover{
+    background-color: #3d4a5a !important;
+}
+/* Header fonini moslashtirish */
+.custom-table .ant-table-thead > tr > th {
+  background-color: #364153 !important;
+  color: white !important;
+  border: 1px solid #4a5568 !important;
+}
+
+/* Jadval chegaralarini moslashtirish */
+.custom-table .ant-table-tbody > tr > td {
+  border-color: #4a5568 !important;
+}
+
+/* Qatorlarning standart foni */
+.custom-row {
+  background-color: #2b3a4a !important;
+  color: white !important;
+}
+
+/* Edit tugmasi (yashil) */
+.edit-btn {
+    background-color: green !important;
+    border-color: green !important;
   }
-  .glowing-image-banner {
-    width: 300px; /* Размер изображения */
-    height: auto;
-    filter: drop-shadow(0 0 2px rgba(255, 223, 0, 0.7)); /* Начальное свечение */
-    animation: neonGlow 0.7s infinite alternate; /* Анимация */
-}
+  
+  /* Edit tugmasi hover bo‘lganda */
+  .edit-btn:hover {
+    background-color: #28a745 !important; /* Ochroq yashil */
+    border-color: #218838 !important;
+  }
 
-@keyframes neonGlow {
-    0% {
-        filter: drop-shadow(0 0 6px rgba(255, 223, 0, 0.7)); /* Начальное свечение */
-    }
-    100% {
-        filter: drop-shadow(0 0 10px rgba(255, 223, 0, 1)); /* Яркое свечение */
-    }
-}
+  /* Search input uchun stil */
+.custom-search .ant-input {
+    background-color: #17212b !important; /* Input fon rangi */
+    color: white !important; /* Matn oq bo‘lsin */
+    border: 1px solid #4a5568 !important; /* Chegarasi */
+    padding: 3px 10px!important; /* Input paddingi */
+    font-size: 18px;
+  }
+  
+  .custom-search .ant-input::placeholder {
+    color: #a0aec0 !important; /* Placeholder rangi */
+  }
+  
+  /* Search tugmasi (enterButton) */
+  .custom-search .ant-btn-primary {
+    border-width: 2px;
+    background-color: rgb(54, 65, 83) !important; /* Yorqin ko‘k */
+    border-color: rgb(54, 65, 83) !important;
+    padding: 16px 10px !important;
+  }
+  
+  /* Search tugmasi hover qilinganda */
+  .custom-search .ant-btn-primary:hover {
+    background-color: rgb(54, 65, 83) !important; /* Qoramtir ko‘k */
+    border-color: rgb(54, 65, 83) !important;
+  }
+  
+
+  .custom-input {
+    background-color: oklch(0.21 0.034 264.665) !important;
+    
+    border-radius: 8px;
+    width: 100%;
+    padding: 7px 10px;
+    color: oklch(0.967 0.003 264.542);
+  }
+
+  .custom-input:hover{
+    background-color: oklch(0.21 0.034 264.665) !important; 
+    border: 1px solid oklch(0.967 0.003 264.542) !important;
+  }
+
+  .custom-input:focus{
+    border: 1px solid oklch(0.967 0.003 264.542) !important;
+  }
+
+
+  .custom-input::placeholder {
+    color: #a0aec0 !important;
+  }
+  
+  /* Ant Design Inputni override qilish */
+   /* .custom-input .ant-input {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 8px 12px;
+  }
+  
+  .custom-input:focus .ant-input {
+    border-color: rgb(0.967 0.003 264.542) !important;
+  }  */
+  

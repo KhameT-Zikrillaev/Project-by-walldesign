@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Импортируем иконки "глазика"
-import bg from "../../assets/images/bg-login.jpg"; // Импортируем изображение
-import logo from "../../assets/images/logo.png"; // Импортируем изображение
-import Loading from "../../components/Loading/Loading";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Импортируем иконки "глазика"
+import bg from '@/assets/images/bg-login.jpg'; // Импортируем изображение
+import logo from '@/assets/images/logo.png'; // Импортируем изображение
+import Loading from '@/components/Loading/Loading';
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

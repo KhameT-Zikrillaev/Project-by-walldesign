@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Navbar from "../../components/Navbar/Navbar";
-import Loading from "../../components/Loading/Loading";
+import Navbar from "@/components/Navbar/Navbar";
+import Loading from "@/components/Loading/Loading";
 import { AiOutlineUser } from "react-icons/ai";
 import bgsklad from "../../assets/images/bg-sklad.png"; // Ваша картинка
 import { AdminCards } from "./data/AdminCards.js"; // Импортируем данные

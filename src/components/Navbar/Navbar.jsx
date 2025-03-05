@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Импортируем Link из react-router-dom
-import logo from "../../assets/images/logo.png"; // Укажите правильный путь к вашему логотипу
+import logo from "@/assets/images/logo.png"; // Укажите правильный путь к вашему логотипу
 
 const Navbar = () => {
   return (

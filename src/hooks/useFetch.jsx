@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import api from '../services/api';
+import api from '@/services/api';
 
 const fetchData = async (url, params = {}) => {
   const { data } = await api.get(url, { params });
