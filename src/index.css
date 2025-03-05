@@ -131,3 +131,14 @@ body {
     border-color: rgb(0.967 0.003 264.542) !important;
   }  */
   
+  .ant-pagination .ant-pagination-prev .ant-pagination-item-link,
+  .ant-pagination .ant-pagination-next .ant-pagination-item-link {
+    color: white !important; /* Цвет стрелок */
+    border-color: white !important; /* Цвет границы стрелок */
+  }
+  
+  .ant-pagination .ant-pagination-prev:hover .ant-pagination-item-link,
+  .ant-pagination .ant-pagination-next:hover .ant-pagination-item-link {
+    color: #40a9ff !important; /* Цвет стрелок при наведении */
+    border-color: #40a9ff !important; /* Цвет границы стрелок при наведении */
+  }
