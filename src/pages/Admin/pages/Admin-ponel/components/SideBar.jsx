@@ -61,7 +61,7 @@ const SideBar = () => {
           <ul className="space-y-3">
             <li>
               <Link
-                to="/admin/admin-panel/storage  "
+                to="/admin/admin-panel/storege  "
                 className={`block py-3 px-4 rounded-lg transition duration-200 font-medium border-b-2 border-gray-900  ${
                   location.pathname === '/admin/admin-panel/storage'
                     ? 'bg-gray-700 text-white'
