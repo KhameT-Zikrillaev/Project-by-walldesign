@@ -24,7 +24,7 @@ import WarehouseCashregister  from '../../pages/Warehouse/pages/Cashregister';
 // Импортируем Seller и его страницы
 import Seller from '../../pages/Seller';
 import SellerProduct from '../../pages/Seller/pages/Product';
-import SellerWarehouses from '../../pages/Seller/pages/Warehouses';
+import SellerWarehouse from '../../pages/Seller/pages/Warehouse';
 import SellerArchive from '../../pages/Seller/pages/Archive';
 
 export default function RouterConfig() {
@@ -66,7 +66,7 @@ export default function RouterConfig() {
       <Route path="/seller" element={<Seller />}>
         <Route index element={<Profile />} /> {/* Этот компонент будет отображаться при переходе на /seller */}
         <Route path="product-list" element={<SellerProduct />} /> {/* /seller/product-list */}
-        <Route path="warehouses" element={<SellerWarehouses />} /> {/* /seller/warehouse */}
+        <Route path="warehouse" element={<SellerWarehouse />} /> {/* /seller/warehouse */}
         <Route path="archive" element={<SellerArchive />} /> {/* /seller/archive */}
        
       </Route>

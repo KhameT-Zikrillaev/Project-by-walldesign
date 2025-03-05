@@ -14,7 +14,7 @@ export const SellerCards = [
         icon: React.createElement(FaListAlt, {
             className: "text-4xl text-white mb-4",
         }),
-        title: "Tovar ro'yhatlari",
+        title: "Tovar vitrinasi",
         description: "Mahsulotlar ro'yxati",
         link: "/seller/product-list",
     },
@@ -22,9 +22,9 @@ export const SellerCards = [
         icon: React.createElement(FaBox, {
             className: "text-4xl text-white mb-4",
         }),
-        title: "Skladlar",
-        description: "Omborxona boshqaruvi",
-        link: "/seller/warehouses",
+        title: "Sklad",
+        description: "Omborxona",
+        link: "/seller/warehouse",
     },
     {
         icon: React.createElement(FaMoneyBillAlt, {
