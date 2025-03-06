@@ -1,27 +1,50 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Импортируем Link из react-router-dom
+import { Link, useNavigate } from "react-router-dom"; // Импортируем Link из react-router-dom
+import { FaArrowLeft } from "react-icons/fa"; // Импортируем иконку стрелки назад
 import logo from "@/assets/images/logo.png"; // Укажите правильный путь к вашему логотипу
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    // Переход на предыдущую страницу
+    navigate(-1); // или navigate('/seller') для перехода на конкретный путь
+  };
+
   return (
     <div className="w-full h-[105px] left-0 top-0 flex justify-between fixed z-10 items-center mb-6 md:mb-10 py-6 px-6 md:px-6 bg-[#17212b] rounded-lg shadow-xl">
-      {/* Логотип */}
-      <div className="left-content">
+      {/* Логотип и кнопка "Назад" */}
+      <div className="left-content flex items-center space-x-4">
+        {/* Кнопка "Назад" с иконкой */}
+        <button
+          onClick={handleGoBack}
+      
+          className="cursor-pointer hover:text-yellow-700 transition-all duration-300 ease-in-out"
+        >
+          <FaArrowLeft className=" h-4 w-4 md:h-6 md:w-6 text-yellow-200 " /> {/* Иконка стрелки назад */}
+        </button>
+
+        {/* Логотип */}
         <div>
-          <img className="glowing-image max-w-[100px] w-full" src={logo} alt="Logo" />
+          <img
+            className="glowing-image  max-w-[50px] ml-4 md:max-w-[100px] w-full"
+            src={logo}
+            alt="Logo"
+          />
         </div>
       </div>
 
       {/* Правая часть: Имя пользователя и кнопка выхода */}
       <div className="right-content flex items-center space-x-4">
         <div className="text-right">
-          <h2 className=" text-sm md:text-lg font-semibold text-white">
-            Xamidullabek <br /> <span className="text-blue-600">Admin</span>
+          <h2 className="text-sm md:text-lg font-semibold text-white">
+            Xamidullabek <br />{" "}
+            <span className="text-blue-600">Admin</span>
           </h2>
         </div>
         <Link
           to="/"
-          className="flex items-center bg-gradient-to-r from-yellow-400  to-yellow-700 hover:scale-105 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 ease-in-out border border-white/20 hover:border-white/30"
+          className="flex items-center bg-gradient-to-r from-yellow-400 to-yellow-700 hover:scale-105 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 ease-in-out border border-white/20 hover:border-white/30"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
