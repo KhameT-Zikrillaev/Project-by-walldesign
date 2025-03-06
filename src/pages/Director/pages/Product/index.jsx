@@ -9,12 +9,12 @@ const products = [
 export default function DirectorProduct() {
   return (
     <div className="DirectorProduct mt-[150px] p-4">
-      <h3 className="text-white mb-4">Список товаров</h3>
+      <h3 className="text-white mb-4">Список Магазинов</h3>
       <div className="grid grid-cols-2 gap-4">
         {products.map((product) => (
           <Link
             key={product.id}
-            to={`/director/product-list/${product.id}`}
+            to={`/director/product-list/${product.name}`}
             className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
           >
             <h4>{product.name}</h4>

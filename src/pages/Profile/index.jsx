@@ -77,7 +77,7 @@ export default function Home() {
                 className="flex flex-col items-center justify-center p-8 bg-black/50 md:bg-white/10 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/20 transition-all duration-300 hover:scale-105"
               >
                 {card.icon}
-                <span className="text-xl font-semibold text-white">{card.title}</span>
+                <span className="text-xl text-center font-semibold text-white">{card.title}</span>
                 <p className="text-gray-200 text-center mt-2">{card.description}</p>
               </Link>
             ))}
