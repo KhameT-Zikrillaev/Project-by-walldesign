@@ -50,7 +50,7 @@ body {
     padding: 3px 10px!important; /* Input paddingi */
     font-size: 18px;
   }
-  
+ 
   .custom-search .ant-input::placeholder {
     color: #a0aec0 !important; /* Placeholder rangi */
   }
@@ -93,13 +93,46 @@ body {
     color: #a0aec0 !important;
   }
   
+<<<<<<< HEAD
   .custom-pagination .ant-pagination-item {
     background-color: #2d3748 !important; /* Tugmalar fon rangi */
     color: white !important; /* Matn rangi */
     border-radius: 8px !important; /* Tugmalarni yumaloqlash */
+=======
+
+  .glowing-image {
+    width: 300px; /* Размер изображения */
+    height: auto;
+    filter: drop-shadow(0 0 2px rgba(255, 223, 0, 0.7)); /* Тонкое свечение */
+    transition: filter 0.3s ease;
+  }
+  .glowing-image-banner {
+    width: 300px; /* Размер изображения */
+    height: auto;
+    filter: drop-shadow(0 0 2px rgba(255, 223, 0, 0.7)); /* Начальное свечение */
+    animation: neonGlow 0.7s infinite alternate; /* Анимация */
+}
+
+@keyframes neonGlow {
+    0% {
+        filter: drop-shadow(0 0 6px rgba(255, 223, 0, 0.7)); /* Начальное свечение */
+    }
+    100% {
+        filter: drop-shadow(0 0 10px rgba(255, 223, 0, 1)); /* Яркое свечение */
+    }
+}
+
+
+
+
+  /* Ant Design Inputni override qilish */
+   /* .custom-input .ant-input {
+    background-color: transparent !important;
+>>>>>>> 4d5f8454a2f2186ee345b186939c2b2420b1af8a
     border: none !important;
   }
   
+<<<<<<< HEAD
   .custom-pagination .ant-pagination-item a {
     color: white !important;
   }
@@ -121,4 +154,28 @@ body {
   
   
   
+=======
+  .custom-input:focus .ant-input {
+    border-color: rgb(0.967 0.003 264.542) !important;
+  }  */
+  /* ~~~~~~~~~~~~~~~~~~~~~~paginatsia~~~~~~~~~~~~~~~ */
+  .ant-pagination .ant-pagination-prev .ant-pagination-item-link,
+  .ant-pagination .ant-pagination-next .ant-pagination-item-link {
+    color: white !important; /* Цвет стрелок */
+    border-color: white !important; /* Цвет границы стрелок */
+  }
+>>>>>>> 4d5f8454a2f2186ee345b186939c2b2420b1af8a
   
+  .ant-pagination .ant-pagination-prev:hover .ant-pagination-item-link,
+  .ant-pagination .ant-pagination-next:hover .ant-pagination-item-link {
+    color: #40a9ff !important; /* Цвет стрелок при наведении */
+    border-color: #40a9ff !important; /* Цвет границы стрелок при наведении */
+  }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~sana stili~~~~~~~~~~~~~~~~~~~~~~ */
+  .ant-picker-input input {
+    color: white !important;
+  }
+  .ant-picker-input input::placeholder {
+    color: #a0aec0 !important;
+  }

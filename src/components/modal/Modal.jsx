@@ -29,7 +29,7 @@ const CustomModal = ({ isOpen, onClose, title, children }) => {
       onClick={handleOverlayClick}
     >
       <div
-        className={`bg-gray-900 text-white min-w-[450px] p-6 pb-0 rounded-lg shadow-lg relative transform transition-all ${
+        className={`bg-gray-900 text-white min-w-[320px] p-6 pb-0 rounded-lg shadow-lg relative transform transition-all ${
           isOpen ? "scale-100 opacity-100" : "scale-90 opacity-0"
         }`}
       >

@@ -26,21 +26,21 @@ export const SellerCards = [
         description: "Omborxona",
         link: "/seller/warehouse",
     },
-    {
-        icon: React.createElement(FaMoneyBillAlt, {
-            className: "text-4xl text-white mb-4",
-        }),
-        title: "Kassa",
-        description: "Moliya operatsiyalari",
-        link: "/seller/cash-register",
-    },
+    // {
+    //     icon: React.createElement(FaMoneyBillAlt, {
+    //         className: "text-4xl text-white mb-4",
+    //     }),
+    //     title: "Kassa",
+    //     description: "Moliya operatsiyalari",
+    //     link: "/seller/cash-register",
+    // },
     {
         icon: React.createElement(FaChartLine, {
             className: "text-4xl text-white mb-4",
         }),
-        title: "Arxiv",
+        title: "Hisobotlar",
         description: "Tarix va arxiv",
-        link: "/seller/archive",
+        link: "/seller/report",
     },
     // {
     //     icon: React.createElement(FaWarehouse, {

@@ -7,6 +7,7 @@ import bgsklad from "../../assets/images/bg-sklad.png"; // Ваша картин
 import { AdminCards } from "./data/AdminCards.js"; // Импортируем данные
 import { SkladCards } from "./data/WarehouseCards.js"; // Импортируем данные
 import { SellerCards } from "./data/SellerCards.js";
+import { DirectorCards } from "./data/DirectorCards.js";
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
@@ -32,6 +33,9 @@ export default function Home() {
   } else if (location.pathname === "/seller") {
     userRole = "Seller";
     cards = SellerCards;
+  } else if (location.pathname === "/director") {
+    userRole = "Director";
+    cards = DirectorCards;
   } else {
     // Если маршрут не /admin и не /sklad, можно ничего не отображать или показать что-то нейтральное
     userRole = "User";

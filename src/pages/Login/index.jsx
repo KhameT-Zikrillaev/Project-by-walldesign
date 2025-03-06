@@ -105,6 +105,7 @@ export default function Login() {
               id="username"
               placeholder="Введите логин"
               value={username}
+              style={{ color: 'white' }}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-3 border-2 border-white/20 rounded-xl focus:outline-none focus:border-white/40 bg-white/10 text-white placeholder-white/50 transition-all duration-300"
             />
@@ -122,13 +123,15 @@ export default function Login() {
               placeholder="Введите пароль"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-white/20 rounded-xl focus:outline-none focus:border-white/40 bg-white/10 text-white placeholder-white/50 transition-all duration-300 pr-12" // Добавляем отступ для иконки
+              style={{ color: 'white' }}
+              className="w-full px-4  py-3 border-2 border-white/20 rounded-xl focus:outline-none focus:border-white/40 bg-white/10 text-white !important  placeholder-white/50 transition-all duration-300 pr-12" // Добавляем отступ для иконки
             />
             {/* Иконка "глазика" */}
             <button
               type="button"
+              style={{ color: 'white' }}
               onClick={() => setShowPassword(!showPassword)} // Переключаем видимость пароля
-              className="absolute inset-y-0 top-[40%] right-0 pr-3 flex items-center text-white/90 hover:text-white/80 transition-all duration-300"
+              className="absolute cursor-pointer inset-y-0 top-[40%] right-0 pr-3 flex items-center text-white/90 hover:text-white/80 transition-all duration-300"
               // Позиционируем иконку
             >
               {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
@@ -139,12 +142,12 @@ export default function Login() {
               {error}
             </div>
           )}
-          <button
-            type="submit"
-            className="w-full cursor-pointer py-3 px-6 rounded-xl bg-gray-700/90 text-white font-bold hover:bg-gray-800/90 focus:outline-none focus:ring-2 focus:ring-gray-500/50 focus:ring-offset-2 focus:ring-offset-white/10 transition-all duration-300 border-2 border-gray-600/30 hover:border-gray-600/50 shadow-sm hover:shadow-md active:scale-95"
-          >
-            Войти
-          </button>
+         <button
+  type="submit"
+  className="w-full cursor-pointer py-3 px-6 rounded-xl bg-yellow-400 text-gray-900 font-bold hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:ring-offset-2 focus:ring-offset-yellow-100 transition-all duration-300 border-2 border-yellow-500/30 hover:border-yellow-500/50 shadow-lg hover:shadow-xl active:scale-95"
+>
+  Войти
+</button>
         </form>
       </div>
     </div>
