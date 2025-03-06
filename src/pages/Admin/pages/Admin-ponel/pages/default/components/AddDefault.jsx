@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Input, Button, Form, message, Switch  } from "antd";
+import { Input, Button, Form, message } from "antd";
 
-const EditStorage = ({ onClose, storageSingleData }) => {
+const AddDefault = ({onClose}) => {
   const {
     handleSubmit,
     control,
@@ -10,16 +10,9 @@ const EditStorage = ({ onClose, storageSingleData }) => {
     reset,
   } = useForm();
 
-  // storageSingleData bor bo‘lsa, formani shu ma’lumotlar bilan to‘ldiramiz
-  useEffect(() => {
-    if (storageSingleData) {
-      reset(storageSingleData);
-    }
-  }, [storageSingleData, reset]);
-
   const onSubmit = (data) => {
     console.log("Forma ma'lumotlari:", data);
-    message.success("Ombor muvaffaqiyatli yangilandi!");
+    message.success("Default muvaffaqiyatli qo‘shildi!");
     reset(); // Formani tozalash
     onClose();
   };
@@ -29,37 +22,20 @@ const EditStorage = ({ onClose, storageSingleData }) => {
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
         {/* Ombor nomi */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Ombor nomi</span>}
+          label={<span className="text-gray-100 font-semibold">Default nomi</span>}
           validateStatus={errors.name ? "error" : ""}
           help={errors.name?.message}
         >
           <Controller
             name="name"
             control={control}
-            rules={{ required: "Ombor nomi majburiy" }}
+            rules={{ required: "Default nomi majburiy" }}
             render={({ field }) => (
-              <Input placeholder="Ombor nomini kiriting" className="custom-input" {...field} />
+              <Input placeholder="Default nomini kiriting" className="custom-input" {...field} />
             )}
           />
         </Form.Item>
-
-        {/* Telefon raqami */}
-        <Form.Item
-          label={<span className="text-gray-100 font-semibold">Telefon raqami</span>}
-          validateStatus={errors.phone_number ? "error" : ""}
-          help={errors.phone_number?.message}
-        >
-          <Controller
-            name="phone_number"
-            control={control}
-            rules={{ required: "Telefon raqami majburiy" }}
-            render={({ field }) => (
-              <Input placeholder="Telefon raqamini kiriting" className="custom-input" {...field} />
-            )}
-          />
-        </Form.Item>
-
-        {/* Login */}
+        
         <Form.Item
           label={<span className="text-gray-100 font-semibold">Login</span>}
           validateStatus={errors.login ? "error" : ""}
@@ -74,8 +50,6 @@ const EditStorage = ({ onClose, storageSingleData }) => {
             )}
           />
         </Form.Item>
-
-        {/* Parol */}
         <Form.Item
           label={<span className="text-gray-100 font-semibold">Parol</span>}
           validateStatus={errors.password ? "error" : ""}
@@ -86,19 +60,7 @@ const EditStorage = ({ onClose, storageSingleData }) => {
             control={control}
             rules={{ required: "Parol majburiy" }}
             render={({ field }) => (
-              <Input placeholder="Parolni kiriting" type="text" className="custom-input" {...field} />
-            )}
-          />
-        </Form.Item>
-        <Form.Item label={<span className="text-gray-100 font-semibold">Ruxsat berish</span>}>
-          <Controller
-            name="isAllowed"
-            control={control}
-            render={({ field }) => (
-              <Switch
-                checked={field.value}
-                onChange={field.onChange}
-              />
+              <Input placeholder="Parolni kiriting" className="custom-input" {...field} />
             )}
           />
         </Form.Item>
@@ -115,10 +77,10 @@ const EditStorage = ({ onClose, storageSingleData }) => {
               padding: "15px 20px",
               borderRadius: "8px",
               fontSize: "18px",
-              width: "100%",
+              width: "100%"
             }}
           >
-            Tahrirlash
+            Yaratish
           </Button>
         </Form.Item>
       </Form>
@@ -126,4 +88,4 @@ const EditStorage = ({ onClose, storageSingleData }) => {
   );
 };
 
-export default EditStorage;
+export default AddDefault;

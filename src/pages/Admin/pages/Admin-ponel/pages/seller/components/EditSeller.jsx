@@ -29,7 +29,7 @@ const EditSeller = ({ onClose, sellerSingleData }) => {
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
         {/* Ombor nomi */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Ombor nomi</span>}
+          label={<span className="text-gray-100 font-semibold">Sotuvchi nomi</span>}
           validateStatus={errors.name ? "error" : ""}
           help={errors.name?.message}
         >

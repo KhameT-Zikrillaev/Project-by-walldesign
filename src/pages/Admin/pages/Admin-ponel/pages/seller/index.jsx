@@ -186,7 +186,7 @@ const Seller = () => {
   return (
     <div className="p-5">
       <div className="flex justify-between items-center mb-5">
-        <h1 className="text-3xl font-bold  text-gray-100">Sotuvchilar</h1>
+        <div className="text-3xl font-bold  text-gray-100">Sotuvchilar</div>
         <div className="flex gap-3 items-center">
         <Search placeholder="Qidirish" onSearch={onSearch} enterButton className="custom-search"/>
         <Button

@@ -1,8 +1,8 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Input, Button, Form, message } from "antd";
+import { Input, Button, Form, message, Switch } from "antd";
 
-const AddStorage = ({onClose}) => {
+const AddStorage = ({ onClose }) => {
   const {
     handleSubmit,
     control,
@@ -18,7 +18,7 @@ const AddStorage = ({onClose}) => {
   };
 
   return (
-    <div className="">
+    <div>
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
         {/* Ombor nomi */}
         <Form.Item
@@ -36,21 +36,23 @@ const AddStorage = ({onClose}) => {
           />
         </Form.Item>
 
-        {/* Joylashuv */}
+        {/* Telfon nomer */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Telfon nomer</span>}
+          label={<span className="text-gray-100 font-semibold">Telefon raqami</span>}
           validateStatus={errors.phone_number ? "error" : ""}
           help={errors.phone_number?.message}
         >
           <Controller
             name="phone_number"
             control={control}
-            rules={{ required: "Telfon nomer majburiy" }}
+            rules={{ required: "Telefon raqami majburiy" }}
             render={({ field }) => (
-              <Input placeholder="Telfon nomerini kiriting" className="custom-input" {...field} />
+              <Input placeholder="Telefon raqamini kiriting" className="custom-input" {...field} />
             )}
           />
         </Form.Item>
+
+        {/* Login */}
         <Form.Item
           label={<span className="text-gray-100 font-semibold">Login</span>}
           validateStatus={errors.login ? "error" : ""}
@@ -65,6 +67,8 @@ const AddStorage = ({onClose}) => {
             )}
           />
         </Form.Item>
+
+        {/* Parol */}
         <Form.Item
           label={<span className="text-gray-100 font-semibold">Parol</span>}
           validateStatus={errors.password ? "error" : ""}
@@ -76,6 +80,20 @@ const AddStorage = ({onClose}) => {
             rules={{ required: "Parol majburiy" }}
             render={({ field }) => (
               <Input placeholder="Parolni kiriting" className="custom-input" {...field} />
+            )}
+          />
+        </Form.Item>
+
+        {/* Ruxsat berish Switch */}
+        <Form.Item label={<span className="text-gray-100 font-semibold">Ruxsat berish</span>}>
+          <Controller
+            name="isAllowed"
+            control={control}
+            render={({ field }) => (
+              <Switch
+                checked={field.value}
+                onChange={field.onChange}
+              />
             )}
           />
         </Form.Item>
@@ -92,7 +110,7 @@ const AddStorage = ({onClose}) => {
               padding: "15px 20px",
               borderRadius: "8px",
               fontSize: "18px",
-              width: "100%"
+              width: "100%",
             }}
           >
             Yaratish

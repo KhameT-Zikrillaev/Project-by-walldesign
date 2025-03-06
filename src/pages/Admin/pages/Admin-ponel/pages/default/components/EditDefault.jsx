@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Input, Button, Form, message, Switch  } from "antd";
+import { Input, Button, Form, message } from "antd";
 
-const EditStorage = ({ onClose, storageSingleData }) => {
+const EditDefault = ({ onClose, defaultSingleData }) => {
   const {
     handleSubmit,
     control,
@@ -12,14 +12,14 @@ const EditStorage = ({ onClose, storageSingleData }) => {
 
   // storageSingleData bor bo‘lsa, formani shu ma’lumotlar bilan to‘ldiramiz
   useEffect(() => {
-    if (storageSingleData) {
-      reset(storageSingleData);
+    if (defaultSingleData) {
+      reset(defaultSingleData);
     }
-  }, [storageSingleData, reset]);
+  }, [defaultSingleData, reset]);
 
   const onSubmit = (data) => {
     console.log("Forma ma'lumotlari:", data);
-    message.success("Ombor muvaffaqiyatli yangilandi!");
+    message.success("Default muvaffaqiyatli yangilandi!");
     reset(); // Formani tozalash
     onClose();
   };
@@ -29,32 +29,16 @@ const EditStorage = ({ onClose, storageSingleData }) => {
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
         {/* Ombor nomi */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Ombor nomi</span>}
+          label={<span className="text-gray-100 font-semibold">Deafult nomi</span>}
           validateStatus={errors.name ? "error" : ""}
           help={errors.name?.message}
         >
           <Controller
             name="name"
             control={control}
-            rules={{ required: "Ombor nomi majburiy" }}
+            rules={{ required: "default nomi majburiy" }}
             render={({ field }) => (
-              <Input placeholder="Ombor nomini kiriting" className="custom-input" {...field} />
-            )}
-          />
-        </Form.Item>
-
-        {/* Telefon raqami */}
-        <Form.Item
-          label={<span className="text-gray-100 font-semibold">Telefon raqami</span>}
-          validateStatus={errors.phone_number ? "error" : ""}
-          help={errors.phone_number?.message}
-        >
-          <Controller
-            name="phone_number"
-            control={control}
-            rules={{ required: "Telefon raqami majburiy" }}
-            render={({ field }) => (
-              <Input placeholder="Telefon raqamini kiriting" className="custom-input" {...field} />
+              <Input placeholder="default nomini kiriting" className="custom-input" {...field} />
             )}
           />
         </Form.Item>
@@ -90,18 +74,6 @@ const EditStorage = ({ onClose, storageSingleData }) => {
             )}
           />
         </Form.Item>
-        <Form.Item label={<span className="text-gray-100 font-semibold">Ruxsat berish</span>}>
-          <Controller
-            name="isAllowed"
-            control={control}
-            render={({ field }) => (
-              <Switch
-                checked={field.value}
-                onChange={field.onChange}
-              />
-            )}
-          />
-        </Form.Item>
 
         {/* Yuborish tugmasi */}
         <Form.Item>
@@ -126,4 +98,4 @@ const EditStorage = ({ onClose, storageSingleData }) => {
   );
 };
 
-export default EditStorage;
+export default EditDefault;

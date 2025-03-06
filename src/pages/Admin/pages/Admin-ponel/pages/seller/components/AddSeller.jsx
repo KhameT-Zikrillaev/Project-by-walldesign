@@ -12,7 +12,7 @@ const AddSeller = ({onClose}) => {
 
   const onSubmit = (data) => {
     console.log("Forma ma'lumotlari:", data);
-    message.success("Ombor muvaffaqiyatli qo‘shildi!");
+    message.success("Sotuvchi muvaffaqiyatli qo‘shildi!");
     reset(); // Formani tozalash
     onClose();
   };
@@ -22,7 +22,7 @@ const AddSeller = ({onClose}) => {
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
         {/* Ombor nomi */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Ombor nomi</span>}
+          label={<span className="text-gray-100 font-semibold">Sotuvchi nomi</span>}
           validateStatus={errors.name ? "error" : ""}
           help={errors.name?.message}
         >
