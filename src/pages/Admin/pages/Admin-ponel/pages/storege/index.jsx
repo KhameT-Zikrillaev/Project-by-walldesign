@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Table, Button, Space, Popconfirm } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Input } from 'antd';
+import { Table, Button, Space, Popconfirm, Pagination } from "antd";
+import { EditOutlined, DeleteOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Input } from "antd";
 import ModalComponent from "@/components/modal/Modal";
 import AddStorage from "./components/AddStorage";
 import EditStorage from "./components/EditStorage";
+
 const { Search } = Input;
 
 const data = [
@@ -21,12 +22,12 @@ const data = [
   { key: "11", name: "Eksport Ombori", login: "admin", password: "admin123", phone_number: "123456789" },
 ];
 
-
-
 const Statistics = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [storageSingleData, setStorageSingleData] = useState(null);
   const [formType, setFormType] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
   const showModal = (type) => {
     setFormType(type);
@@ -37,13 +38,43 @@ const Statistics = () => {
     setIsModalOpen(false);
     setStorageSingleData(null);
   };
-  
+
   const handleEdit = (record) => {
     setStorageSingleData(record);
     showModal("edit");
   };
 
   const onSearch = (value) => console.log(value);
+
+  const itemRender = (page, type, originalElement) => {
+    if (type === "prev") {
+      return (
+        <button
+          style={{
+            color: "white",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          <LeftOutlined /> 
+        </button>
+      );
+    }
+    if (type === "next") {
+      return (
+        <button
+          style={{
+            color: "white",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+           <RightOutlined />
+        </button>
+      );
+    }
+    return originalElement;
+  };
 
   const columns = [
     {
@@ -94,7 +125,7 @@ const Statistics = () => {
             okText="Ha"
             cancelText="Yo‘q"
           >
-            <Button type="primary" danger icon={<DeleteOutlined />} />
+            <Button type="primary" danger icon={<DeleteOutlined />} className="edit-btn" />
           </Popconfirm>
         </Space>
       ),
@@ -104,42 +135,52 @@ const Statistics = () => {
   return (
     <div className="p-5">
       <div className="flex justify-between items-center mb-5">
-        <h1 className="text-3xl font-bold  text-gray-100">Omborlar</h1>
+        <h1 className="text-3xl font-bold text-gray-100">Omborlar</h1>
         <div className="flex gap-3 items-center">
-        <Search placeholder="Qidirish" onSearch={onSearch} enterButton className="custom-search"/>
-        <Button
-          type="primary"
-          style={{
-            backgroundColor: "#364153",
-            color: "#f3f4f6",
-            fontWeight: "500",
-            padding: "17px 20px",
-            borderRadius: "8px",
-            fontSize: "20px"
-          }}
-          className="hover:bg-[#0056b3] hover:border-[#004494] focus:bg-[#004494] "
-          onClick={() => showModal("add")}
-        >
-          Qo'shish
-        </Button>
+          <Search placeholder="Qidirish" onSearch={onSearch} enterButton className="custom-search" />
+          <Button
+            type="primary"
+            style={{
+              backgroundColor: "#364153",
+              color: "#f3f4f6",
+              fontWeight: "500",
+              padding: "17px 20px",
+              borderRadius: "8px",
+              fontSize: "20px",
+            }}
+            className="hover:bg-[#0056b3] hover:border-[#004494] focus:bg-[#004494]"
+            onClick={() => showModal("add")}
+          >
+            Qo'shish
+          </Button>
         </div>
       </div>
-      <div className=" text-gray-100">
-      <Table
+      <div className="text-gray-100">
+        <Table
           columns={columns}
-          dataSource={data}
-          pagination={{ pageSize: 10 }}
-          className=" custom-table"
+          dataSource={data.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
+          pagination={false}
+          className="custom-table"
           rowClassName={() => "custom-row"}
           bordered
         />
+        <div className="flex justify-center mt-5">
+          <Pagination
+            className="custom-pagination"
+            current={currentPage}
+            total={data.length}
+            pageSize={pageSize}
+            onChange={(page) => setCurrentPage(page)}
+            itemRender={itemRender}
+          />
+        </div>
       </div>
       <ModalComponent
         isOpen={isModalOpen}
         onClose={onClose}
         title={formType === "add" ? "Ombor qo'shish" : "Omborni tahrirlash"}
       >
-       {formType === "add" ?<AddStorage onClose={onClose}/> : <EditStorage onClose={onClose} storageSingleData={storageSingleData}/>} 
+        {formType === "add" ? <AddStorage onClose={onClose} /> : <EditStorage onClose={onClose} storageSingleData={storageSingleData} />}
       </ModalComponent>
     </div>
   );

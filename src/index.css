@@ -31,14 +31,15 @@ body {
 
 /* Edit tugmasi (yashil) */
 .edit-btn {
-    background-color: green !important;
-    border-color: green !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    font-size: 20px;
   }
   
   /* Edit tugmasi hover bo‘lganda */
   .edit-btn:hover {
-    background-color: #28a745 !important; /* Ochroq yashil */
-    border-color: #218838 !important;
+    background-color: transparent !important; /* Ochroq yashil */
+    border-color: transparent !important;
   }
 
   /* Search input uchun stil */
@@ -92,16 +93,32 @@ body {
     color: #a0aec0 !important;
   }
   
-  /* Ant Design Inputni override qilish */
-   /* .custom-input .ant-input {
-    background-color: transparent !important;
+  .custom-pagination .ant-pagination-item {
+    background-color: #2d3748 !important; /* Tugmalar fon rangi */
+    color: white !important; /* Matn rangi */
+    border-radius: 8px !important; /* Tugmalarni yumaloqlash */
     border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-    padding: 8px 12px;
   }
   
-  .custom-input:focus .ant-input {
-    border-color: rgb(0.967 0.003 264.542) !important;
-  }  */
+  .custom-pagination .ant-pagination-item a {
+    color: white !important;
+  }
+  
+  .custom-pagination .ant-pagination-item:hover {
+    background-color: #4a5568 !important; /* Hover holatida fon rangi */
+  }
+  
+  .custom-pagination .ant-pagination-item-active {
+    background-color: #2d3748 !important; /* Tugmalar fon rangi */
+    color: white !important;
+  }
+  
+  .custom-pagination .ant-pagination-item-active a {
+    color: white !important;
+  }
+  
+  
+  
+  
+  
   

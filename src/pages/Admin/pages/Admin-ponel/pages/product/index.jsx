@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Table, Button, Space, Popconfirm } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Table, Button, Space, Popconfirm, Pagination } from "antd";
+import { EditOutlined, DeleteOutlined, RightOutlined, LeftOutlined } from "@ant-design/icons";
 import { Input } from 'antd';
 import ModalComponent from "@/components/modal/Modal";
 import AddProduct from "./components/AddProduct";
@@ -104,7 +104,8 @@ const Product = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productSingleData, setProductSingleData] = useState(null);
   const [formType, setFormType] = useState(null);
-
+  const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
 
   const showModal = (type) => {
     setFormType(type);
@@ -122,6 +123,36 @@ const Product = () => {
   };
 
   const onSearch = (value) => console.log(value);
+
+  const itemRender = (page, type, originalElement) => {
+    if (type === "prev") {
+      return (
+        <button
+          style={{
+            color: "white",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          <LeftOutlined /> 
+        </button>
+      );
+    }
+    if (type === "next") {
+      return (
+        <button
+          style={{
+            color: "white",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+           <RightOutlined />
+        </button>
+      );
+    }
+    return originalElement;
+  };
 
   const columns = [
     {
@@ -178,7 +209,7 @@ const Product = () => {
             okText="Ha"
             cancelText="Yo‘q"
           >
-            <Button type="primary" danger icon={<DeleteOutlined />} />
+            <Button type="primary" danger icon={<DeleteOutlined />} className="edit-btn" />
           </Popconfirm>
         </Space>
       ),
@@ -208,15 +239,25 @@ const Product = () => {
         </Button>
         </div>
       </div>
-      <div className=" text-gray-100">
-      <Table
+      <div className="text-gray-100">
+        <Table
           columns={columns}
-          dataSource={data}
-          pagination={{ pageSize: 10 }}
-          className=" custom-table"
+          dataSource={data.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
+          pagination={false}
+          className="custom-table"
           rowClassName={() => "custom-row"}
           bordered
         />
+        <div className="flex justify-center mt-5">
+          <Pagination
+            className="custom-pagination"
+            current={currentPage}
+            total={data.length}
+            pageSize={pageSize}
+            onChange={(page) => setCurrentPage(page)}
+            itemRender={itemRender}
+          />
+        </div>
       </div>
       <ModalComponent
         isOpen={isModalOpen}
