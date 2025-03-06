@@ -38,9 +38,9 @@ export const SellerCards = [
         icon: React.createElement(FaChartLine, {
             className: "text-4xl text-white mb-4",
         }),
-        title: "Arxiv",
+        title: "Hisobotlar",
         description: "Tarix va arxiv",
-        link: "/seller/archive",
+        link: "/seller/report",
     },
     // {
     //     icon: React.createElement(FaWarehouse, {

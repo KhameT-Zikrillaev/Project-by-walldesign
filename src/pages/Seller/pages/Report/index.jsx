@@ -17,7 +17,7 @@ const dataSource = [
   { key: '10', date: '2023-10-10', returnDate: '2023-10-14', code: '#4452', name: 'Обои "Черная ночь"', color: '#000000', action: 'куплено', quantity: 6, returns: 2, photo: bg },
 ];
 
-export default function Archive() {
+export default function Report() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4); // 4 карточки на странице
   const [filteredData, setFilteredData] = useState(dataSource);

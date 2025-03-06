@@ -11,9 +11,6 @@ import AdminAdminPanel from '@/pages/Admin/pages/Admin-ponel/index';
 import AdminStorege from '@/pages/Admin/pages/Admin-ponel/pages/storege';
 import AdminUsers from '@/pages/Admin/pages/Admin-ponel/pages/users';
 import AdminReport from '@/pages/Admin/pages/Report';
-// import Cashregister from '@/pages/Admin/pages/Cashregister';
-// import TransactionHistory from '@/pages/Admin/pages/TransactionHistory';
-
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Warehouse~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import Warehouse from '@/pages/Warehouse';
 import WarehouseProducts from '@/pages/Warehouse/pages/Products';
@@ -29,7 +26,7 @@ import WarehouseCashregister from '@/pages/Warehouse/pages/Cashregister';
 import Seller from '@/pages/Seller';
 import SellerProduct from '@/pages/Seller/pages/Product';
 import SellerWarehouse from '@/pages/Seller/pages/Warehouse';
-import SellerArchive from '@/pages/Seller/pages/Archive';
+import SellerReport from '@/pages/Seller/pages/Report';
 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Director~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,7 +40,6 @@ export default function RouterConfig() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="*" element={<Error404 />} />
-
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ADMIN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <Route path="/admin" element={<Admin />}>
         <Route index element={<Profile />} /> {/* Этот компонент будет отображаться при переходе на /admin */}
@@ -52,9 +48,6 @@ export default function RouterConfig() {
           <Route path="storege" element={<AdminStorege />} /> {/* /admin/admin-panel/statistics */}
           <Route path="users" element={<AdminUsers />} /> {/* /admin/admin-panel/users */}
         </Route>
-        
-        {/* <Route path="cash-register" element={<Cashregister />}></Route>
-        <Route path="transaction-history" element={<TransactionHistory />}></Route> */}
         <Route path="report" element={<AdminReport />}></Route>
       </Route>
 
@@ -79,7 +72,7 @@ export default function RouterConfig() {
         <Route index element={<Profile />} /> {/* Этот компонент будет отображаться при переходе на /seller */}
         <Route path="product-list" element={<SellerProduct />} /> {/* /seller/product-list */}
         <Route path="warehouse" element={<SellerWarehouse />} /> {/* /seller/warehouse */}
-        <Route path="archive" element={<SellerArchive />} /> {/* /seller/archive */}
+        <Route path="report" element={<SellerReport />} /> {/* /seller/report */}
       </Route>
 
 
@@ -91,8 +84,6 @@ export default function RouterConfig() {
         <Route path="product-list/:name" element={<ProductDetails />} /> {/* Динамический маршрут */}
         <Route path="report" element={<DirectorReport />} /> {/* /Director/report */}
       </Route>
-
-      {/* <Route path="/*" element={<Error />} /> */}
     </Routes>
   );
 }
