@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Pagination, Tag, Button } from 'antd';
 import 'antd/dist/reset.css';
-import bgsklad from '@/assets/images/bg-sklad.png';
+import bgsklad from '../../../../assets/images/bg-sklad.png';
 import SearchForm from './modules/SearchForm';
-import bg from '@/assets/images/bg-login.jpg';
+import bg from '../../../../assets/images/bg-login.jpg';
 const dataSource = [
   { key: '1', code: 'OB001', name: 'Обои "Синий океан"', color: '#0000FF', price: '1000 руб', stock: 10, photo: bg },
   { key: '2', code: 'OB002', name: 'Обои "Зеленый лес"', color: '#008000', price: '1200 руб', stock: 5, photo: bg },
@@ -55,7 +55,7 @@ export default function Warehouse() {
 
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
         <SearchForm data={dataSource} onSearch={setFilteredData} />
-   
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full  px-4">
           {currentData.map((item) => (
             <Card

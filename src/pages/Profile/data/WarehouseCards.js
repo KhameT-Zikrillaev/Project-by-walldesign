@@ -4,10 +4,9 @@ import {
     FaTruck,
     FaWarehouse,
     FaCashRegister,
-    FaArchive,
     FaStore,
-    FaUndo,
     FaShoppingCart,
+    FaChartLine,
   } from "react-icons/fa";
   import React from "react";
   
@@ -16,7 +15,7 @@ import {
       icon: React.createElement(FaBox, { className: "text-4xl text-white mb-4" }),
       title: "Tovarlar",
       description: "Tovarlarni boshqarish",
-      link: "/warehouse/products",
+      link: "/warehouse/product-list",
     },
     {
       icon: React.createElement(FaTruck, { className: "text-4xl text-white mb-4" }),
@@ -38,12 +37,14 @@ import {
       description: "Mahsulotlarni boshqa omborga jo'natish",
       link: "/warehouse/transfer-to-warehouse",
     },
-    // {
-    //   icon: React.createElement(FaUndo, { className: "text-4xl text-white mb-4" }),
-    //   title: "Vazvrat",
-    //   description: "Vazvrat operatsiyalari",
-    //   link: "/warehouse/return-products",
-    // },
+    {
+      icon: React.createElement(FaChartLine, {
+          className: "text-4xl text-white mb-4",
+      }),
+      title: "Hisobotlar",
+      description: "Tarix va arxiv",
+      link: "/warehouse/report",
+  },
     {
       icon: React.createElement(FaCashRegister, {
         className: "text-4xl text-white mb-4",

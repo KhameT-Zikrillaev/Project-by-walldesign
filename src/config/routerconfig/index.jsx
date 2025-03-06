@@ -13,7 +13,7 @@ import AdminUsers from '@/pages/Admin/pages/Admin-ponel/pages/users';
 import AdminReport from '@/pages/Admin/pages/Report';
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Warehouse~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import Warehouse from '@/pages/Warehouse';
-import WarehouseProducts from '@/pages/Warehouse/pages/Products';
+import WarehouseProducts from '@/pages/Warehouse/pages/Product';
 import WarehouseSendProductsToShopView from '@/pages/Warehouse/pages/SendProductsToShowcase';
 import WarehouseRemoveProductsFromShowcase from '@/pages/Warehouse/pages/RemoveProductsFromShowcase';
 import WarehouseTransferProductsToWarehouse from '@/pages/Warehouse/pages/TransferProductsToWarehouse';
@@ -21,7 +21,7 @@ import WarehouseOrderProducts from '@/pages/Warehouse/pages/OrderProducts';
 import WarehouseShop from '@/pages/Warehouse/pages/Shop';
 import WarehouseReturnProducts from '@/pages/Warehouse/pages/Shop/pages/ReturnProducts';
 import WarehouseCashregister from '@/pages/Warehouse/pages/Cashregister';
-
+import WarehouseReport from '@/pages/Warehouse/pages/Report';
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Seller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import Seller from '@/pages/Seller';
 import SellerProduct from '@/pages/Seller/pages/Product';
@@ -54,14 +54,14 @@ export default function RouterConfig() {
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~WAREHOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <Route path="/warehouse" element={<Warehouse />}>
         <Route index element={<Profile />} /> {/* Этот компонент будет отображаться при переходе на /warehouse */}
-        <Route path="products" element={<WarehouseProducts />} /> {/* /warehouse/products */}
+        <Route path="product-list" element={<WarehouseProducts />} /> {/* /warehouse/products */}
         <Route path="send-to-showcase" element={<WarehouseSendProductsToShopView />} /> {/* /warehouse/send-to-showcase */}
         <Route path="remove-from-showcase" element={<WarehouseRemoveProductsFromShowcase />} /> {/* /warehouse/remove-from-showcase */}
         <Route path="transfer-to-warehouse" element={<WarehouseTransferProductsToWarehouse />} /> {/* /warehouse/transfer-to-warehouse */}
         <Route path="order-products" element={<WarehouseOrderProducts />} /> {/* /warehouse/order-products */}
         <Route path="cash-register" element={<WarehouseCashregister />} /> {/* /warehouse/cash */}
         <Route path="shop" element={<WarehouseShop />}/>
-        
+        <Route path="report" element={<WarehouseReport />}></Route>
         <Route path="shop">
           <Route path="return-products" element={<WarehouseReturnProducts />} /> {/* /warehouse/shop/return-products */}
         </Route>
