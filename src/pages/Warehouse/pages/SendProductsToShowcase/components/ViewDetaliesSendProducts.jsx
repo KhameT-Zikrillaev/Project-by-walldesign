@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from "react-router-dom";
 import { Card, Pagination, Tag, Button } from 'antd';
 import 'antd/dist/reset.css';
-import bgsklad from '../../../../assets/images/bg-sklad.png';
-import SearchForm from './modules/SearchForm';
-import bg from '../../../../assets/images/bg-login.jpg';  
+import bgsklad from '@/assets/images/bg-sklad.png';
+import SearchForm from '../../Product/modules/SearchForm';
+import bg from '@/assets/images/bg-login.jpg';
 import ModalComponent from "@/components/modal/Modal";
-import AddProduct from "./modules/AddProduct/AddProduct";
+import AddProduct from "../modules/AddProductVitrina/AddProductVitrina";
+const products = [
+  { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
+  { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
+];
 const dataSource = [
   { key: '1', code: 'OB001', name: 'Обои "Синий океан"', color: '#0000FF', price: '1000 руб', stock: 10, photo: bg },
   { key: '2', code: 'OB002', name: 'Обои "Зеленый лес"', color: '#008000', price: '1200 руб', stock: 5, photo: bg },
@@ -23,8 +28,13 @@ const dataSource = [
   { key: '14', code: 'OB014', name: 'Обои "Лавандовый туман"', color: '#E6E6FA', price: '950 руб', stock: 12, photo: bg },
   { key: '15', code: 'OB015', name: 'Обои "Мятный бриз"', color: '#98FF98', price: '1100 руб', stock: 7, photo: bg },
 ];
+export default function ViewDetaliesSendProducts() {
+  const { name } = useParams(); // Получаем параметр name из URL
+  console.log('URL параметр name:', name);
 
-export default function Warehouse() {
+  const product = products.find((p) => p.name === name);
+  console.log('Найденный продукт:', product)
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [filteredData, setFilteredData] = useState(dataSource);
@@ -42,7 +52,6 @@ const onClose = () => {
   setSelectedProduct(null); // Сбрасываем выбранный товар при закрытии модального окна
 };
 
-
   const updateItemsPerPage = () => {
     setItemsPerPage(window.innerWidth < 768 ? 4 : 10);
   };
@@ -53,24 +62,31 @@ const onClose = () => {
     return () => window.removeEventListener('resize', updateItemsPerPage);
   }, []);
 
+  const handleOrder = (item) => {
+    alert(`Заказ на ${item.name} оформлен!`);
+  };
 
   const currentData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  if (!product) {
+    return <div>Продукт не найден</div>;
+  }
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center p-1 relative"
-      style={{ backgroundImage: `url(${bgsklad})` }}
-    >
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
+    className="min-h-screen bg-cover bg-center p-1 relative"
+    style={{ backgroundImage: `url(${bgsklad})` }}
+  >
+    <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
 
-      <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-        <SearchForm data={dataSource} onSearch={setFilteredData} />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full  px-4">
-          {currentData.map((item) => (
+    <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
+      <SearchForm data={dataSource} name={product.name} onSearch={setFilteredData} />
+      <h1 className="text-white">{product.name}</h1>
+      <p className="text-white">{product.description}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full  px-4">
+        {currentData.map((item) => (
           <Card
           key={item.key}
           className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
@@ -89,7 +105,6 @@ const onClose = () => {
             <Tag style={{ backgroundColor: item.color, color: '#fff' }}>{item.color}</Tag>
             <div className='flex justify-between'> 
               <p className="text-gray-300 text-xs">{item.price}</p>
-              <p className="text-gray-300 text-xs">В наличии: {item.stock} шт.</p>
             </div>
             <Button
               type="primary"
@@ -98,31 +113,31 @@ const onClose = () => {
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#2b3445")}
   onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#364153")}
             >
-              Заказать
+              Yuborish
             </Button>
           </div>
         </Card>
-          ))}
-        </div>
-
-        <div className="my-2   mb-12  md:mb-0 flex justify-center">
-          <Pagination
-            current={currentPage}
-            total={filteredData.length}
-            pageSize={itemsPerPage}
-            onChange={(page) => setCurrentPage(page)}
-            showSizeChanger={false}
-            className="text-white "
-          />
-        </div>
+        ))}
       </div>
-      <ModalComponent
+
+      <div className="my-2   mb-12  md:mb-0 flex justify-center">
+        <Pagination
+          current={currentPage}
+          total={filteredData.length}
+          pageSize={itemsPerPage}
+          onChange={(page) => setCurrentPage(page)}
+          showSizeChanger={false}
+          className="text-white "
+        />
+      </div>
+    </div>
+    <ModalComponent
         isOpen={isModalOpen}
         onClose={onClose}
         title={"Ombordan olish"}
       >
        <AddProduct onClose={onClose} product={selectedProduct} />
       </ModalComponent>
-    </div>
+  </div>
   );
 }

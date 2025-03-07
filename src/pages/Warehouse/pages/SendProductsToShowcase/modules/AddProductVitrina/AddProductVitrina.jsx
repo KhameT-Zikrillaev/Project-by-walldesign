@@ -88,7 +88,7 @@ const AddProductVitrina = ({ onClose }) => {
           />
         </div>
         <Button type="primary" htmlType="submit" style={{ marginTop: 20, width: "100%" }}>
-          Отправить
+          Yuborish
         </Button>
       </Form>
     </div>
