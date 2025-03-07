@@ -151,3 +151,23 @@ body {
     color: #a0aec1 !important;
   }
 
+  .ant-pagination-item {
+  background: transparent;
+  transition: background 0.3s ease;
+}
+
+.ant-pagination-item:hover {
+  border: 1px solid #40a9ff !important;
+}
+
+.ant-pagination-item:hover a {
+  color: #40a9ff !important;
+  font-weight: 500;
+}
+
+.ant-pagination-item-active {
+  background: white !important;
+}
+
+
+
