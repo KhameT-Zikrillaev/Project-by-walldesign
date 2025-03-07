@@ -24,7 +24,7 @@ const SearchForm = ({ data, onSearch }) => {
       
     
       <Search
-        placeholder="Поиск по названию"
+        placeholder="Qidirish"
         onChange={(e) => handleSearch(e.target.value)}
         enterButton
         className="custom-search max-w-md"

@@ -4,26 +4,27 @@ import 'antd/dist/reset.css';
 import bgsklad from '../../../../assets/images/bg-sklad.png';
 import SearchForm from './modules/SearchForm';
 import bg from '../../../../assets/images/bg-login.jpg';
+
 const dataSource = [
-  { key: '1', date: '2023-10-01', returnDate: '2023-10-05', code: '#4443', name: 'Обои "Зеленый лес"', color: '#008000', action: 'куплено', quantity: 10, returns: 2, photo: bg },
-  { key: '2', date: '2023-10-02', returnDate: '2023-10-06', code: '#4444', name: 'Обои "Синий океан"', color: '#0000FF', action: 'куплено', quantity: 5, returns: 1, photo: bg },
-  { key: '3', date: '2023-10-03', returnDate: '2023-10-07', code: '#4445', name: 'Обои "Красный закат"', color: '#FF0000', action: 'куплено', quantity: 8, returns: 0, photo: bg },
-  { key: '4', date: '2023-10-04', returnDate: '2023-10-08', code: '#4446', name: 'Обои "Желтый песок"', color: '#FFFF00', action: 'куплено', quantity: 15, returns: 3, photo: bg },
-  { key: '5', date: '2023-10-05', returnDate: '2023-10-09', code: '#4447', name: 'Обои "Фиолетовый туман"', color: '#800080', action: 'куплено', quantity: 3, returns: 0, photo: bg },
-  { key: '6', date: '2023-10-06', returnDate: '2023-10-10', code: '#4448', name: 'Обои "Голубое небо"', color: '#87CEEB', action: 'куплено', quantity: 7, returns: 1, photo: bg },
-  { key: '7', date: '2023-10-07', returnDate: '2023-10-11', code: '#4449', name: 'Обои "Розовый рассвет"', color: '#FFC0CB', action: 'куплено', quantity: 12, returns: 4, photo: bg },
-  { key: '8', date: '2023-10-08', returnDate: '2023-10-12', code: '#4450', name: 'Обои "Серый камень"', color: '#808080', action: 'куплено', quantity: 20, returns: 5, photo: bg },
-  { key: '9', date: '2023-10-09', returnDate: '2023-10-13', code: '#4451', name: 'Обои "Белый снег"', color: '#FFFFFF', action: 'куплено', quantity: 0, returns: 0, photo: bg },
-  { key: '10', date: '2023-10-10', returnDate: '2023-10-14', code: '#4452', name: 'Обои "Черная ночь"', color: '#000000', action: 'куплено', quantity: 6, returns: 2, photo: bg },
+  { key: '1', date: '2023-10-01', code: '#4443', name: 'Обои "Зеленый лес"', quantity: 10, photo: bg },
+  { key: '2', date: '2023-10-02', code: '#4444', name: 'Обои "Синий океан"', quantity: 5, photo: bg },
+  { key: '3', date: '2023-10-03', code: '#4445', name: 'Обои "Красный закат"', quantity: 8, photo: bg },
+  { key: '4', date: '2023-10-04', code: '#4446', name: 'Обои "Желтый песок"', quantity: 15, photo: bg },
+  { key: '5', date: '2023-10-05', code: '#4447', name: 'Обои "Фиолетовый туман"', quantity: 3, photo: bg },
+  { key: '6', date: '2023-10-06', code: '#4448', name: 'Обои "Голубое небо"', quantity: 7, photo: bg },
+  { key: '7', date: '2023-10-07', code: '#4449', name: 'Обои "Розовый рассвет"', quantity: 12, photo: bg },
+  { key: '8', date: '2023-10-08', code: '#4450', name: 'Обои "Серый камень"', quantity: 20, photo: bg },
+  { key: '9', date: '2023-10-09', code: '#4451', name: 'Обои "Белый снег"', quantity: 0, photo: bg },
+  { key: '10', date: '2023-10-10', code: '#4452', name: 'Обои "Черная ночь"', quantity: 6, photo: bg },
 ];
 
 export default function Report() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(4); // 4 карточки на странице
+  const [itemsPerPage, setItemsPerPage] = useState(5); // 4 карточки на странице
   const [filteredData, setFilteredData] = useState(dataSource);
 
   const updateItemsPerPage = () => {
-    setItemsPerPage(4); // Фиксированное количество карточек на странице
+    setItemsPerPage(5); // Фиксированное количество карточек на странице
   };
 
   useEffect(() => {
@@ -63,20 +64,20 @@ export default function Report() {
                 />
                 {/* Данные */}
                 <div className="w-3/4 flex flex-col gap-2">
-                <div className="flex gap-2 items-center justify-between">
-                <Tag color="blue">{item.code}</Tag>
-                <h4 className="text-sm font-semibold text-white">{item.name}</h4>
-                </div>
-                  
-                  <Tag style={{ backgroundColor: item.color, color: '#fff' }}>{item.color}</Tag>
-                  <p className="text-gray-300 text-xs">
-                    Дата покупки: {item.date}, куплено: {item.quantity} шт.
-                  </p>
-                  {item.returns > 0 && (
+                  <Tag color="blue" className="mb-2">
+                    Part: <span className="text-red-500">{item.code}</span>
+                  </Tag>
+                  <h4 className="text-sm font-semibold text-white mb-2">
+                    {item.name}
+                  </h4>
+                  <div className="flex justify-between">
                     <p className="text-gray-300 text-xs">
-                      Дата возврата: {item.returnDate}, возвращено: {item.returns} шт.
+                      Sonni: {item.quantity} ta
                     </p>
-                  )}
+                    <p className="text-gray-300 text-xs">
+                      Sana: {item.date}
+                    </p>
+                  </div>
                 </div>
               </div>
             </Card>

@@ -16,11 +16,11 @@ const AddProduct = ({ onClose, product }) => {
 
   const onSubmit = (data) => {
     if (data.quantity > product.stock) {
-      message.error(`Нельзя заказать больше ${product.stock} шт.`);
+      message.error(`Max ${product.stock} ta.`);
       return;
     }
     console.log("Forma ma'lumotlari:", data);
-    message.success(`Заказ на ${product.name} в количестве ${data.quantity} оформлен!`);
+    message.success(`Заказ на ${product.name} в количестве ${data.quantity} ta оформлен!`);
     reset(); // Formani tozalash
     onClose();
   };
@@ -48,16 +48,16 @@ const AddProduct = ({ onClose, product }) => {
         {product && (
           <Form.Item label={<span className="text-gray-100 font-semibold">Tovar nomi</span>}>
             <h3 className="text-gray-100 font-semibold">{product?.name}</h3>
-            <p className="text-gray-100 font-semibold">{product?.code}</p>
-            <span className="text-gray-100 font-semibold">{product?.stock} dona omborda</span>
+            <p className="text-gray-100 font-semibold"> Part: <span className="text-red-500">{product?.code}</span></p>
+            <span className="text-gray-100 font-semibold">{product?.stock} dona bor omborda</span>
           </Form.Item>
         )}
 
         {/* Поле для ввода количества */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Количество</span>}
+          label={<span className="text-gray-100 font-semibold">Soni</span>}
           validateStatus={errors.quantity ? "error" : ""}
-          help={errors.quantity?.message || (quantity > product?.stock && `Максимум ${product?.stock} шт.`)}
+          help={errors.quantity?.message || (quantity > product?.stock && `Max ${product?.stock} ta`)}
         >
           <Controller
             name="quantity"
@@ -66,16 +66,16 @@ const AddProduct = ({ onClose, product }) => {
               required: "Sonni kiriting",
               max: {
                 value: product?.stock, // Максимум product.stock
-                message: `Максимум ${product?.stock} шт.`,
+                message: `Max ${product?.stock} ta`,
               },
               min: {
                 value: 1,
-                message: "Минимум 1 шт.",
+                message: "Min 1 ta",
               },
             }}
             render={({ field }) => (
               <Input
-                placeholder="Введите количество"
+                placeholder="Sonnini kiriting"
                 className="custom-input"
                 {...field}
                 onChange={handleQuantityChange} // Обработчик для ограничения ввода
@@ -105,7 +105,7 @@ const AddProduct = ({ onClose, product }) => {
   onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#2b3445")}
   onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#364153")}
 >
-            Заказать
+           Buyurtma berish
           </Button>
         </Form.Item>
       </Form>
