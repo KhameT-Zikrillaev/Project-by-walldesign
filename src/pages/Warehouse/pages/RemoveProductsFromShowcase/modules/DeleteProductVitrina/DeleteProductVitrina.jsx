@@ -88,7 +88,7 @@ const DeleteProductVitrina = ({ onClose }) => {
           />
         </div>
         <Button type="primary" danger htmlType="submit" style={{ marginTop: 20, width: "100%" }}>
-          Удалить
+          O'chirish
         </Button>
       </Form>
     </div>

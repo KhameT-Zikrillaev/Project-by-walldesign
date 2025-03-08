@@ -31,17 +31,18 @@ export default function Warehouse() {
   const [filteredData, setFilteredData] = useState(dataSource);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = (product) => {
-    setSelectedProduct(product); // Устанавливаем выбранный товар
-    setIsModalOpen(true);
-  };
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~modal
+const [isModalOpen, setIsModalOpen] = useState(false);
+const showModal = (product) => {
+  setSelectedProduct(product); // Устанавливаем выбранный товар
+  setIsModalOpen(true);
+};
 
-  const onClose = () => {
-    setIsModalOpen(false);
-    setSelectedProduct(null); // Сбрасываем выбранный товар при закрытии модального окна
-  };
+const onClose = () => {
+  setIsModalOpen(false);
+  setSelectedProduct(null); // Сбрасываем выбранный товар при закрытии модального окна
+};
+
 
   const updateItemsPerPage = () => {
     setItemsPerPage(window.innerWidth < 768 ? 4 : 10);

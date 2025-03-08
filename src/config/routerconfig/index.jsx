@@ -22,6 +22,8 @@ import WarehouseShop from '@/pages/Warehouse/pages/Shop';
 import WarehouseReturnProducts from '@/pages/Warehouse/pages/Shop/pages/ReturnProducts';
 import WarehouseCashregister from '@/pages/Warehouse/pages/Cashregister';
 import WarehouseReport from '@/pages/Warehouse/pages/Report';
+import WarehouseViewDetaliesSendProducts from '@/pages/Warehouse/pages/SendProductsToShowcase/components/ViewDetaliesSendProducts'
+import WarehouseViewDetaliesRemoveProducts from '@/pages/Warehouse/pages/RemoveProductsFromShowcase/components/ViewDetaliesRemoveProducts'
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Seller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import Seller from '@/pages/Seller';
 import SellerProduct from '@/pages/Seller/pages/Product';
@@ -56,9 +58,12 @@ export default function RouterConfig() {
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~WAREHOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <Route path="/warehouse" element={<Warehouse />}>
         <Route index element={<Profile />} /> {/* Этот компонент будет отображаться при переходе на /warehouse */}
-        <Route path="product-list" element={<WarehouseProducts />} /> {/* /warehouse/products */}
+        <Route path="product-list/:name" element={<WarehouseProducts />} /> {/* /warehouse/products */}
         <Route path="send-to-showcase" element={<WarehouseSendProductsToShopView />} /> {/* /warehouse/send-to-showcase */}
+        <Route path="send-to-showcase/:name" element={<WarehouseViewDetaliesSendProducts />} /> {/* /warehouse/send-to-showcase */}
         <Route path="remove-from-showcase" element={<WarehouseRemoveProductsFromShowcase />} /> {/* /warehouse/remove-from-showcase */}
+        <Route path="remove-from-showcase/:name" element={<WarehouseViewDetaliesRemoveProducts />} /> {/* /warehouse/remove-from-showcase */}
+
         <Route path="transfer-to-warehouse" element={<WarehouseTransferProductsToWarehouse />} /> {/* /warehouse/transfer-to-warehouse */}
         <Route path="order-products" element={<WarehouseOrderProducts />} /> {/* /warehouse/order-products */}
         <Route path="cash-register" element={<WarehouseCashregister />} /> {/* /warehouse/cash */}
