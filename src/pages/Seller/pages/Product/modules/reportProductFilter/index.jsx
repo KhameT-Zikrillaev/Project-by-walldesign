@@ -1,25 +1,28 @@
-import React, { useState } from 'react';
-import { Input, DatePicker } from 'antd'; // Импортируем DatePicker из antd
+import React, { useState } from "react";
+import { Input, DatePicker } from "antd"; // Импортируем DatePicker из antd
 import { FaArchive } from "react-icons/fa";
-import dayjs from 'dayjs'; // Для работы с датами
+import dayjs from "dayjs"; // Для работы с датами
+import { useParams } from "react-router-dom";
 
 const { Search } = Input;
+const { RangePicker } = DatePicker;
 
-const SearchForm = ({ data, onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [date, setDate] = useState(null); // Состояние для хранения выбранной даты
+const ReportProductFilter = ({ data, onSearch }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [dates, setDates] = useState(dayjs()); // Состояние для хранения выбранных дат
+  const {name} = useParams();
 
   const handleSearch = (value) => {
     setSearchTerm(value);
-    const filteredData = data.filter(item =>
-      item.storeName.toLowerCase().includes(value.toLowerCase())
+    const filteredData = data.filter((item) =>
+      item.code.toLowerCase().includes(value.toLowerCase())
     );
     onSearch(filteredData); // Передаем отфильтрованные данные в родительский компонент
   };
 
-  const handleDateChange = (date) => {
-    setDate(date);
-    // Если нужно выполнить фильтрацию по дате, добавьте логику здесь
+  const handleDateChange = (dates) => {
+    setDates(dates);
+    // Если нужно выполнить фильтрацию по датам, добавьте логику здесь
   };
 
   return (
@@ -27,14 +30,17 @@ const SearchForm = ({ data, onSearch }) => {
       {/* Логотип и заголовок */}
       <div className="flex justify-center md:justify-start items-center">
         <FaArchive className="text-3xl text-white" />
-        <span className="text-xl font-semibold ml-2 text-white">Hisobotlar</span>
+        <span className="text-xl font-semibold ml-2 text-white">
+          {name} hisobotlari
+        </span>
       </div>
 
-      {/* Поле для выбора одной даты */}
+      {/* Поле для выбора диапазона дат */}
       <div className="flex flex-col md:flex-row gap-3">
         <DatePicker
           onChange={handleDateChange}
-          value={date}
+          value={dates}
+          defaultValue={dayjs()} // Boshlang‘ich vaqtni ko‘rsatish
           format="DD/MM/YYYY"
           className="custom-datepicker"
           style={{
@@ -42,7 +48,7 @@ const SearchForm = ({ data, onSearch }) => {
             "--placeholder-color": "white",
           }}
         />
-        {/* Поисковая строка */}
+
         <Search
           placeholder="Qidirish"
           onChange={(e) => handleSearch(e.target.value)}
@@ -54,4 +60,4 @@ const SearchForm = ({ data, onSearch }) => {
   );
 };
 
-export default SearchForm;
+export default ReportProductFilter;

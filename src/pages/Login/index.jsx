@@ -72,6 +72,9 @@ export default function Login() {
     }
     if (username === "seller" && password === "seller123") {
       navigate("/seller"); // Перенаправление на домашнюю страницу
+    } 
+    if (username === "director" && password === "director123") {
+      navigate("/director"); // Перенаправление на домашнюю страницу
     } else {
       setError("Неверный логин или пароль");
     }

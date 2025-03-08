@@ -1,14 +1,26 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom"; // Импортируем Link из react-router-dom
+import { Link, useNavigate, useLocation } from "react-router-dom"; // Импортируем Link, useNavigate и useLocation из react-router-dom
 import { FaArrowLeft } from "react-icons/fa"; // Импортируем иконку стрелки назад
 import logo from "@/assets/images/logo.png"; // Укажите правильный путь к вашему логотипу
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleGoBack = () => {
-    // Переход на предыдущую страницу
-    navigate(-1); // или navigate('/seller') для перехода на конкретный путь
+    // Переход на родительский маршрут вместо истории браузера
+    const pathParts = location.pathname.split('/');
+    
+    // Если мы находимся на глубине больше 2 уровней, вернемся на родительский маршрут
+    if (pathParts.length > 2) {
+      // Удаляем последний сегмент пути
+      pathParts.pop();
+      const parentPath = pathParts.join('/');
+      navigate(parentPath);
+    } else {
+      // Если мы на верхнем уровне, просто идем назад по истории
+      navigate(-1);
+    }
   };
 
   return (

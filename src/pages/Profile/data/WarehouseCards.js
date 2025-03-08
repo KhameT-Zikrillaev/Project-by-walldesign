@@ -55,8 +55,8 @@ import {
     },
     {
       icon: React.createElement(FaStore, { className: "text-4xl text-white mb-4" }),
-      title: "Do'kon",
-      description: "Do'konlarni boshqarish",
+      title: "Mahsulot qaytarish",
+      description: "Do'konlardan mahsulot qaytarish",
       link: "/warehouse/shop",
     },
     // {

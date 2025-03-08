@@ -1,10 +1,37 @@
-import React, { useState, useEffect } from "react";
-import { Card, Pagination, Tag } from "antd";
-import "antd/dist/reset.css";
-import bgsklad from "@/assets/images/bg-sklad.png";
-import SearchForm from "./modules/SearchForm";
-import ImageModal from "@/components/modal/ImageModal";
+import React, { useState, useEffect } from 'react';
+import { Card, Pagination, Tag } from 'antd';
+import 'antd/dist/reset.css';
+import bgsklad from '@/assets/images/bg-sklad.png';
+import SearchForm from '../modules/SearchForm';
 import bg from '@/assets/images/bg-login.jpg';
+import { useParams } from 'react-router-dom';
+import ImageModal from "@/components/modal/ImageModal";
+const products = [
+  { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
+  { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
+  { id: 3, name: "Mirzo Ulugbek", description: "Описание Mirzo Ulugbek" },
+  { id: 4, name: "Yakkasaray", description: "Описание Yakkasaray" },
+  { id: 5, name: "Shayxontoxur", description: "Описание Shayxontoxur" },
+  { id: 6, name: "Olmazor", description: "Описание Olmazor" },
+  { id: 7, name: "Bektemir", description: "Описание Bektemir" },
+  { id: 8, name: "Yashnobod", description: "Описание Yashnobod" },
+  { id: 9, name: "Mirobod", description: "Описание Mirobod" },
+  { id: 10, name: "Sergeli", description: "Описание Sergeli" },
+  { id: 11, name: "Uchtepa", description: "Описание Uchtepa" },
+  { id: 12, name: "Yangihayot", description: "Описание Yangihayot" },
+  { id: 13, name: "Tashkent District", description: "Описание Tashkent District" },
+  { id: 14, name: "Samarkand", description: "Описание Samarkand" },
+  { id: 15, name: "Bukhara", description: "Описание Bukhara" },
+  { id: 16, name: "Khiva", description: "Описание Khiva" },
+  { id: 17, name: "Fergana", description: "Описание Fergana" },
+  { id: 18, name: "Namangan", description: "Описание Namangan" },
+  { id: 19, name: "Andijan", description: "Описание Andijan" },
+  { id: 20, name: "Nukus", description: "Описание Nukus" },
+  { id: 21, name: "Urgench", description: "Описание Urgench" },
+  { id: 22, name: "Navoi", description: "Описание Navoi" },
+  { id: 23, name: "Jizzakh", description: "Описание Jizzakh" },
+  { id: 24, name: "Termez", description: "Описание Termez" },
+];
 
 const dataSource = [
   {
@@ -161,23 +188,23 @@ const dataSource = [
 
 export default function Report() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(9);
+  const [itemsPerPage, setItemsPerPage] = useState(5); // 5 карточек на странице
   const [filteredData, setFilteredData] = useState(dataSource);
   const [selectedImage, setSelectedImage] = useState(null);
+  const { name } = useParams(); // Получаем параметр name из URL
+  console.log('URL параметр name:', name);
+
+  const product = products.find((p) => p.name === name);
+  console.log('Найденный продукт:', product);
+
+  const updateItemsPerPage = () => {
+    setItemsPerPage(5); // Фиксированное количество карточек на странице
+  };
 
   useEffect(() => {
-    const updateItemsPerPage = () => {
-      if (window.innerWidth < 768) {
-        setItemsPerPage(4); // Для мобильных устройств
-      } else {
-        setItemsPerPage(9); // Для десктопов
-      }
-    };
-
-    updateItemsPerPage(); // Вызываем сразу при монтировании компонента
-    window.addEventListener("resize", updateItemsPerPage);
-
-    return () => window.removeEventListener("resize", updateItemsPerPage);
+    updateItemsPerPage();
+    window.addEventListener('resize', updateItemsPerPage);
+    return () => window.removeEventListener('resize', updateItemsPerPage);
   }, []);
 
   const currentData = filteredData.slice(
@@ -193,7 +220,7 @@ export default function Report() {
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
 
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-        <SearchForm data={dataSource} onSearch={setFilteredData} />
+        <SearchForm data={dataSource} name={product.name} onSearch={setFilteredData} />
         <div className="grid grid-cols-1 mb-4 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full px-4">
           {currentData.map((item) => (
             <Card
@@ -230,7 +257,7 @@ export default function Report() {
                       Jami narxi: {item.price * item.quantity} so'm
                     </p>
                     <p className="text-gray-300 text-xs">
-                      Sotilgan sanasi: {item.date}
+                      Berilgan sanasi: {item.date}
                     </p>
                   </div>
                 </div>

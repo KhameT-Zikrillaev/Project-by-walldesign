@@ -5,32 +5,31 @@ import 'antd/dist/reset.css';
 import bgsklad from '@/assets/images/bg-sklad.png';
 import SearchForm from '../modules/SearchForm';
 import bg from '@/assets/images/bg-login.jpg';
-import ImageModal from "@/components/modal/ImageModal";
 const products = [
-  { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
-  { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
-  { id: 3, name: "Mirzo Ulugbek", description: "Описание Mirzo Ulugbek" },
-  { id: 4, name: "Yakkasaray", description: "Описание Yakkasaray" },
-  { id: 5, name: "Shayxontoxur", description: "Описание Shayxontoxur" },
-  { id: 6, name: "Olmazor", description: "Описание Olmazor" },
-  { id: 7, name: "Bektemir", description: "Описание Bektemir" },
-  { id: 8, name: "Yashnobod", description: "Описание Yashnobod" },
-  { id: 9, name: "Mirobod", description: "Описание Mirobod" },
-  { id: 10, name: "Sergeli", description: "Описание Sergeli" },
-  { id: 11, name: "Uchtepa", description: "Описание Uchtepa" },
-  { id: 12, name: "Yangihayot", description: "Описание Yangihayot" },
-  { id: 13, name: "Tashkent District", description: "Описание Tashkent District" },
-  { id: 14, name: "Samarkand", description: "Описание Samarkand" },
-  { id: 15, name: "Bukhara", description: "Описание Bukhara" },
-  { id: 16, name: "Khiva", description: "Описание Khiva" },
-  { id: 17, name: "Fergana", description: "Описание Fergana" },
-  { id: 18, name: "Namangan", description: "Описание Namangan" },
-  { id: 19, name: "Andijan", description: "Описание Andijan" },
-  { id: 20, name: "Nukus", description: "Описание Nukus" },
-  { id: 21, name: "Urgench", description: "Описание Urgench" },
-  { id: 22, name: "Navoi", description: "Описание Navoi" },
-  { id: 23, name: "Jizzakh", description: "Описание Jizzakh" },
-  { id: 24, name: "Termez", description: "Описание Termez" },
+  { id: 1,  description: "Описание Chilanzar", name: "Magic Wall", warehouse: "Yunsobod" },
+  { id: 2,  description: "Описание Yunsabad", name: "Color Dreams", warehouse: "Chilanzar" },
+  { id: 3,  description: "Описание Mirzo Ulugbek", name: "Wall Master", warehouse: "Mirzo Ulugbek" },
+  { id: 4,  description: "Описание Yakkasaray", name: "Dream Decor", warehouse: "Yakkasaray" },
+  { id: 5,  description: "Описание Shayxontoxur", name: "Home Style", warehouse: "Shayxontoxur" },
+  { id: 6,  description: "Описание Olmazor", name: "Wall Art", warehouse: "Olmazor" },
+  { id: 7,  description: "Описание Bektemir", name: "Creative Walls", warehouse: "Bektemir" },
+  { id: 8,  description: "Описание Yashnobod", name: "Modern Decor", warehouse: "Yashnobod" },
+  { id: 9,  description: "Описание Mirobod", name: "Elegant Walls", warehouse: "Mirobod" },
+  { id: 10, description: "Описание Sergeli", name: "Wall Trends", warehouse: "Sergeli" },
+  { id: 11, description: "Описание Uchtepa", name: "Style Home", warehouse: "Uchtepa" },
+  { id: 12, description: "Описание Yangihayot", name: "Urban Decor", warehouse: "Yangihayot" },
+  { id: 13, description: "Описание Tashkent District", name: "Wall Vision", warehouse: "Tashkent District" },
+  { id: 14, description: "Описание Samarkand", name: "Golden Walls", warehouse: "Samarkand" },
+  { id: 15, description: "Описание Bukhara", name: "Heritage Decor", warehouse: "Bukhara" },
+  { id: 16, description: "Описание Khiva", name: "Ancient Walls", warehouse: "Khiva" },
+  { id: 17, description: "Описание Fergana", name: "Silk Road Decor", warehouse: "Fergana" },
+  { id: 18, description: "Описание Namangan", name: "Green Walls", warehouse: "Namangan" },
+  { id: 19, description: "Описание Andijan", name: "Bright Decor", warehouse: "Andijan" },
+  { id: 20, description: "Описание Nukus", name: "Desert Style", warehouse: "Nukus" },
+  { id: 21, description: "Описание Urgench", name: "Oasis Decor", warehouse: "Urgench" },
+  { id: 22, description: "Описание Navoi", name: "Mining Walls", warehouse: "Navoi" },
+  { id: 23, description: "Описание Jizzakh", name: "Valley Decor", warehouse: "Jizzakh" },
+  { id: 24, description: "Описание Termez", name: "Border Walls", warehouse: "Termez" },
 ];
 const dataSource = [
   { key: '1', code: 'OB001', name: 'Обои "Синий океан"', price: 1000, stock: 10, photo: bg },
@@ -60,7 +59,7 @@ export default function ProductDetails() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [filteredData, setFilteredData] = useState(dataSource);
-  const [selectedImage, setSelectedImage] = useState(null);
+
   const updateItemsPerPage = () => {
     setItemsPerPage(window.innerWidth < 768 ? 4 : 10);
   };
@@ -99,7 +98,6 @@ export default function ProductDetails() {
             style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
             cover={
               <div
-              onClick={() => setSelectedImage(item.photo)}
                 className="h-28 bg-cover bg-center rounded-t-lg"
                 style={{ backgroundImage: `url(${item.photo})` }}
               />
@@ -117,13 +115,6 @@ export default function ProductDetails() {
           </Card>
         ))}
       </div>
-      <ImageModal
-          isOpen={!!selectedImage}
-          onClose={() => setSelectedImage(null)}
-          imageUrl={selectedImage}
-        />
-
-
 
       <div className="my-2 mb-12 md:mb-0 flex justify-center">
         <Pagination

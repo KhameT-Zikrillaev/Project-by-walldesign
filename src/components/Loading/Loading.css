@@ -5,7 +5,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: #17212b; /* Белый фон (непрозрачный) */
+    background: #17212b;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,7 +29,7 @@
 .stripe {
     width: 10px;
     height: 50px;
-    background: linear-gradient(45deg, #a8c0ff, #3f2b96); /* Градиент, напоминающий текстуру обоев */
+    background: linear-gradient(45deg, #f6e05e, #d69e2e); /* Желтый градиент */
     animation: stretch 1.5s infinite ease-in-out;
 }
 
@@ -61,7 +61,7 @@
 .loading-text {
     margin-top: 20px;
     font-size: 18px;
-    color: #3f2b96; /* Цвет текста, сочетающийся с градиентом */
+    color: #d69e2e; /* Цвет текста, сочетающийся с градиентом */
     font-weight: bold;
     animation: fade 1.5s infinite;
 }

@@ -24,14 +24,14 @@ const SearchForm = ({ data, onSearch }) => {
       {/* Логотип и заголовок */}
       <div className="flex justify-center md:justify-start items-center">
         <AiOutlineAppstore className="text-3xl text-white" />
-        <span className="text-xl font-semibold text-white">Склад</span>
+        <span className="text-xl font-semibold text-white">Ombor</span>
       </div>
 
       {/* Поле для выбора диапазона дат */}
      
      
       <Search
-        placeholder="Поиск по названию"
+        placeholder="Qidirish"
         onChange={(e) => handleSearch(e.target.value)}
         enterButton
         className="custom-search max-w-md"
