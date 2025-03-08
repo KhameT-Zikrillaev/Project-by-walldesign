@@ -1,87 +1,30 @@
 import React, { useState } from "react";
 import { Table, Button, Space, Popconfirm, Pagination } from "antd";
 import { EditOutlined, DeleteOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { Input } from 'antd';
+import { Input } from "antd";
 import ModalComponent from "@/components/modal/Modal";
-import AddSeller2 from "./components/AddSeller2";
-import EditSeller2 from "./components/EditSeller2";
+import AddUser from "./components/AddUser";
+import EditUser from "./components/EditUser";
+
 const { Search } = Input;
 
 const data = [
-  {
-    key: 1,
-    name: "Sotuvchi 1",
-    login: "o31dB5NN",
-    password: "0WwYjrvtAv"
-  },
-  {
-    key: 2,
-    name: "Sotuvchi 2",
-    login: "YmTkjoV1",
-    password: "kkkrQmvF4e"
-  },
-  {
-    key: 3,
-    name: "Sotuvchi 3",
-    login: "y5q4qGGt",
-    password: "OdB9jiJm5G"
-  },
-  {
-    key: 4,
-    name: "Sotuvchi 4",
-    login: "WkP03NOr",
-    password: "p4PMQ9Xjfk"
-  },
-  {
-    key: 5,
-    name: "Sotuvchi 5",
-    login: "MGqOL7vT",
-    password: "HLFDu7stv1"
-  },
-  {
-    key: 6,
-    name: "Sotuvchi 6",
-    login: "VO5qDouV",
-    password: "Sli4tbrjbT"
-  },
-  {
-    key: 7,
-    name: "Sotuvchi 7",
-    login: "g7Zlez68",
-    password: "GQDjjGKTqL"
-  },
-  {
-    key: 8,
-    name: "Sotuvchi 8",
-    login: "Ppb6k104",
-    password: "rwreAAC5Kj"
-  },
-  {
-    key: 9,
-    name: "Sotuvchi 9",
-    login: "QLyc76vY",
-    password: "miO8IWiMBw"
-  },
-  {
-    key: 10,
-    name: "Sotuvchi 10",
-    login: "GvRez2ap",
-    password: "ezb9ilSxrC"
-  },
-  {
-    key: 11,
-    name: "Sotuvchi 11",
-    login: "Uv0uKgFR",
-    password: "Y22SRWw1pC"
-  }
-]
+  { key: "1", name: "Markaziy Ombor", login: "admin", password: "admin123", phone_number: "123456789", isAllowed: true },
+  { key: "2", name: "Janubiy Filial", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "3", name: "Shimoliy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "4", name: "Sharqiy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "5", name: "G‘arbiy Filial", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "6", name: "Bosh Ofis Ombori", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "7", name: "Kichik Ombor 1", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "8", name: "Kichik Ombor 2", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "9", name: "Katta Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "10", name: "Mahalliy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
+  { key: "11", name: "Eksport Ombori", login: "admin", password: "admin123", phone_number: "123456789" },
+];
 
-
-
-
-const Seller = () => {
+const Statistics = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [defaultSingleData, setDefaultSingleData] = useState(null);
+  const [storageSingleData, setStorageSingleData] = useState(null);
   const [formType, setFormType] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -93,11 +36,11 @@ const Seller = () => {
 
   const onClose = () => {
     setIsModalOpen(false);
-    setDefaultSingleData(null);
+    setStorageSingleData(null);
   };
-  
+
   const handleEdit = (record) => {
-    setDefaultSingleData(record);
+    setStorageSingleData(record);
     showModal("edit");
   };
 
@@ -142,7 +85,7 @@ const Seller = () => {
       width: 70,
     },
     {
-      title: "Sotuvchi nomi",
+      title: "Ombor nomi",
       dataIndex: "name",
       key: "name",
       render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
@@ -157,6 +100,12 @@ const Seller = () => {
       title: "Parol",
       dataIndex: "password",
       key: "password",
+      render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
+    },
+    {
+      title: "Telfon raqami",
+      dataIndex: "phone_number",
+      key: "phone_number",
       render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
     },
     {
@@ -186,24 +135,24 @@ const Seller = () => {
   return (
     <div className="p-5">
       <div className="flex justify-between items-center mb-5">
-        <div className="text-3xl font-bold  text-gray-100">Defaultlar</div>
+        <div className="text-3xl font-bold text-gray-100">Omborlar</div>
         <div className="flex gap-3 items-center">
-        <Search placeholder="Qidirish" onSearch={onSearch} enterButton className="custom-search"/>
-        <Button
-          type="primary"
-          style={{
-            backgroundColor: "#364153",
-            color: "#f3f4f6",
-            fontWeight: "500",
-            padding: "17px 20px",
-            borderRadius: "8px",
-            fontSize: "20px"
-          }}
-          className="hover:bg-[#0056b3] hover:border-[#004494] focus:bg-[#004494] "
-          onClick={() => showModal("add")}
-        >
-          Qo'shish
-        </Button>
+          <Search placeholder="Qidirish" onSearch={onSearch} enterButton className="custom-search" />
+          <Button
+            type="primary"
+            style={{
+              backgroundColor: "#364153",
+              color: "#f3f4f6",
+              fontWeight: "500",
+              padding: "17px 20px",
+              borderRadius: "8px",
+              fontSize: "20px",
+            }}
+            className="hover:bg-[#0056b3] hover:border-[#004494] focus:bg-[#004494]"
+            onClick={() => showModal("add")}
+          >
+            Qo'shish
+          </Button>
         </div>
       </div>
       <div className="text-gray-100">
@@ -229,12 +178,12 @@ const Seller = () => {
       <ModalComponent
         isOpen={isModalOpen}
         onClose={onClose}
-        title={formType === "add" ? "Sotuvchi 2 qo'shish" : "Sotuvchi 2 ni tahrirlash"}
+        title={formType === "add" ? "Ombor 2 qo'shish" : "Ombor 2 ni tahrirlash"}
       >
-       {formType === "add" ? <AddSeller2 onClose={onClose}/> : <EditSeller2 onClose={onClose} defaultSingleData={defaultSingleData}/>} 
+        {formType === "add" ? <AddUser onClose={onClose} /> : <EditUser onClose={onClose} storageSingleData={storageSingleData} />}
       </ModalComponent>
     </div>
   );
 };
 
-export default Seller;
+export default Statistics;

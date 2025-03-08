@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input, Button, Form, message } from "antd";
 
-const AddDefault = ({onClose}) => {
+const EditSeller2 = ({ onClose, defaultSingleData }) => {
   const {
     handleSubmit,
     control,
@@ -10,9 +10,16 @@ const AddDefault = ({onClose}) => {
     reset,
   } = useForm();
 
+  // storageSingleData bor bo‘lsa, formani shu ma’lumotlar bilan to‘ldiramiz
+  useEffect(() => {
+    if (defaultSingleData) {
+      reset(defaultSingleData);
+    }
+  }, [defaultSingleData, reset]);
+
   const onSubmit = (data) => {
     console.log("Forma ma'lumotlari:", data);
-    message.success("Default muvaffaqiyatli qo‘shildi!");
+    message.success("Default muvaffaqiyatli yangilandi!");
     reset(); // Formani tozalash
     onClose();
   };
@@ -22,20 +29,21 @@ const AddDefault = ({onClose}) => {
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
         {/* Ombor nomi */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Default nomi</span>}
+          label={<span className="text-gray-100 font-semibold">Deafult nomi</span>}
           validateStatus={errors.name ? "error" : ""}
           help={errors.name?.message}
         >
           <Controller
             name="name"
             control={control}
-            rules={{ required: "Default nomi majburiy" }}
+            rules={{ required: "default nomi majburiy" }}
             render={({ field }) => (
-              <Input placeholder="Default nomini kiriting" className="custom-input" {...field} />
+              <Input placeholder="default nomini kiriting" className="custom-input" {...field} />
             )}
           />
         </Form.Item>
-        
+
+        {/* Login */}
         <Form.Item
           label={<span className="text-gray-100 font-semibold">Login</span>}
           validateStatus={errors.login ? "error" : ""}
@@ -50,6 +58,8 @@ const AddDefault = ({onClose}) => {
             )}
           />
         </Form.Item>
+
+        {/* Parol */}
         <Form.Item
           label={<span className="text-gray-100 font-semibold">Parol</span>}
           validateStatus={errors.password ? "error" : ""}
@@ -60,7 +70,7 @@ const AddDefault = ({onClose}) => {
             control={control}
             rules={{ required: "Parol majburiy" }}
             render={({ field }) => (
-              <Input placeholder="Parolni kiriting" className="custom-input" {...field} />
+              <Input placeholder="Parolni kiriting" type="text" className="custom-input" {...field} />
             )}
           />
         </Form.Item>
@@ -77,10 +87,10 @@ const AddDefault = ({onClose}) => {
               padding: "15px 20px",
               borderRadius: "8px",
               fontSize: "18px",
-              width: "100%"
+              width: "100%",
             }}
           >
-            Yaratish
+            Tahrirlash
           </Button>
         </Form.Item>
       </Form>
@@ -88,4 +98,4 @@ const AddDefault = ({onClose}) => {
   );
 };
 
-export default AddDefault;
+export default EditSeller2;

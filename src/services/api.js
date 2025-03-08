@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://your-api.com/api/v1', // Asosiy API manzili
+  baseURL: 'https://fe0c-82-215-106-106.ngrok-free.app/', // Asosiy API manzili
+  // withCredentials: true,
 });
 
 api.interceptors.response.use(

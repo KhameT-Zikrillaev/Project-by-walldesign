@@ -22,7 +22,9 @@ body {
 .custom-table .ant-table-tbody > tr > td {
   border-color: #4a5568 !important;
 }
-
+.custom-table .ant-table-tbody .ant-table-cell{
+  background-color: #364153 !important;
+}
 /* Qatorlarning standart foni */
 .custom-row {
   background-color: #2b3a4a !important;

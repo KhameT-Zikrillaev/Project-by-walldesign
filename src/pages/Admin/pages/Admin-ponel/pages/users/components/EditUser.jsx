@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Input, Button, Form, message } from "antd";
+import { Input, Button, Form, message, Switch  } from "antd";
 
-const EditDefault = ({ onClose, defaultSingleData }) => {
+const EditUser = ({ onClose, storageSingleData }) => {
   const {
     handleSubmit,
     control,
@@ -12,14 +12,14 @@ const EditDefault = ({ onClose, defaultSingleData }) => {
 
   // storageSingleData bor bo‘lsa, formani shu ma’lumotlar bilan to‘ldiramiz
   useEffect(() => {
-    if (defaultSingleData) {
-      reset(defaultSingleData);
+    if (storageSingleData) {
+      reset(storageSingleData);
     }
-  }, [defaultSingleData, reset]);
+  }, [storageSingleData, reset]);
 
   const onSubmit = (data) => {
     console.log("Forma ma'lumotlari:", data);
-    message.success("Default muvaffaqiyatli yangilandi!");
+    message.success("Ombor 2 muvaffaqiyatli yangilandi!");
     reset(); // Formani tozalash
     onClose();
   };
@@ -29,16 +29,32 @@ const EditDefault = ({ onClose, defaultSingleData }) => {
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
         {/* Ombor nomi */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Deafult nomi</span>}
+          label={<span className="text-gray-100 font-semibold">Ombor 2 nomi</span>}
           validateStatus={errors.name ? "error" : ""}
           help={errors.name?.message}
         >
           <Controller
             name="name"
             control={control}
-            rules={{ required: "default nomi majburiy" }}
+            rules={{ required: "Ombor 2 nomi majburiy" }}
             render={({ field }) => (
-              <Input placeholder="default nomini kiriting" className="custom-input" {...field} />
+              <Input placeholder="Ombor 2 nomini kiriting" className="custom-input" {...field} />
+            )}
+          />
+        </Form.Item>
+
+        {/* Telefon raqami */}
+        <Form.Item
+          label={<span className="text-gray-100 font-semibold">Telefon raqami</span>}
+          validateStatus={errors.phone_number ? "error" : ""}
+          help={errors.phone_number?.message}
+        >
+          <Controller
+            name="phone_number"
+            control={control}
+            rules={{ required: "Telefon raqami majburiy" }}
+            render={({ field }) => (
+              <Input placeholder="Telefon raqamini kiriting" className="custom-input" {...field} />
             )}
           />
         </Form.Item>
@@ -74,6 +90,18 @@ const EditDefault = ({ onClose, defaultSingleData }) => {
             )}
           />
         </Form.Item>
+        <Form.Item label={<span className="text-gray-100 font-semibold">Ruxsat berish</span>}>
+          <Controller
+            name="isAllowed"
+            control={control}
+            render={({ field }) => (
+              <Switch
+                checked={field.value}
+                onChange={field.onChange}
+              />
+            )}
+          />
+        </Form.Item>
 
         {/* Yuborish tugmasi */}
         <Form.Item>
@@ -98,4 +126,4 @@ const EditDefault = ({ onClose, defaultSingleData }) => {
   );
 };
 
-export default EditDefault;
+export default EditUser;

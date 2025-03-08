@@ -8,19 +8,7 @@ import EditStorage from "./components/EditStorage";
 
 const { Search } = Input;
 
-const data = [
-  { key: "1", name: "Markaziy Ombor", login: "admin", password: "admin123", phone_number: "123456789", isAllowed: true },
-  { key: "2", name: "Janubiy Filial", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "3", name: "Shimoliy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "4", name: "Sharqiy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "5", name: "G‘arbiy Filial", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "6", name: "Bosh Ofis Ombori", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "7", name: "Kichik Ombor 1", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "8", name: "Kichik Ombor 2", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "9", name: "Katta Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "10", name: "Mahalliy Ombor", login: "admin", password: "admin123", phone_number: "123456789" },
-  { key: "11", name: "Eksport Ombori", login: "admin", password: "admin123", phone_number: "123456789" },
-];
+
 
 const Statistics = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -158,7 +146,8 @@ const Statistics = () => {
       <div className="text-gray-100">
         <Table
           columns={columns}
-          dataSource={data.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
+          // dataSource={(data?.slice((currentPage - 1) * pageSize, currentPage * pageSize)) || []}
+          dataSource={[]}
           pagination={false}
           className="custom-table"
           rowClassName={() => "custom-row"}
@@ -168,7 +157,8 @@ const Statistics = () => {
           <Pagination
             className="custom-pagination"
             current={currentPage}
-            total={data.length}
+            // total={data?.length}
+            total={0}
             pageSize={pageSize}
             onChange={(page) => setCurrentPage(page)}
             itemRender={itemRender}

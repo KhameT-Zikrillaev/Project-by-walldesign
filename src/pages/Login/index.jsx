@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Импортируем иконки "глазика"
-import bg from '@/assets/images/bg-login.jpg'; // Импортируем изображение
-import logo from '@/assets/images/logo.png'; // Импортируем изображение
-import Loading from '@/components/Loading/Loading';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Импортируем иконки "глазика"
+import bg from "@/assets/images/bg-login.jpg"; // Импортируем изображение
+import logo from "@/assets/images/logo.png"; // Импортируем изображение
+import Loading from "@/components/Loading/Loading";
+import useApiMutation from "../../hooks/useApiMutation";
+import api from "../../services/api";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true); // Состояние загрузки
+  const [newError, setError] = useState("");
+  const [loading, setIsLoading] = useState(true); // Состояние загрузки
   const [showPassword, setShowPassword] = useState(false); // Состояние для отображения пароля
+  const [loadingUser, setLoadingUser] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -18,9 +21,41 @@ export default function Login() {
 
     return () => clearTimeout(timer); // Очистка таймера при размонтировании компонента
   }, []);
+
+  const { mutate, isLoading, isSuccess, isError, error } = useApiMutation({
+    url: "auth/login",
+    method: "POST",
+    onSuccess: async (data) => {
+      console.log(data?.accsessToken);
+      if (data?.accessToken) {
+        localStorage.setItem("token", data.accessToken); // Tokenni saqlaymiz
+        try {
+          setLoadingUser(true); // Yangi so'rov boshlanishidan oldin yuklanishni ko'rsatamiz
+          const response = await api.get("auth/profile", {
+            headers: { Authorization: `Bearer ${data.accessToken}` },
+          });
+          console.log("User data:", response.data);
+
+          // navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
+        } catch (error) {
+          console.error("User data error:", error);
+          alert("Foydalanuvchi ma'lumotlarini olishda xatolik yuz berdi");
+        } finally {
+          setLoadingUser(false);
+        }
+      }
+    },
+    onError: (error) => {
+      console.error("Error creating user:", error);
+      alert("Xatolik yuz berdi!");
+    },
+  });
+
   const handleLogin = (e) => {
     e.preventDefault();
     setError(""); // Сбрасываем ошибку перед проверкой
+
+    mutate({ phone: username, password });
 
     // Проверка на пустые поля
     if (!username || !password) {
@@ -68,7 +103,7 @@ export default function Login() {
         }}
       ></div>
       <div className="absolute inset-0 bg-opacity-50"></div>
-      {isLoading && <Loading />}
+      {loading && <Loading />}
       {/* Левая часть с логотипом */}
       <div className="w-full md:w-1/2  flex items-center justify-center mb-8 md:mb-0 relative z-10">
         <div className="">
@@ -90,7 +125,7 @@ export default function Login() {
           <div className="absolute inset-0 border-2 border-white/10 rounded-2xl pointer-events-none"></div>
           <div className="absolute inset-4 border-2 border-white/10 rounded-xl pointer-events-none"></div>
 
-          <h2 className="text-3xl font-bold mb-8 text-center text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+          <h2 className="text-3xl font-bold mb-8 text-center text-white bg-clip-text ">
             Вход
           </h2>
           <div className="mb-6">
@@ -105,7 +140,7 @@ export default function Login() {
               id="username"
               placeholder="Введите логин"
               value={username}
-              style={{ color: 'white' }}
+              style={{ color: "white" }}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-3 border-2 border-white/20 rounded-xl focus:outline-none focus:border-white/40 bg-white/10 text-white placeholder-white/50 transition-all duration-300"
             />
@@ -123,13 +158,13 @@ export default function Login() {
               placeholder="Введите пароль"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={{ color: 'white' }}
+              style={{ color: "white" }}
               className="w-full px-4  py-3 border-2 border-white/20 rounded-xl focus:outline-none focus:border-white/40 bg-white/10 text-white !important  placeholder-white/50 transition-all duration-300 pr-12" // Добавляем отступ для иконки
             />
             {/* Иконка "глазика" */}
             <button
               type="button"
-              style={{ color: 'white' }}
+              style={{ color: "white" }}
               onClick={() => setShowPassword(!showPassword)} // Переключаем видимость пароля
               className="absolute cursor-pointer inset-y-0 top-[40%] right-0 pr-3 flex items-center text-white/90 hover:text-white/80 transition-all duration-300"
               // Позиционируем иконку
@@ -142,12 +177,12 @@ export default function Login() {
               {error}
             </div>
           )}
-         <button
-  type="submit"
-  className="w-full cursor-pointer py-3 px-6 rounded-xl bg-yellow-400 text-gray-900 font-bold hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:ring-offset-2 focus:ring-offset-yellow-100 transition-all duration-300 border-2 border-yellow-500/30 hover:border-yellow-500/50 shadow-lg hover:shadow-xl active:scale-95"
->
-  Войти
-</button>
+          <button
+            type="submit"
+            className="w-full cursor-pointer py-3 px-6 rounded-xl bg-yellow-400 text-gray-900 font-bold hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:ring-offset-2 focus:ring-offset-yellow-100 transition-all duration-300 border-2 border-yellow-500/30 hover:border-yellow-500/50 shadow-lg hover:shadow-xl active:scale-95"
+          >
+            Войти
+          </button>
         </form>
       </div>
     </div>
