@@ -4,7 +4,7 @@ import "antd/dist/reset.css";
 import bgsklad from "../../../../../assets/images/bg-sklad.png";
 import ReportProductFilter from "../modules/reportProductFilter";
 import { useParams } from "react-router-dom";
-import ImageModal from "./ImageModal";
+import ImageModal from "@/components/modal/ImageModal";
 import  bg  from '@/assets/images/bg-login.jpg';
 
 const dataSource = [

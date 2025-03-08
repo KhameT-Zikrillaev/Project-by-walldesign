@@ -6,7 +6,7 @@ import SearchForm from './modules/SearchForm';
 import bg from '../../../../assets/images/bg-login.jpg';
 import ModalComponent from "@/components/modal/Modal";
 import AddProduct from "./modules/AddProduct/AddProduct";
-
+import ImageModal from "@/components/modal/ImageModal";
 const dataSource = [
   { key: '1', code: 'OB001', name: 'Обои "Синий океан"', price: 1000, stock: 10, photo: bg },
   { key: '2', code: 'OB002', name: 'Обои "Зеленый лес"', price: 1200, stock: 5, photo: bg },
@@ -30,7 +30,7 @@ export default function Warehouse() {
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [filteredData, setFilteredData] = useState(dataSource);
   const [selectedProduct, setSelectedProduct] = useState(null);
-
+  const [selectedImage, setSelectedImage] = useState(null);
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~modal
 const [isModalOpen, setIsModalOpen] = useState(false);
 const showModal = (product) => {
@@ -77,6 +77,7 @@ const onClose = () => {
               style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
               cover={
                 <div
+                  onClick={() => setSelectedImage(item.photo)}
                   className="h-28 bg-cover bg-center rounded-t-lg"
                   style={{ backgroundImage: `url(${item.photo})` }}
                 />
@@ -103,7 +104,11 @@ const onClose = () => {
             </Card>
           ))}
         </div>
-
+        <ImageModal
+          isOpen={!!selectedImage}
+          onClose={() => setSelectedImage(null)}
+          imageUrl={selectedImage}
+        />
         <div className="my-2 mb-12 md:mb-0 flex justify-center">
           <Pagination
             current={currentPage}
