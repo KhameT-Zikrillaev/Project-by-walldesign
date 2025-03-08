@@ -246,7 +246,7 @@ export default function Report() {
           imageUrl={selectedImage}
         />
 
-        <div className="my-2 mb-12 md:mb-0  flex justify-center">
+        <div className="my-2 mb-12 md:mb-2  flex justify-center">
           <Pagination
             current={currentPage}
             total={filteredData.length}

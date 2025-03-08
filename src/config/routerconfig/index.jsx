@@ -11,6 +11,7 @@ import AdminAdminPanel from '@/pages/Admin/pages/Admin-ponel/index';
 import AdminStorege from '@/pages/Admin/pages/Admin-ponel/pages/storege';
 import AdminUsers from '@/pages/Admin/pages/Admin-ponel/pages/users';
 import AdminReport from '@/pages/Admin/pages/Report';
+import AdminReportDetails from '@/pages/Admin/pages/Report/components/ReportProductDetails';
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Warehouse~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import Warehouse from '@/pages/Warehouse';
 import WarehouseProducts from '@/pages/Warehouse/pages/Product';
@@ -55,7 +56,7 @@ export default function RouterConfig() {
           {/* /admin/admin-panel/users */}
         </Route>
         <Route path="report" element={<AdminReport />} />
-        <Route path="report/:name" element={<ReportProductDetails />} />
+        <Route path="report/:name" element={<AdminReportDetails />} />
       </Route>
 
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~WAREHOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
