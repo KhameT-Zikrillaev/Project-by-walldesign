@@ -12,7 +12,7 @@ export default function ImageModal({ isOpen, onClose, imageUrl }) {
       >
         {/* Close button */}
         <button
-          className="absolute top-4 cursor-pointer right-4 bg-gray-800 text-white rounded-full w-8 h-8 flex items-center justify-center"
+          className="absolute -top-8 cursor-pointer -right-8 bg-gray-800 text-white rounded-full w-8 h-8 flex items-center justify-center"
           onClick={onClose}
         >
           <span className="text-white cursor-pointer">✕</span>

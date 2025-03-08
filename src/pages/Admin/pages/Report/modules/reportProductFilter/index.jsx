@@ -10,7 +10,7 @@ const { RangePicker } = DatePicker;
 const ReportProductFilter = ({ data, onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [dates, setDates] = useState(dayjs()); // Состояние для хранения выбранных дат
-  const {name} = useParams()
+  const {name} = useParams();
 
   const handleSearch = (value) => {
     setSearchTerm(value);
