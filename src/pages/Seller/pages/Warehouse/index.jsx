@@ -77,7 +77,7 @@ const onClose = () => {
               style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
               cover={
                 <div
-                  onClick={() => setSelectedImage(item.photo)}
+                onClick={() => setSelectedImage(item.photo)}
                   className="h-28 bg-cover bg-center rounded-t-lg"
                   style={{ backgroundImage: `url(${item.photo})` }}
                 />
