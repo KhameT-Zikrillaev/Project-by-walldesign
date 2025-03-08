@@ -46,13 +46,16 @@ export default function RouterConfig() {
       <Route path="*" element={<Error404 />} />
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ADMIN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <Route path="/admin" element={<Admin />}>
-        <Route index element={<Profile />} /> {/* Этот компонент будет отображаться при переходе на /admin */}
-        
+        <Route index element={<Profile />} />{" "}
+        {/* Этот компонент будет отображаться при переходе на /admin */}
         <Route path="admin-panel" element={<AdminAdminPanel />}>
-          <Route path="storege" element={<AdminStorege />} /> {/* /admin/admin-panel/statistics */}
-          <Route path="users" element={<AdminUsers />} /> {/* /admin/admin-panel/users */}
+          <Route path="storege" element={<AdminStorege />} />{" "}
+          {/* /admin/admin-panel/statistics */}
+          <Route path="users" element={<AdminUsers />} />{" "}
+          {/* /admin/admin-panel/users */}
         </Route>
-        <Route path="report" element={<AdminReport />}></Route>
+        <Route path="report" element={<AdminReport />} />
+        <Route path="report/:name" element={<ReportProductDetails />} />
       </Route>
 
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~WAREHOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
@@ -70,18 +73,22 @@ export default function RouterConfig() {
         <Route path="shop" element={<WarehouseShop />}/>
         <Route path="report" element={<WarehouseReport />}></Route>
         <Route path="shop">
-          <Route path="return-products" element={<WarehouseReturnProducts />} /> {/* /warehouse/shop/return-products */}
+          <Route path="return-products" element={<WarehouseReturnProducts />} />{" "}
+          {/* /warehouse/shop/return-products */}
         </Route>
       </Route>
 
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SELLER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <Route path="/seller" element={<Seller />}>
-        <Route index element={<Profile />} /> {/* Этот компонент будет отображаться при переходе на /seller */}
-        <Route path="product-list" element={<SellerProduct />} /> {/* /seller/product-list */}
-        <Route path="warehouse" element={<SellerWarehouse />} /> {/* /seller/warehouse */}
-        <Route path="report" element={<SellerReport />} /> {/* /seller/report */}
+        <Route index element={<Profile />} />{" "}
+        {/* Этот компонент будет отображаться при переходе на /seller */}
+        <Route path="product-list" element={<SellerProduct />} />{" "}
+        {/* /seller/product-list */}
+        <Route path="warehouse" element={<SellerWarehouse />} />{" "}
+        {/* /seller/warehouse */}
+        <Route path="report" element={<SellerReport />} />{" "}
+        {/* /seller/report */}
       </Route>
-
 
       {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~DIRECTOR~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <Route path="/director" element={<Director />}>
