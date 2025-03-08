@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { DatePicker, Input, Button } from "antd";
+import { FaPencilAlt } from "react-icons/fa"; // Импортируем иконку карандаша
+
+const { TextArea } = Input;
 
 const districts = [
-  { id: 1,  description: "Описание Chilanzar", name: "Magic Wall", warehouse: "Yunsobod" },
-  { id: 2,  description: "Описание Yunsabad", name: "Color Dreams", warehouse: "Chilanzar" },
-  { id: 3,  description: "Описание Mirzo Ulugbek", name: "Wall Master", warehouse: "Mirzo Ulugbek" },
-  { id: 4,  description: "Описание Yakkasaray", name: "Dream Decor", warehouse: "Yakkasaray" },
-  { id: 5,  description: "Описание Shayxontoxur", name: "Home Style", warehouse: "Shayxontoxur" },
-  { id: 6,  description: "Описание Olmazor", name: "Wall Art", warehouse: "Olmazor" },
-  { id: 7,  description: "Описание Bektemir", name: "Creative Walls", warehouse: "Bektemir" },
-  { id: 8,  description: "Описание Yashnobod", name: "Modern Decor", warehouse: "Yashnobod" },
-  { id: 9,  description: "Описание Mirobod", name: "Elegant Walls", warehouse: "Mirobod" },
+  { id: 1, description: "Описание Chilanzar", name: "Magic Wall", warehouse: "Yunsobod" },
+  { id: 2, description: "Описание Yunsabad", name: "Color Dreams", warehouse: "Chilanzar" },
+  { id: 3, description: "Описание Mirzo Ulugbek", name: "Wall Master", warehouse: "Mirzo Ulugbek" },
+  { id: 4, description: "Описание Yakkasaray", name: "Dream Decor", warehouse: "Yakkasaray" },
+  { id: 5, description: "Описание Shayxontoxur", name: "Home Style", warehouse: "Shayxontoxur" },
+  { id: 6, description: "Описание Olmazor", name: "Wall Art", warehouse: "Olmazor" },
+  { id: 7, description: "Описание Bektemir", name: "Creative Walls", warehouse: "Bektemir" },
+  { id: 8, description: "Описание Yashnobod", name: "Modern Decor", warehouse: "Yashnobod" },
+  { id: 9, description: "Описание Mirobod", name: "Elegant Walls", warehouse: "Mirobod" },
   { id: 10, description: "Описание Sergeli", name: "Wall Trends", warehouse: "Sergeli" },
   { id: 11, description: "Описание Uchtepa", name: "Style Home", warehouse: "Uchtepa" },
   { id: 12, description: "Описание Yangihayot", name: "Urban Decor", warehouse: "Yangihayot" },
@@ -30,9 +33,62 @@ const districts = [
 
 export default function Seller() {
   const [visibleDistricts, setVisibleDistricts] = useState(12);
+  const [expandedCard, setExpandedCard] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [comment, setComment] = useState("");
+  const [errors, setErrors] = useState({ date: false, comment: false }); // Состояние для ошибок
 
   const loadMoreDistricts = () => {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
+  };
+
+  const toggleExpand = (id) => {
+    if (expandedCard === id) {
+      setExpandedCard(null);
+    } else {
+      setExpandedCard(id);
+    }
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    setErrors((prev) => ({ ...prev, date: false })); // Сбрасываем ошибку даты
+  };
+
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+    setErrors((prev) => ({ ...prev, comment: false })); // Сбрасываем ошибку комментария
+  };
+
+  const handleMark = () => {
+    let hasError = false;
+    const newErrors = { date: false, comment: false };
+
+    if (!selectedDate) {
+      newErrors.date = true;
+      hasError = true;
+    }
+    if (!comment.trim()) {
+      newErrors.comment = true;
+      hasError = true;
+    }
+
+    setErrors(newErrors); // Устанавливаем ошибки
+
+    if (hasError) {
+      return; // Прерываем выполнение, если есть ошибки
+    }
+
+    // Логика для отметки (можно добавить отправку данных или другие действия)
+    console.log("Дата:", selectedDate);
+    console.log("Комментарий:", comment);
+    alert("Успешно отправлено!");
+
+    // Закрываем карточку
+    setExpandedCard(null);
+    // Очищаем поля
+    setSelectedDate(null);
+    setComment("");
   };
 
   return (
@@ -40,17 +96,65 @@ export default function Seller() {
       <h3 className="text-white mb-4 text-center">Sotuvchilar</h3>
       <div className="grid grid-cols-2 gap-4">
         {districts.slice(0, visibleDistricts).map((district) => (
-          <Link
+          <div
             key={district.id}
-            to={`/director/seller-list/${district.name}`}
             className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
           >
-            <h4 className="text-lg font-semibold">{district.name}</h4>
-            <p className="text-sm text-gray-300">{district.description}</p>
-            <div className="mt-2">
-              <p className="text-sm">Ombor: {district.warehouse}</p>
+            <div className="flex justify-between items-center">
+              <div>
+                <h4 className="text-lg font-semibold">{district.name}</h4>
+                <p className="text-sm text-gray-300">{district.description}</p>
+                <div className="mt-2">
+                  <p className="text-sm">Ombor: {district.warehouse}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => toggleExpand(district.id)}
+                className="flex items-center cursor-pointer gap-2 text-white hover:text-gray-300 transition"
+              >
+                {expandedCard === district.id ? (
+                  "×" // Крестик для закрытия
+                ) : (
+                  <> 
+                    <FaPencilAlt className="text-lg" />
+                    <span>отметить</span>
+                  </>
+                )}
+              </button>
             </div>
-          </Link>
+            {expandedCard === district.id && (
+              <div className="mt-4">
+                <DatePicker
+                  onChange={handleDateChange}
+                  className="w-full mb-2 bg-gray-800 text-white"
+                  style={{ backgroundColor: "#1F2937", color: "white" }}
+                  required
+                />
+                {errors.date && (
+                  <p className="text-red-500 text-sm mb-2">Пожалуйста, выберите дату!</p>
+                )}
+                <TextArea
+                  rows={2}
+                  placeholder="Комментарий"
+                  value={comment}
+                  onChange={handleCommentChange}
+                  className="mb-2 bg-gray-800 text-white"
+                  style={{ backgroundColor: "#1F2937", color: "white" }}
+                  required
+                />
+                {errors.comment && (
+                  <p className="text-red-500 text-sm mb-2">Пожалуйста, введите комментарий!</p>
+                )}
+                <Button
+                  type="primary"
+                  onClick={handleMark}
+                  className="w-full"
+                >
+                  Отметить
+                </Button>
+              </div>
+            )}
+          </div>
         ))}
       </div>
       {visibleDistricts < districts.length && (
