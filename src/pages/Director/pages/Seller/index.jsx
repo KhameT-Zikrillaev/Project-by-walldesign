@@ -5,30 +5,150 @@ import { FaPencilAlt } from "react-icons/fa"; // Импортируем икон
 const { TextArea } = Input;
 
 const districts = [
-  { id: 1, description: "Описание Chilanzar", name: "Magic Wall", warehouse: "Yunsobod" },
-  { id: 2, description: "Описание Yunsabad", name: "Color Dreams", warehouse: "Chilanzar" },
-  { id: 3, description: "Описание Mirzo Ulugbek", name: "Wall Master", warehouse: "Mirzo Ulugbek" },
-  { id: 4, description: "Описание Yakkasaray", name: "Dream Decor", warehouse: "Yakkasaray" },
-  { id: 5, description: "Описание Shayxontoxur", name: "Home Style", warehouse: "Shayxontoxur" },
-  { id: 6, description: "Описание Olmazor", name: "Wall Art", warehouse: "Olmazor" },
-  { id: 7, description: "Описание Bektemir", name: "Creative Walls", warehouse: "Bektemir" },
-  { id: 8, description: "Описание Yashnobod", name: "Modern Decor", warehouse: "Yashnobod" },
-  { id: 9, description: "Описание Mirobod", name: "Elegant Walls", warehouse: "Mirobod" },
-  { id: 10, description: "Описание Sergeli", name: "Wall Trends", warehouse: "Sergeli" },
-  { id: 11, description: "Описание Uchtepa", name: "Style Home", warehouse: "Uchtepa" },
-  { id: 12, description: "Описание Yangihayot", name: "Urban Decor", warehouse: "Yangihayot" },
-  { id: 13, description: "Описание Tashkent District", name: "Wall Vision", warehouse: "Tashkent District" },
-  { id: 14, description: "Описание Samarkand", name: "Golden Walls", warehouse: "Samarkand" },
-  { id: 15, description: "Описание Bukhara", name: "Heritage Decor", warehouse: "Bukhara" },
-  { id: 16, description: "Описание Khiva", name: "Ancient Walls", warehouse: "Khiva" },
-  { id: 17, description: "Описание Fergana", name: "Silk Road Decor", warehouse: "Fergana" },
-  { id: 18, description: "Описание Namangan", name: "Green Walls", warehouse: "Namangan" },
-  { id: 19, description: "Описание Andijan", name: "Bright Decor", warehouse: "Andijan" },
-  { id: 20, description: "Описание Nukus", name: "Desert Style", warehouse: "Nukus" },
-  { id: 21, description: "Описание Urgench", name: "Oasis Decor", warehouse: "Urgench" },
-  { id: 22, description: "Описание Navoi", name: "Mining Walls", warehouse: "Navoi" },
-  { id: 23, description: "Описание Jizzakh", name: "Valley Decor", warehouse: "Jizzakh" },
-  { id: 24, description: "Описание Termez", name: "Border Walls", warehouse: "Termez" },
+  {
+    id: 1,
+    description: "Описание Chilanzar",
+    name: "Magic Wall",
+    warehouse: "Yunsobod",
+  },
+  {
+    id: 2,
+    description: "Описание Yunsabad",
+    name: "Color Dreams",
+    warehouse: "Chilanzar",
+  },
+  {
+    id: 3,
+    description: "Описание Mirzo Ulugbek",
+    name: "Wall Master",
+    warehouse: "Mirzo Ulugbek",
+  },
+  {
+    id: 4,
+    description: "Описание Yakkasaray",
+    name: "Dream Decor",
+    warehouse: "Yakkasaray",
+  },
+  {
+    id: 5,
+    description: "Описание Shayxontoxur",
+    name: "Home Style",
+    warehouse: "Shayxontoxur",
+  },
+  {
+    id: 6,
+    description: "Описание Olmazor",
+    name: "Wall Art",
+    warehouse: "Olmazor",
+  },
+  {
+    id: 7,
+    description: "Описание Bektemir",
+    name: "Creative Walls",
+    warehouse: "Bektemir",
+  },
+  {
+    id: 8,
+    description: "Описание Yashnobod",
+    name: "Modern Decor",
+    warehouse: "Yashnobod",
+  },
+  {
+    id: 9,
+    description: "Описание Mirobod",
+    name: "Elegant Walls",
+    warehouse: "Mirobod",
+  },
+  {
+    id: 10,
+    description: "Описание Sergeli",
+    name: "Wall Trends",
+    warehouse: "Sergeli",
+  },
+  {
+    id: 11,
+    description: "Описание Uchtepa",
+    name: "Style Home",
+    warehouse: "Uchtepa",
+  },
+  {
+    id: 12,
+    description: "Описание Yangihayot",
+    name: "Urban Decor",
+    warehouse: "Yangihayot",
+  },
+  {
+    id: 13,
+    description: "Описание Tashkent District",
+    name: "Wall Vision",
+    warehouse: "Tashkent District",
+  },
+  {
+    id: 14,
+    description: "Описание Samarkand",
+    name: "Golden Walls",
+    warehouse: "Samarkand",
+  },
+  {
+    id: 15,
+    description: "Описание Bukhara",
+    name: "Heritage Decor",
+    warehouse: "Bukhara",
+  },
+  {
+    id: 16,
+    description: "Описание Khiva",
+    name: "Ancient Walls",
+    warehouse: "Khiva",
+  },
+  {
+    id: 17,
+    description: "Описание Fergana",
+    name: "Silk Road Decor",
+    warehouse: "Fergana",
+  },
+  {
+    id: 18,
+    description: "Описание Namangan",
+    name: "Green Walls",
+    warehouse: "Namangan",
+  },
+  {
+    id: 19,
+    description: "Описание Andijan",
+    name: "Bright Decor",
+    warehouse: "Andijan",
+  },
+  {
+    id: 20,
+    description: "Описание Nukus",
+    name: "Desert Style",
+    warehouse: "Nukus",
+  },
+  {
+    id: 21,
+    description: "Описание Urgench",
+    name: "Oasis Decor",
+    warehouse: "Urgench",
+  },
+  {
+    id: 22,
+    description: "Описание Navoi",
+    name: "Mining Walls",
+    warehouse: "Navoi",
+  },
+  {
+    id: 23,
+    description: "Описание Jizzakh",
+    name: "Valley Decor",
+    warehouse: "Jizzakh",
+  },
+  {
+    id: 24,
+    description: "Описание Termez",
+    name: "Border Walls",
+    warehouse: "Termez",
+  },
 ];
 
 export default function Seller() {
@@ -93,14 +213,16 @@ export default function Seller() {
 
   return (
     <div className="DirectorSeller pt-[150px] p-4">
-      <h3 className="text-white mb-4 text-center">Sotuvchilar</h3>
+      <h3 className="text-white text-xl font-bold mb-4 text-center bg-gray-800 p-2 rounded-lg shadow-lg">
+        Sotuvchilar
+      </h3>
       <div className="grid grid-cols-2 gap-4">
         {districts.slice(0, visibleDistricts).map((district) => (
           <div
             key={district.id}
-            className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
+            className="block bg-gray-800 text-white p-4 rounded-lg  transition"
           >
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-center">
               <div>
                 <h4 className="text-lg font-semibold">{district.name}</h4>
                 <p className="text-sm text-gray-300">{district.description}</p>
@@ -110,14 +232,14 @@ export default function Seller() {
               </div>
               <button
                 onClick={() => toggleExpand(district.id)}
-                className="flex items-center cursor-pointer gap-2 text-white hover:text-gray-300 transition"
+                className="flex border-gray-300 p-3 bg-gray-700  hover:bg-gray-600  rounded-xl items-center cursor-pointer gap-2 text-white hover:text-gray-300 transition"
               >
                 {expandedCard === district.id ? (
                   "×" // Крестик для закрытия
                 ) : (
-                  <> 
+                  <>
                     <FaPencilAlt className="text-lg" />
-                    <span>отметить</span>
+                    <span>Belgilash</span>
                   </>
                 )}
               </button>
@@ -131,7 +253,9 @@ export default function Seller() {
                   required
                 />
                 {errors.date && (
-                  <p className="text-red-500 text-sm mb-2">Пожалуйста, выберите дату!</p>
+                  <p className="text-red-500 text-sm mb-2">
+                    Пожалуйста, выберите дату!
+                  </p>
                 )}
                 <TextArea
                   rows={2}
@@ -143,14 +267,27 @@ export default function Seller() {
                   required
                 />
                 {errors.comment && (
-                  <p className="text-red-500 text-sm mb-2">Пожалуйста, введите комментарий!</p>
+                  <p className="text-red-500 text-sm mb-2">
+                    Пожалуйста, введите комментарий!
+                  </p>
                 )}
                 <Button
                   type="primary"
-                  onClick={handleMark}
                   className="w-full"
+                  onClick={handleMark}
+                  style={{
+                    backgroundColor: "#364153",
+                    borderColor: "#364153",
+                    marginTop: "10px",
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.backgroundColor = "#2b3445")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.backgroundColor = "#364153")
+                  }
                 >
-                  Отметить
+                  Belgilash
                 </Button>
               </div>
             )}
