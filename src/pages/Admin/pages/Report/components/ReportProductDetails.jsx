@@ -4,8 +4,8 @@ import "antd/dist/reset.css";
 import bgsklad from "../../../../../assets/images/bg-sklad.png";
 import ReportProductFilter from "../modules/reportProductFilter";
 import { useParams } from "react-router-dom";
-import ImageModal from "@/components/modal/ImageModal";
 import  bg  from '@/assets/images/bg-login.jpg';
+import ImageModal from './../../../../../components/modal/ImageModal';
 
 const dataSource = [
   {
@@ -239,7 +239,6 @@ export default function Report() {
           ))}
         </div>
 
-        {/* **FAQAT BIR MODAL** */}
         <ImageModal
           isOpen={!!selectedImage}
           onClose={() => setSelectedImage(null)}
