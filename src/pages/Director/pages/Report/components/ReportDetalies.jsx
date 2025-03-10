@@ -51,7 +51,7 @@ const dataSource = [
     price: 250000,
     party: "123-45",
     photo: bg,
-    storeName: "Lesnoy Dom",
+    name: "Lesnoy Dom",
   },
   {
     key: "2",
@@ -66,7 +66,7 @@ const dataSource = [
     price: 220000,
     party: "234-56",
     photo: bgsklad,
-    storeName: "Okean Dekor",
+    name: "Okean Dekor",
   },
   {
     key: "3",
@@ -81,7 +81,7 @@ const dataSource = [
     price: 275000,
     party: "345-67",
     photo: bg,
-    storeName: "Solnechnyy Svet",
+    name: "Solnechnyy Svet",
   },
   {
     key: "4",
@@ -96,7 +96,7 @@ const dataSource = [
     price: 190000,
     party: "456-78",
     photo: bg,
-    storeName: "Peschanaya Lavka",
+    name: "Peschanaya Lavka",
   },
   {
     key: "5",
@@ -111,7 +111,7 @@ const dataSource = [
     price: 300000,
     party: "567-89",
     photo: bg,
-    storeName: "Tumannyy Ray",
+    name: "Tumannyy Ray",
   },
   {
     key: "6",
@@ -126,7 +126,7 @@ const dataSource = [
     price: 210000,
     party: "678-90",
     photo: bg,
-    storeName: "Nebesnyy Mir",
+    name: "Nebesnyy Mir",
   },
   {
     key: "7",
@@ -141,7 +141,7 @@ const dataSource = [
     price: 230000,
     party: "789-12",
     photo: bg,
-    storeName: "Rassvet Dekor",
+    name: "Rassvet Dekor",
   },
   {
     key: "8",
@@ -156,7 +156,7 @@ const dataSource = [
     price: 280000,
     party: "890-23",
     photo: bg,
-    storeName: "Kamennyy Ugol",
+    name: "Kamennyy Ugol",
   },
   {
     key: "9",
@@ -171,7 +171,7 @@ const dataSource = [
     price: 200000,
     party: "901-34",
     photo: bg,
-    storeName: "Zimniy Ray",
+    name: "Zimniy Ray",
   },
   {
     key: "10",
@@ -186,8 +186,8 @@ const dataSource = [
     price: 260000,
     party: "012-45",
     photo: bg,
-    storeName: "Nochnaya Magiya",
-  },
+    name: "Nochnaya Magiya",
+  }
 ];
 
 export default function Report() {
@@ -254,7 +254,7 @@ export default function Report() {
                       <Tag color="orange">{item?.party}</Tag>
                     </div>
                     {/* <h4 className="text-sm font-semibold text-white">
-                      Do'kon nomi: {item.storeName}
+                      Do'kon nomi: {item.name}
                     </h4> */}
                   </div>
                   <div>
@@ -270,7 +270,7 @@ export default function Report() {
                     <p className="text-gray-300 text-xs pt-2 text-right">
                       Do'kon nomi:{" "}
                       <span className="text-white font-bold">
-                        {item.storeName}
+                        {item.name}
                       </span>
                     </p>
                   </div>

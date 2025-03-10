@@ -37,7 +37,7 @@ export default function Report() {
 
   return (
     <div className="DirectorReport pt-[150px] p-4">
-      <SearchForm data={districts} onSearch={setFilteredData} name={'Omborlar'} />
+      <SearchForm data={districts} onSearch={setFilteredData} name={'Omborlar'}  showDatePicker={false}/>
       <div className="grid grid-cols-2 gap-4">
         {filteredData.slice(0, visibleDistricts).map((district) => (
           <Link

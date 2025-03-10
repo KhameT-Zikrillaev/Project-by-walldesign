@@ -5,9 +5,9 @@ const token = localStorage.getItem('tokenWall'); // Tokenni localStorage'dan oli
 const api = axios.create({
   baseURL: 'https://9bc8-82-215-106-106.ngrok-free.app/', // Asosiy API manzili
   withCredentials: true,
-  // headers: {
-  //   Authorization: token ? `Bearer ${token}` : '', // Tokenni avtomatik qo'shish
-  // },
+  headers: {
+    Authorization: token ? `Bearer ${token}` : '', // Tokenni avtomatik qo'shish
+  },
 });
 
 api.interceptors.request.use(
