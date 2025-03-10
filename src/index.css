@@ -22,7 +22,9 @@ body {
 .custom-table .ant-table-tbody > tr > td {
   border-color: #4a5568 !important;
 }
-
+.custom-table .ant-table-tbody .ant-table-cell{
+  background-color: #364153 !important;
+}
 /* Qatorlarning standart foni */
 .custom-row {
   background-color: #2b3a4a !important;
@@ -31,14 +33,15 @@ body {
 
 /* Edit tugmasi (yashil) */
 .edit-btn {
-    background-color: green !important;
-    border-color: green !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    font-size: 20px;
   }
   
   /* Edit tugmasi hover bo‘lganda */
   .edit-btn:hover {
-    background-color: #28a745 !important; /* Ochroq yashil */
-    border-color: #218838 !important;
+    background-color: transparent !important; /* Ochroq yashil */
+    border-color: transparent !important;
   }
 
   /* Search input uchun stil */
@@ -92,6 +95,20 @@ body {
     color: #a0aec0 !important;
   }
   
+  .custom-pagination .ant-pagination-item {
+    background-color: #2d3748 !important; /* Tugmalar fon rangi */
+    color: white !important; /* Matn rangi */
+    border-radius: 8px !important; /* Tugmalarni yumaloqlash */
+  }
+  .custom-pagination .ant-pagination-item:hover {
+    background-color: #2d3748 !important; /* Tugmalar fon rangi */
+    color: white !important; /* Matn rangi */
+    border-color: white !important; /* Tugmalarni yumaloqlash */
+  }
+
+  .custom-pagination .ant-pagination-item:hover a{
+    color: white !important; /* Matn rangi */
+  }
 
   .glowing-image {
     width: 300px; /* Размер изображения */
@@ -119,13 +136,31 @@ body {
 
 
   /* Ant Design Inputni override qilish */
-   /* .custom-input .ant-input {
+    .custom-input .ant-input {
     background-color: transparent !important;
     border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-    padding: 8px 12px;
   }
+  
+  .custom-pagination .ant-pagination-item a {
+    color: white !important;
+  }
+  
+  .custom-pagination .ant-pagination-item:hover {
+    background-color: #4a5568 !important; /* Hover holatida fon rangi */
+  }
+  
+  .custom-pagination .ant-pagination-item-active {
+    background-color: #2d3748 !important; /* Tugmalar fon rangi */
+    color: white !important;
+  }
+  
+  .custom-pagination .ant-pagination-item-active a {
+    color: white !important;
+  }
+  
+  
+  
+  
   
   .custom-input:focus .ant-input {
     border-color: rgb(0.967 0.003 264.542) !important;
@@ -151,23 +186,45 @@ body {
     color: #a0aec1 !important;
   }
 
-  .ant-pagination-item {
-  background: transparent;
-  transition: background 0.3s ease;
-}
+ 
+  .custom-select .ant-select-arrow svg {
+    fill: #a0aec0 !important;
+  }
+  
+  .custom-select .ant-select-selector {
+    background-color: oklch(0.21 0.034 264.665) !important;
+    border-radius: 8px !important;
+    width: 100%;
+    padding: 7px 10px !important;
+    color: oklch(0.967 0.003 264.542) !important;
+  }
 
-.ant-pagination-item:hover {
-  border: 1px solid #40a9ff !important;
-}
+  .custom-select .ant-select-selector:hover {
+    background-color: oklch(0.21 0.034 264.665) !important;
+    border-radius: 8px !important;
+    width: 100%;
+    padding: 7px 10px !important;
+    color: oklch(0.967 0.003 264.542) !important;
+  }
 
-.ant-pagination-item:hover a {
-  color: #40a9ff !important;
-  font-weight: 500;
-}
+  .custom-select .ant-select-selector .ant-select-selection-wrap .ant-select-selection-placeholder{
+    color: #a0aec0 !important; /* Placeholder rangi */
+  }
+  
+  .custom-dropdown {
+    background-color: #1f2937 !important;
+  }
+  
+  .custom-dropdown .ant-select-item {
+    color: #f3f4f6 !important;
+  }
+  
+  .custom-dropdown .ant-select-item-option-selected {
+    background-color: #374151 !important;
+  }
+  
 
-.ant-pagination-item-active {
-  background: white !important;
-}
+
 
 
 

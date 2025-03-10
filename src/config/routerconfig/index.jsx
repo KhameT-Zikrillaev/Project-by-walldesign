@@ -2,6 +2,9 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Profile from '@/pages/Profile';
 import Login from '@/pages/Login';
+
+// Импортируем Warehouse и его страницы
+// import Warehouse from '../../pages/Warehouse';
 import Error404 from '@/pages/Error404';
 
 
@@ -9,6 +12,9 @@ import Error404 from '@/pages/Error404';
 import Admin from '@/pages/Admin';
 import AdminAdminPanel from '@/pages/Admin/pages/Admin-ponel/index';
 import AdminStorege from '@/pages/Admin/pages/Admin-ponel/pages/storege';
+import AdminShop from '@/pages/Admin/pages/Admin-ponel/pages/shop';
+// import AdminSeller2 from '@/pages/Admin/pages/Admin-ponel/pages/seller2';
+import AdminProduct from '@/pages/Admin/pages/Admin-ponel/pages/product';
 import AdminUsers from '@/pages/Admin/pages/Admin-ponel/pages/users';
 import AdminReport from '@/pages/Admin/pages/Report';
 import AdminReportDetails from '@/pages/Admin/pages/Report/components/ReportProductDetails';
@@ -50,10 +56,11 @@ export default function RouterConfig() {
         <Route index element={<Profile />} />{" "}
         {/* Этот компонент будет отображаться при переходе на /admin */}
         <Route path="admin-panel" element={<AdminAdminPanel />}>
-          <Route path="storege" element={<AdminStorege />} />{" "}
-          {/* /admin/admin-panel/statistics */}
-          <Route path="users" element={<AdminUsers />} />{" "}
-          {/* /admin/admin-panel/users */}
+          <Route path="storage" element={<AdminStorege />} /> {/* /admin/admin-panel/statistics */}
+          <Route path="shop" element={<AdminShop />} /> {/* /admin/admin-panel/users */}
+          <Route path='products' element={<AdminProduct/>}/>
+          {/* <Route path='seller2' element={<AdminSeller2/>}/> */}
+          <Route path='users' element={<AdminUsers/>}/>
         </Route>
         <Route path="report" element={<AdminReport />} />
         <Route path="report/:name" element={<AdminReportDetails />} />

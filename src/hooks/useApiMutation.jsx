@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import api from './api';
+import api from '@/services/api';
 
 const useApiMutation = ({ url, method = 'POST', onSuccess, onError }) => {
   const mutation = useMutation({
@@ -7,16 +7,16 @@ const useApiMutation = ({ url, method = 'POST', onSuccess, onError }) => {
       const response = await api({
         url,
         method,
-        data,
+        data: method === 'DELETE' ? undefined : data, // DELETE uchun `data` yuborilmaydi
       });
       return response.data;
     },
     onSuccess: (data) => {
-      if (onSuccess) onSuccess(data); // Muvaffaqiyatli javob
+      if (onSuccess) onSuccess(data);
     },
     onError: (error) => {
       console.error('Mutation error:', error.response?.data?.message || error.message);
-      if (onError) onError(error); // Xatolikni qayta ishlash
+      if (onError) onError(error);
     },
   });
 
