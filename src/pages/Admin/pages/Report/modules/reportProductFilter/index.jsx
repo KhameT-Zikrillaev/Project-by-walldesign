@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Input, DatePicker } from "antd"; // Импортируем DatePicker из antd
-import { FaArchive } from "react-icons/fa";
+import { TbReportSearch } from "react-icons/tb";
 import dayjs from "dayjs"; // Для работы с датами
 import { useParams } from "react-router-dom";
 
@@ -29,7 +29,7 @@ const ReportProductFilter = ({ data, onSearch }) => {
     <div className="flex flex-col md:flex-row w-full justify-between gap-3 mb-4 p-4 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 hover:bg-white/20 transition-all duration-300">
       {/* Логотип и заголовок */}
       <div className="flex justify-center md:justify-start items-center">
-        <FaArchive className="text-3xl text-white" />
+        <TbReportSearch className="text-3xl text-white" />
         <span className="text-xl font-semibold ml-2 text-white">
           {name} hisobotlari
         </span>
