@@ -1,9 +1,22 @@
 import React, { useState } from 'react';
 import { Input, DatePicker } from 'antd'; // Импортируем DatePicker из antd
-import { FaWarehouse } from "react-icons/fa6";
+import { FaWarehouse, FaChartLine,FaListAlt, FaBox,FaUserTie} from "react-icons/fa";
 import dayjs from 'dayjs'; // Для работы с датами
 
 const { Search } = Input;
+
+const iconMap = {
+  Vitrina: FaListAlt,
+  Tovarlar: FaBox,
+  Tovarlari: FaBox,
+  Sotuvchilar: FaUserTie,
+  Ombori: FaWarehouse,
+  Omborlar: FaWarehouse,
+  Omborxona: FaWarehouse,
+  Hisobot: FaChartLine,
+  Hisobotlar:FaChartLine,
+  Hisobotlari: FaChartLine,
+};
 
 const SearchForm = ({ data, onSearch, name, title, showDatePicker = true }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,11 +35,13 @@ const SearchForm = ({ data, onSearch, name, title, showDatePicker = true }) => {
     // Если нужно выполнить фильтрацию по дате, добавьте логику здесь
   };
 
+  const IconComponent = iconMap[title] || FaBox; // Если title не найден, используем значок по умолчанию
+
   return (
     <div className="flex flex-col md:flex-row w-full justify-between gap-3 mb-4 p-4 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 hover:bg-white/20 transition-all duration-300">
       {/* Логотип и заголовок */}
       <div className="flex justify-center md:justify-start items-center">
-        <FaWarehouse className="text-3xl text-white" />
+        <IconComponent className="text-3xl text-white" />
         <span className="text-xl font-semibold ml-2 text-white">{name} {title}</span>
       </div>
 
