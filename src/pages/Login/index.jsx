@@ -4,9 +4,11 @@ import { FaEye, FaEyeSlash } from "react-icons/fa"; // Импортируем и
 import bg from "@/assets/images/bg-login.jpg"; // Импортируем изображение
 import logo from "@/assets/images/logo.png"; // Импортируем изображение
 import Loading from "@/components/Loading/Loading";
-import useApiMutation from "../../hooks/useApiMutation";
-import api from "../../services/api";
+import useApiMutation from "@/hooks/useApiMutation";
+import api from "@/services/api";
+import useUserStore from "@/store/useUser";
 export default function Login() {
+  const {setUser} = useUserStore();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [newError, setError] = useState("");
@@ -28,13 +30,19 @@ export default function Login() {
     onSuccess: async (data) => {
       console.log(data?.accsessToken);
       if (data?.accessToken) {
-        localStorage.setItem("token", data.accessToken); // Tokenni saqlaymiz
+        localStorage.setItem("tokenWall", data.accessToken); // Tokenni saqlaymiz
         try {
           setLoadingUser(true); // Yangi so'rov boshlanishidan oldin yuklanishni ko'rsatamiz
           const response = await api.get("auth/profile", {
-            headers: { Authorization: `Bearer ${data.accessToken}` },
+            headers: { Authorization: `Bearer ${data.accessToken}` }
           });
           console.log("User data:", response.data);
+
+          setUser(response?.data);
+
+          if(response?.data?.role === "admin"){
+            navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
+          }
 
           // navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
         } catch (error) {
@@ -64,9 +72,6 @@ export default function Login() {
     }
 
     // Здесь можно добавить логику проверки логина и пароля
-    if (username === "admin" && password === "admin123") {
-      navigate("/admin"); // Перенаправление на домашнюю страницу
-    }
     if (username === "sklad" && password === "sklad123") {
       navigate("/warehouse"); // Перенаправление на домашнюю страницу
     }
@@ -181,6 +186,7 @@ export default function Login() {
             </div>
           )}
           <button
+          disabled={loadingUser}
             type="submit"
             className="w-full cursor-pointer py-3 px-6 rounded-xl bg-yellow-400 text-gray-900 font-bold hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:ring-offset-2 focus:ring-offset-yellow-100 transition-all duration-300 border-2 border-yellow-500/30 hover:border-yellow-500/50 shadow-lg hover:shadow-xl active:scale-95"
           >

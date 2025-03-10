@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Input, Button, Form, message, Switch } from "antd";
 import useApiMutation from "@/hooks/useApiMutation";
 
-const AddStorage = ({ onClose }) => {
+const AddStorage = ({ onClose, refetch }) => {
   const {
     handleSubmit,
     control,
@@ -14,9 +14,10 @@ const AddStorage = ({ onClose }) => {
   const { mutate, isLoading, isSuccess, isError, error } = useApiMutation({
     url: "warehouse",
     method: "POST",
-    onSuccess: (data) => {
-      console.log("User created:", data);
-      alert("Foydalanuvchi muvaffaqiyatli yaratildi!");
+    onSuccess: () => {
+      reset(); // Formani tozalash
+      onClose();
+      refetch();
     },
     onError: (error) => {
       console.error("Error creating user:", error);
@@ -24,12 +25,13 @@ const AddStorage = ({ onClose }) => {
     },
   });
 
+  console.log(isLoading);
+  
+
   const onSubmit = (data) => {
     // console.log("Forma ma'lumotlari:", data);
     mutate(data);
-    message.success("Ombor muvaffaqiyatli qo‘shildi!");
-    reset(); // Formani tozalash
-    onClose();
+    
   };
 
   return (
@@ -94,6 +96,7 @@ const AddStorage = ({ onClose }) => {
           <Button
             type="primary"
             htmlType="submit"
+            loading={isLoading}
             style={{
               backgroundColor: "#364153",
               color: "#f3f4f6",
@@ -101,7 +104,7 @@ const AddStorage = ({ onClose }) => {
               padding: "15px 20px",
               borderRadius: "8px",
               fontSize: "18px",
-              width: "100%",
+              width: "100%"
             }}
           >
             Yaratish

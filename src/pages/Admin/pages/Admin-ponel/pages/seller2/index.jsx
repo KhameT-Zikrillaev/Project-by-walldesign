@@ -79,7 +79,7 @@ const data = [
 
 
 
-const Seller = () => {
+const Seller2 = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [defaultSingleData, setDefaultSingleData] = useState(null);
   const [formType, setFormType] = useState(null);
@@ -237,4 +237,4 @@ const Seller = () => {
   );
 };
 
-export default Seller;
+export default Seller2;

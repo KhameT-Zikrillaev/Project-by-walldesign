@@ -3,76 +3,54 @@ import { Table, Button, Space, Popconfirm, Pagination } from "antd";
 import { EditOutlined, DeleteOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Input } from 'antd';
 import ModalComponent from "@/components/modal/Modal";
-import AddSeller from "./components/AddSeller";
-import EditSeller from "./components/EditSeller";
+import AddShop from "./components/AddShop";
+import EditShop from "./components/EditShop";
 const { Search } = Input;
 
 const data = [
   {
     key: 1,
     name: "Sotuvchi 1",
-    login: "o31dB5NN",
-    password: "0WwYjrvtAv"
   },
   {
     key: 2,
     name: "Sotuvchi 2",
-    login: "YmTkjoV1",
-    password: "kkkrQmvF4e"
   },
   {
     key: 3,
     name: "Sotuvchi 3",
-    login: "y5q4qGGt",
-    password: "OdB9jiJm5G"
   },
   {
     key: 4,
     name: "Sotuvchi 4",
-    login: "WkP03NOr",
-    password: "p4PMQ9Xjfk"
   },
   {
     key: 5,
     name: "Sotuvchi 5",
-    login: "MGqOL7vT",
-    password: "HLFDu7stv1"
   },
   {
     key: 6,
     name: "Sotuvchi 6",
-    login: "VO5qDouV",
-    password: "Sli4tbrjbT"
   },
   {
     key: 7,
     name: "Sotuvchi 7",
-    login: "g7Zlez68",
-    password: "GQDjjGKTqL"
   },
   {
     key: 8,
     name: "Sotuvchi 8",
-    login: "Ppb6k104",
-    password: "rwreAAC5Kj"
   },
   {
     key: 9,
     name: "Sotuvchi 9",
-    login: "QLyc76vY",
-    password: "miO8IWiMBw"
   },
   {
     key: 10,
     name: "Sotuvchi 10",
-    login: "GvRez2ap",
-    password: "ezb9ilSxrC"
   },
   {
     key: 11,
     name: "Sotuvchi 11",
-    login: "Uv0uKgFR",
-    password: "Y22SRWw1pC"
   }
 ]
 
@@ -142,21 +120,15 @@ const Seller = () => {
       width: 70,
     },
     {
-      title: "Sotuvchi nomi",
+      title: "Magazin nomi",
       dataIndex: "name",
       key: "name",
       render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
     },
     {
-      title: "Login",
-      dataIndex: "login",
-      key: "login",
-      render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
-    },
-    {
-      title: "Parol",
-      dataIndex: "password",
-      key: "password",
+      title: "Ombor nomi",
+      dataIndex: "warehouse",
+      key: "warehouse",
       render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
     },
     {
@@ -186,7 +158,7 @@ const Seller = () => {
   return (
     <div className="p-5">
       <div className="flex justify-between items-center mb-5">
-        <div className="text-3xl font-bold  text-gray-100">Sotuvchilar</div>
+        <div className="text-3xl font-bold  text-gray-100">Magazinlar</div>
         <div className="flex gap-3 items-center">
         <Search placeholder="Qidirish" onSearch={onSearch} enterButton className="custom-search"/>
         <Button
@@ -229,9 +201,9 @@ const Seller = () => {
       <ModalComponent
         isOpen={isModalOpen}
         onClose={onClose}
-        title={formType === "add" ? "Sotuvchi qo'shish" : "Sotuvchini tahrirlash"}
+        title={formType === "add" ? "Magazin qo'shish" : "Magazinni tahrirlash"}
       >
-       {formType === "add" ?<AddSeller onClose={onClose}/> : <EditSeller onClose={onClose} sellerSingleData={sellerSingleData}/>} 
+       {formType === "add" ?<AddShop onClose={onClose}/> : <EditShop onClose={onClose} sellerSingleData={sellerSingleData}/>} 
       </ModalComponent>
     </div>
   );

@@ -12,9 +12,9 @@ import Error404 from '@/pages/Error404';
 import Admin from '@/pages/Admin';
 import AdminAdminPanel from '@/pages/Admin/pages/Admin-ponel/index';
 import AdminStorege from '@/pages/Admin/pages/Admin-ponel/pages/storege';
-import AdminSeller from '@/pages/Admin/pages/Admin-ponel/pages/seller';
+import AdminShop from '@/pages/Admin/pages/Admin-ponel/pages/shop';
+// import AdminSeller2 from '@/pages/Admin/pages/Admin-ponel/pages/seller2';
 import AdminProduct from '@/pages/Admin/pages/Admin-ponel/pages/product';
-import AdminDefault from '@/pages/Admin/pages/Admin-ponel/pages/default';
 import AdminUsers from '@/pages/Admin/pages/Admin-ponel/pages/users';
 import AdminReport from '@/pages/Admin/pages/Report';
 import AdminReportDetails from '@/pages/Admin/pages/Report/components/ReportProductDetails';
@@ -57,9 +57,9 @@ export default function RouterConfig() {
         {/* Этот компонент будет отображаться при переходе на /admin */}
         <Route path="admin-panel" element={<AdminAdminPanel />}>
           <Route path="storage" element={<AdminStorege />} /> {/* /admin/admin-panel/statistics */}
-          <Route path="seller" element={<AdminSeller />} /> {/* /admin/admin-panel/users */}
+          <Route path="shop" element={<AdminShop />} /> {/* /admin/admin-panel/users */}
           <Route path='products' element={<AdminProduct/>}/>
-          <Route path='default' element={<AdminDefault/>}/>
+          {/* <Route path='seller2' element={<AdminSeller2/>}/> */}
           <Route path='users' element={<AdminUsers/>}/>
         </Route>
         <Route path="report" element={<AdminReport />} />

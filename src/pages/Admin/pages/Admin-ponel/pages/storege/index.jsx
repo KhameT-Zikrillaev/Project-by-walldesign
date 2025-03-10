@@ -5,6 +5,7 @@ import { Input } from "antd";
 import ModalComponent from "@/components/modal/Modal";
 import AddStorage from "./components/AddStorage";
 import EditStorage from "./components/EditStorage";
+import useFetch from "@/hooks/useFetch";
 
 const { Search } = Input;
 
@@ -16,6 +17,8 @@ const Statistics = () => {
   const [formType, setFormType] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
+
+  const { data, isLoading, error, refetch } = useFetch('warehouse', 'warehouse');
 
   const showModal = (type) => {
     setFormType(type);
@@ -79,21 +82,9 @@ const Statistics = () => {
       render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
     },
     {
-      title: "Login",
-      dataIndex: "login",
-      key: "login",
-      render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
-    },
-    {
-      title: "Parol",
-      dataIndex: "password",
-      key: "password",
-      render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
-    },
-    {
-      title: "Telfon raqami",
-      dataIndex: "phone_number",
-      key: "phone_number",
+      title: "Ruxsat berilgan",
+      dataIndex: "isTrusted",
+      key: "isTrusted",
       render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
     },
     {
@@ -109,7 +100,7 @@ const Statistics = () => {
           />
           <Popconfirm
             title="O‘chirishni tasdiqlaysizmi?"
-            onConfirm={() => console.log("Deleted", record.key)}
+            onConfirm={() => console.log("Deleted", record?.id)}
             okText="Ha"
             cancelText="Yo‘q"
           >
@@ -146,19 +137,18 @@ const Statistics = () => {
       <div className="text-gray-100">
         <Table
           columns={columns}
-          // dataSource={(data?.slice((currentPage - 1) * pageSize, currentPage * pageSize)) || []}
-          dataSource={[]}
+          dataSource={data?.data?.warehouses || []}
           pagination={false}
           className="custom-table"
           rowClassName={() => "custom-row"}
           bordered
+          loading={isLoading}
         />
         <div className="flex justify-center mt-5">
           <Pagination
             className="custom-pagination"
             current={currentPage}
-            // total={data?.length}
-            total={0}
+            total={data?.data?.total}
             pageSize={pageSize}
             onChange={(page) => setCurrentPage(page)}
             itemRender={itemRender}
@@ -170,7 +160,7 @@ const Statistics = () => {
         onClose={onClose}
         title={formType === "add" ? "Ombor qo'shish" : "Omborni tahrirlash"}
       >
-        {formType === "add" ? <AddStorage onClose={onClose} /> : <EditStorage onClose={onClose} storageSingleData={storageSingleData} />}
+        {formType === "add" ? <AddStorage onClose={onClose} refetch={refetch} /> : <EditStorage onClose={onClose} storageSingleData={storageSingleData} />}
       </ModalComponent>
     </div>
   );

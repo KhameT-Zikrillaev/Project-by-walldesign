@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Input, Button, Form, message } from "antd";
+import { Input, Button, Form, message, Select  } from "antd";
 
+const { Option } = Select;
 const EditSeller = ({ onClose, sellerSingleData }) => {
   const {
     handleSubmit,
@@ -29,48 +30,41 @@ const EditSeller = ({ onClose, sellerSingleData }) => {
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
         {/* Ombor nomi */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Sotuvchi nomi</span>}
+          label={<span className="text-gray-100 font-semibold">Magazin nomi</span>}
           validateStatus={errors.name ? "error" : ""}
           help={errors.name?.message}
         >
           <Controller
             name="name"
             control={control}
-            rules={{ required: "Sotuvchi nomi majburiy" }}
+            rules={{ required: "Magazin nomi majburiy" }}
             render={({ field }) => (
-              <Input placeholder="Sotuvchi nomini kiriting" className="custom-input" {...field} />
+              <Input placeholder="Magazin nomini kiriting" className="custom-input" {...field} />
             )}
           />
         </Form.Item>
 
-        {/* Login */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Login</span>}
-          validateStatus={errors.login ? "error" : ""}
-          help={errors.login?.message}
+          label={<span className="text-gray-100 font-semibold">Omborlar</span>}
+          validateStatus={errors.warehouse_id ? "error" : ""}
+          help={errors.warehouse_id?.message}
         >
           <Controller
-            name="login"
+            name="warehouse_id"
             control={control}
-            rules={{ required: "Login majburiy" }}
+            rules={{ required: "Ombor majburiy" }}
             render={({ field }) => (
-              <Input placeholder="Login kiriting" className="custom-input" {...field} />
-            )}
-          />
-        </Form.Item>
-
-        {/* Parol */}
-        <Form.Item
-          label={<span className="text-gray-100 font-semibold">Parol</span>}
-          validateStatus={errors.password ? "error" : ""}
-          help={errors.password?.message}
-        >
-          <Controller
-            name="password"
-            control={control}
-            rules={{ required: "Parol majburiy" }}
-            render={({ field }) => (
-              <Input placeholder="Parolni kiriting" type="text" className="custom-input" {...field} />
+              <Select
+                {...field}
+                placeholder="Ombor tanlang"
+                className="custom-select"
+                onChange={(value) => field.onChange(value)}
+                dropdownClassName="custom-dropdown"
+              >
+                <Option value="electronics">Elektronika</Option>
+                <Option value="clothing">Kiyim-kechak</Option>
+                <Option value="food">Oziq-ovqat</Option>
+              </Select>
             )}
           />
         </Form.Item>
