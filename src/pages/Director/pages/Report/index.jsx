@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import SearchForm from "./modules/SearchForm";
+import SearchForm from "@/components/SearchForm/SearchForm";
 const districts = [
   { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
   { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
@@ -25,7 +25,7 @@ const districts = [
   { id: 21, name: "Urgench", description: "Описание Urgench" },
   { id: 22, name: "Navoi", description: "Описание Navoi" },
   { id: 23, name: "Jizzakh", description: "Описание Jizzakh" },
-  { id: 24, name: "Termez", description: "Описание Termez" },
+  { id: 24, name: "Termez", description: "Описание Termez" }
 ];
 
 export default function Report() {
@@ -37,7 +37,7 @@ export default function Report() {
 
   return (
     <div className="DirectorReport pt-[150px] p-4">
-      <SearchForm data={districts} onSearch={setFilteredData} name={'Omborlar'}  showDatePicker={false}/>
+      <SearchForm data={districts} onSearch={setFilteredData} name="" title="Omborlar" showDatePicker={false} />
       <div className="grid grid-cols-2 gap-4">
         {filteredData.slice(0, visibleDistricts).map((district) => (
           <Link

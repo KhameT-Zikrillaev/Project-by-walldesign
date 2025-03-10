@@ -5,7 +5,7 @@ import dayjs from 'dayjs'; // Для работы с датами
 
 const { Search } = Input;
 
-const SearchForm = ({ data, onSearch, name, showDatePicker = true }) => {
+const SearchForm = ({ data, onSearch, name, title, showDatePicker = true }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [date, setDate] = useState(null); // Состояние для хранения выбранной даты
 
@@ -27,7 +27,7 @@ const SearchForm = ({ data, onSearch, name, showDatePicker = true }) => {
       {/* Логотип и заголовок */}
       <div className="flex justify-center md:justify-start items-center">
         <FaWarehouse className="text-3xl text-white" />
-        <span className="text-xl font-semibold ml-2 text-white">{name}</span>
+        <span className="text-xl font-semibold ml-2 text-white">{name} {title}</span>
       </div>
 
       {/* Поле для выбора одной даты */}

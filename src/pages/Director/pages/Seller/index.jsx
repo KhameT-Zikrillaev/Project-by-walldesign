@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { DatePicker, Input, Button } from "antd";
 import { FaPencilAlt } from "react-icons/fa"; // Импортируем иконку карандаша
-import SearchForm from "./modules/SearchForm"; // Импортируем ваш компонент SearchForm
+import SearchForm from "@/components/SearchForm/SearchForm"; // Импортируем ваш компонент SearchForm
 
 const { TextArea } = Input;
 
@@ -10,31 +10,31 @@ const districts = [
     id: 1,
     description: "Описание Chilanzar",
     name: "Magic Wall",
-    warehouse: "Yunsobod",
+    warehouse: "Yunsobod"
   },
   {
     id: 2,
     description: "Описание Yunsabad",
     name: "Color Dreams",
-    warehouse: "Chilanzar",
+    warehouse: "Chilanzar"
   },
   {
     id: 3,
     description: "Описание Mirzo Ulugbek",
     name: "Wall Master",
-    warehouse: "Mirzo Ulugbek",
+    warehouse: "Mirzo Ulugbek"
   },
   {
     id: 4,
     description: "Описание Yakkasaray",
     name: "Dream Decor",
-    warehouse: "Yakkasaray",
+    warehouse: "Yakkasaray"
   },
   {
     id: 5,
     description: "Описание Shayxontoxur",
     name: "Home Style",
-    warehouse: "Shayxontoxur",
+    warehouse: "Shayxontoxur"
   },
   {
     id: 6,
@@ -46,110 +46,110 @@ const districts = [
     id: 7,
     description: "Описание Bektemir",
     name: "Creative Walls",
-    warehouse: "Bektemir",
+    warehouse: "Bektemir"
   },
   {
     id: 8,
     description: "Описание Yashnobod",
     name: "Modern Decor",
-    warehouse: "Yashnobod",
+    warehouse: "Yashnobod"
   },
   {
     id: 9,
     description: "Описание Mirobod",
     name: "Elegant Walls",
-    warehouse: "Mirobod",
+    warehouse: "Mirobod"
   },
   {
     id: 10,
     description: "Описание Sergeli",
     name: "Wall Trends",
-    warehouse: "Sergeli",
+    warehouse: "Sergeli"
   },
   {
     id: 11,
     description: "Описание Uchtepa",
     name: "Style Home",
-    warehouse: "Uchtepa",
+    warehouse: "Uchtepa"
   },
   {
     id: 12,
     description: "Описание Yangihayot",
     name: "Urban Decor",
-    warehouse: "Yangihayot",
+    warehouse: "Yangihayot"
   },
   {
     id: 13,
     description: "Описание Tashkent District",
     name: "Wall Vision",
-    warehouse: "Tashkent District",
+    warehouse: "Tashkent District"
   },
   {
     id: 14,
     description: "Описание Samarkand",
     name: "Golden Walls",
-    warehouse: "Samarkand",
+    warehouse: "Samarkand"
   },
   {
     id: 15,
     description: "Описание Bukhara",
     name: "Heritage Decor",
-    warehouse: "Bukhara",
+    warehouse: "Bukhara"
   },
   {
     id: 16,
     description: "Описание Khiva",
     name: "Ancient Walls",
-    warehouse: "Khiva",
+    warehouse: "Khiva"
   },
   {
     id: 17,
     description: "Описание Fergana",
     name: "Silk Road Decor",
-    warehouse: "Fergana",
+    warehouse: "Fergana"
   },
   {
     id: 18,
     description: "Описание Namangan",
     name: "Green Walls",
-    warehouse: "Namangan",
+    warehouse: "Namangan"
   },
   {
     id: 19,
     description: "Описание Andijan",
     name: "Bright Decor",
-    warehouse: "Andijan",
+    warehouse: "Andijan"
   },
   {
     id: 20,
     description: "Описание Nukus",
     name: "Desert Style",
-    warehouse: "Nukus",
+    warehouse: "Nukus"
   },
   {
     id: 21,
     description: "Описание Urgench",
     name: "Oasis Decor",
-    warehouse: "Urgench",
+    warehouse: "Urgench"
   },
   {
     id: 22,
     description: "Описание Navoi",
     name: "Mining Walls",
-    warehouse: "Navoi",
+    warehouse: "Navoi"
   },
   {
     id: 23,
     description: "Описание Jizzakh",
     name: "Valley Decor",
-    warehouse: "Jizzakh",
+    warehouse: "Jizzakh"
   },
   {
     id: 24,
     description: "Описание Termez",
     name: "Border Walls",
-    warehouse: "Termez",
-  },
+    warehouse: "Termez"
+  }
 ];
 
 export default function Seller() {
@@ -217,9 +217,11 @@ export default function Seller() {
     <div className="DirectorSeller pt-[150px] p-4">
       {/* Добавляем SearchForm для фильтрации */}
       <SearchForm
-        data={districts} // Передаем исходные данные
-        onSearch={setFilteredData} // Передаем функцию для обновления отфильтрованных данных
-        name="Mahsulot" // Передаем имя для отображения в SearchForm
+        data={districts} 
+        onSearch={setFilteredData} 
+        name=""
+        title="Sotuvchilar" 
+        showDatePicker={true} 
       />
 
       <div className="grid grid-cols-2 gap-4">

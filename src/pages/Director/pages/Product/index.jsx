@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import SearchForm from "./modules/SearchForm";
+import SearchForm from "@/components/SearchForm/SearchForm";
 
 const districts = [
   { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
@@ -38,7 +38,7 @@ export default function DirectorProduct() {
 
   return (
     <div className="DirectorProduct pt-[150px] p-4">
-      <SearchForm data={districts} name="Omborlar" onSearch={setFilteredData} />
+      <SearchForm data={districts} name="" title="Omborlar" showDatePicker={false} onSearch={setFilteredData} />
       <div className="grid grid-cols-2 gap-4">
         {filteredData.slice(0, visibleDistricts).map((district) => (
           <Link

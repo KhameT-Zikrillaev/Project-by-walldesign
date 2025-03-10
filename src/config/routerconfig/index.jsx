@@ -44,7 +44,6 @@ import DirectorProduct from '@/pages/Director/pages/Product';
 import DirectorSeller from '@/pages/Director/pages/Seller';
 import DirectorReport from '@/pages/Director/pages/Report';
 import ProductDetails from '@/pages/Director/pages/Product/components/ProductDetalies';
-import SellerDetails from '@/pages/Director/pages/Seller/components/SellerDetalies';
 import DirectorReportDetails from '@/pages/Director/pages/Report/components/ReportDetalies';
 export default function RouterConfig() {
   return (
@@ -102,7 +101,6 @@ export default function RouterConfig() {
       <Route path="/director" element={<Director />}>
         <Route index element={<Profile />} /> {/* Этот компонент будет отображаться при переходе на /seller */}
         <Route path="seller-list" element={<DirectorSeller/>} /> {/* /Director/product-list */}
-        <Route path="seller-list/:name" element={<SellerDetails />} /> {/* Динамический маршрут */}
         <Route path="product-list" element={<DirectorProduct />} /> {/* /Director/product-list */}
         <Route path="product-list/:name" element={<ProductDetails />} /> {/* Динамический маршрут */}
         <Route path="report" element={<DirectorReport />} /> {/* /Director/report */}
