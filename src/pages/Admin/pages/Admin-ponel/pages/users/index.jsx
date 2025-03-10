@@ -5,6 +5,10 @@ import { Input } from "antd";
 import ModalComponent from "@/components/modal/Modal";
 import AddUser from "./components/AddUser";
 import EditUser from "./components/EditUser";
+import { Select } from "antd";
+import { set } from "react-hook-form";
+
+const { Option } = Select;
 
 const { Search } = Input;
 
@@ -23,11 +27,17 @@ const data = [
 ];
 
 const Statistics = () => {
+  const [userRole, setUserRole] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [storageSingleData, setStorageSingleData] = useState(null);
   const [formType, setFormType] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
+
+  const handleChange = (value) => {
+    setUserRole(value);
+    console.log("Tanlangan Ombor ID:", value);
+  };
 
   const showModal = (type) => {
     setFormType(type);
@@ -137,7 +147,23 @@ const Statistics = () => {
       <div className="flex justify-between items-center mb-5">
         <div className="text-3xl font-bold text-gray-100">Omborlar</div>
         <div className="flex gap-3 items-center">
-          <Search placeholder="Qidirish" onSearch={onSearch} enterButton className="custom-search" />
+          <Search
+            placeholder="Qidirish"
+            onSearch={onSearch}
+            enterButton
+            className="custom-search"
+          />
+          <Select
+            value={userRole}
+            placeholder="Rol tanlang"
+            className="custom-select-filter"
+            onChange={handleChange}
+            dropdownClassName="custom-dropdown"
+          >
+            <Option value="electronics">Elektronika</Option>
+            <Option value="clothing">Kiyim-kechak</Option>
+            <Option value="food">Oziq-ovqat</Option>
+          </Select>
           <Button
             type="primary"
             style={{
@@ -158,7 +184,10 @@ const Statistics = () => {
       <div className="text-gray-100">
         <Table
           columns={columns}
-          dataSource={data.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
+          dataSource={data.slice(
+            (currentPage - 1) * pageSize,
+            currentPage * pageSize
+          )}
           pagination={false}
           className="custom-table"
           rowClassName={() => "custom-row"}
@@ -178,9 +207,15 @@ const Statistics = () => {
       <ModalComponent
         isOpen={isModalOpen}
         onClose={onClose}
-        title={formType === "add" ? "Ombor 2 qo'shish" : "Ombor 2 ni tahrirlash"}
+        title={
+          formType === "add" ? "Ombor 2 qo'shish" : "Ombor 2 ni tahrirlash"
+        }
       >
-        {formType === "add" ? <AddUser onClose={onClose} /> : <EditUser onClose={onClose} storageSingleData={storageSingleData} />}
+        {formType === "add" ? (
+          <AddUser onClose={onClose} />
+        ) : (
+          <EditUser onClose={onClose} storageSingleData={storageSingleData} />
+        )}
       </ModalComponent>
     </div>
   );

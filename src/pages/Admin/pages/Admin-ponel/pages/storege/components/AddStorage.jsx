@@ -11,7 +11,7 @@ const AddStorage = ({ onClose, refetch }) => {
     reset,
   } = useForm();
 
-  const { mutate, isLoading, isSuccess, isError, error } = useApiMutation({
+  const { mutate, isLoading } = useApiMutation({
     url: "warehouse",
     method: "POST",
     onSuccess: () => {

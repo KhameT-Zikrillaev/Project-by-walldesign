@@ -1,14 +1,17 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Input, Button, Form, message, Switch  } from "antd";
+import { Input, Button, Form, message, Switch } from "antd";
+import useApiMutation from "@/hooks/useApiMutation";
 
-const EditStorage = ({ onClose, storageSingleData }) => {
+const EditStorage = ({ onClose, storageSingleData, refetch }) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
     reset,
   } = useForm();
+
+
 
   // storageSingleData bor bo‘lsa, formani shu ma’lumotlar bilan to‘ldiramiz
   useEffect(() => {
@@ -17,11 +20,22 @@ const EditStorage = ({ onClose, storageSingleData }) => {
     }
   }, [storageSingleData, reset]);
 
+  const { mutate, isLoading } = useApiMutation({
+      url: "warehouse",
+      method: "POST",
+      onSuccess: () => {
+        reset(); // Formani tozalash
+        onClose();
+        refetch();
+      },
+      onError: (error) => {
+        console.error("Error creating user:", error);
+        alert("Xatolik yuz berdi!");
+      },
+    });
+
   const onSubmit = (data) => {
-    console.log("Forma ma'lumotlari:", data);
-    message.success("Ombor muvaffaqiyatli yangilandi!");
-    reset(); // Formani tozalash
-    onClose();
+    mutate(data);
   };
 
   return (
@@ -29,7 +43,9 @@ const EditStorage = ({ onClose, storageSingleData }) => {
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
         {/* Ombor nomi */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Ombor nomi</span>}
+          label={
+            <span className="text-gray-100 font-semibold">Ombor nomi</span>
+          }
           validateStatus={errors.name ? "error" : ""}
           help={errors.name?.message}
         >
@@ -38,70 +54,46 @@ const EditStorage = ({ onClose, storageSingleData }) => {
             control={control}
             rules={{ required: "Ombor nomi majburiy" }}
             render={({ field }) => (
-              <Input placeholder="Ombor nomini kiriting" className="custom-input" {...field} />
-            )}
-          />
-        </Form.Item>
-
-        {/* Telefon raqami */}
-        <Form.Item
-          label={<span className="text-gray-100 font-semibold">Telefon raqami</span>}
-          validateStatus={errors.phone_number ? "error" : ""}
-          help={errors.phone_number?.message}
-        >
-          <Controller
-            name="phone_number"
-            control={control}
-            rules={{ required: "Telefon raqami majburiy" }}
-            render={({ field }) => (
-              <Input placeholder="Telefon raqamini kiriting" className="custom-input" {...field} />
-            )}
-          />
-        </Form.Item>
-
-        {/* Login */}
-        <Form.Item
-          label={<span className="text-gray-100 font-semibold">Login</span>}
-          validateStatus={errors.login ? "error" : ""}
-          help={errors.login?.message}
-        >
-          <Controller
-            name="login"
-            control={control}
-            rules={{ required: "Login majburiy" }}
-            render={({ field }) => (
-              <Input placeholder="Login kiriting" className="custom-input" {...field} />
-            )}
-          />
-        </Form.Item>
-
-        {/* Parol */}
-        <Form.Item
-          label={<span className="text-gray-100 font-semibold">Parol</span>}
-          validateStatus={errors.password ? "error" : ""}
-          help={errors.password?.message}
-        >
-          <Controller
-            name="password"
-            control={control}
-            rules={{ required: "Parol majburiy" }}
-            render={({ field }) => (
-              <Input placeholder="Parolni kiriting" type="text" className="custom-input" {...field} />
-            )}
-          />
-        </Form.Item>
-        <Form.Item label={<span className="text-gray-100 font-semibold">Ruxsat berish</span>}>
-          <Controller
-            name="isAllowed"
-            control={control}
-            render={({ field }) => (
-              <Switch
-                checked={field.value}
-                onChange={field.onChange}
+              <Input
+                placeholder="Ombor nomini kiriting"
+                className="custom-input"
+                {...field}
               />
             )}
           />
         </Form.Item>
+
+        <div className="flex justify-between">
+          {/* Ruxsat berish Switch */}
+          <Form.Item
+            label={
+              <span className="text-gray-100 font-semibold">Asosiy ombor</span>
+            }
+          >
+            <Controller
+              name="isMain"
+              control={control}
+              render={({ field }) => (
+                <Switch checked={field.value} onChange={field.onChange} />
+              )}
+            />
+          </Form.Item>
+
+          {/* Ruxsat berish Switch */}
+          <Form.Item
+            label={
+              <span className="text-gray-100 font-semibold">Ruxsat berish</span>
+            }
+          >
+            <Controller
+              name="isTrusted"
+              control={control}
+              render={({ field }) => (
+                <Switch checked={field.value} onChange={field.onChange} />
+              )}
+            />
+          </Form.Item>
+        </div>
 
         {/* Yuborish tugmasi */}
         <Form.Item>

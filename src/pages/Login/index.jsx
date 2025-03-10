@@ -24,11 +24,10 @@ export default function Login() {
     return () => clearTimeout(timer); // Очистка таймера при размонтировании компонента
   }, []);
 
-  const { mutate, isLoading, isSuccess, isError, error } = useApiMutation({
+  const { mutate, isLoading, error } = useApiMutation({
     url: "auth/login",
     method: "POST",
     onSuccess: async (data) => {
-      console.log(data?.accsessToken);
       if (data?.accessToken) {
         localStorage.setItem("tokenWall", data.accessToken); // Tokenni saqlaymiz
         try {
@@ -36,7 +35,6 @@ export default function Login() {
           const response = await api.get("auth/profile", {
             headers: { Authorization: `Bearer ${data.accessToken}` }
           });
-          console.log("User data:", response.data);
 
           setUser(response?.data);
 
@@ -54,8 +52,6 @@ export default function Login() {
       }
     },
     onError: (error) => {
-      console.error("Error creating user:", error);
-      alert("Xatolik yuz berdi!");
     },
   });
 

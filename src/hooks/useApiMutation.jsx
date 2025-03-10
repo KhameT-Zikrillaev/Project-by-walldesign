@@ -15,7 +15,7 @@ const useApiMutation = ({ url, method = 'POST', onSuccess, onError }) => {
       if (onSuccess) onSuccess(data);
     },
     onError: (error) => {
-      console.error('Mutation error:', error.response?.data?.message || error.message);
+      // console.error('Mutation error:', error.response?.data?.message || error.message);
       if (onError) onError(error);
     },
   });

@@ -18,7 +18,7 @@ const Statistics = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
-  const { data, isLoading, error, refetch } = useFetch('warehouse', 'warehouse');
+  const { data, isLoading, refetch } = useFetch('warehouse', 'warehouse');
 
   const showModal = (type) => {
     setFormType(type);
@@ -160,7 +160,7 @@ const Statistics = () => {
         onClose={onClose}
         title={formType === "add" ? "Ombor qo'shish" : "Omborni tahrirlash"}
       >
-        {formType === "add" ? <AddStorage onClose={onClose} refetch={refetch} /> : <EditStorage onClose={onClose} storageSingleData={storageSingleData} />}
+        {formType === "add" ? <AddStorage onClose={onClose} refetch={refetch} /> : <EditStorage onClose={onClose} refetch={refetch} storageSingleData={storageSingleData} />}
       </ModalComponent>
     </div>
   );
