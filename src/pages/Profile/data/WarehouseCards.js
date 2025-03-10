@@ -4,7 +4,6 @@ import {
     FaTruck,
     FaWarehouse,
     FaCashRegister,
-    FaStore,
     FaShoppingCart,
     FaChartLine,
   } from "react-icons/fa";
@@ -64,7 +63,7 @@ import {
     },
     {
       icon: React.createElement(AiOutlineRollback, {
-        className: "text-4xl text-white mb-4",
+        className: "text-6xl font-bold text-white mb-4",
       }),
       title: "Mahsulot qaytarish",
       description: "Do'konlardan mahsulot qaytarish",
