@@ -8,17 +8,24 @@ import {
     FaShoppingCart,
     FaChartLine,
   } from "react-icons/fa";
+
+  import { AiOutlineRollback } from "react-icons/ai";
+
   import React from "react";
   
   export const SkladCards = [
     {
-      icon: React.createElement(FaBox, { className: "text-4xl text-white mb-4" }),
+      icon: React.createElement(FaBox, {
+        className: "text-4xl text-white mb-4",
+      }),
       title: "Tovarlar",
       description: "Tovarlarni boshqarish",
       link: "/warehouse/product-list",
     },
     {
-      icon: React.createElement(FaTruck, { className: "text-4xl text-white mb-4" }),
+      icon: React.createElement(FaTruck, {
+        className: "text-4xl text-white mb-4",
+      }),
       title: "Tovarlarni vitrinaga jo'natish",
       description: "Tovarlarni vitrinaga jo'natish",
       link: "/warehouse/send-to-showcase",
@@ -32,19 +39,21 @@ import {
       link: "/warehouse/remove-from-showcase",
     },
     {
-      icon: React.createElement(FaTruck, { className: "text-4xl text-white mb-4" }),
+      icon: React.createElement(FaTruck, {
+        className: "text-4xl text-white mb-4",
+      }),
       title: "Mahsulotlarni boshqa omborga jo'natish",
       description: "Mahsulotlarni boshqa omborga jo'natish",
       link: "/warehouse/transfer-to-warehouse",
     },
     {
       icon: React.createElement(FaChartLine, {
-          className: "text-4xl text-white mb-4",
+        className: "text-4xl text-white mb-4",
       }),
       title: "Hisobotlar",
       description: "Tarix va arxiv",
       link: "/warehouse/report",
-  },
+    },
     {
       icon: React.createElement(FaCashRegister, {
         className: "text-4xl text-white mb-4",
@@ -54,7 +63,9 @@ import {
       link: "/warehouse/cash-register",
     },
     {
-      icon: React.createElement(FaStore, { className: "text-4xl text-white mb-4" }),
+      icon: React.createElement(AiOutlineRollback, {
+        className: "text-4xl text-white mb-4",
+      }),
       title: "Mahsulot qaytarish",
       description: "Do'konlardan mahsulot qaytarish",
       link: "/warehouse/shop",
