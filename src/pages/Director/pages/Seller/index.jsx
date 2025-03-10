@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { DatePicker, Input, Button } from "antd";
 import { FaPencilAlt } from "react-icons/fa"; // Импортируем иконку карандаша
+import SearchForm from "./modules/SearchForm"; // Импортируем ваш компонент SearchForm
 
 const { TextArea } = Input;
 
@@ -157,6 +158,7 @@ export default function Seller() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [comment, setComment] = useState("");
   const [errors, setErrors] = useState({ date: false, comment: false }); // Состояние для ошибок
+  const [filteredData, setFilteredData] = useState(districts); // Состояние для отфильтрованных данных
 
   const loadMoreDistricts = () => {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
@@ -213,11 +215,15 @@ export default function Seller() {
 
   return (
     <div className="DirectorSeller pt-[150px] p-4">
-      <h3 className="text-white text-xl font-bold mb-4 text-center bg-gray-800 p-2 rounded-lg shadow-lg">
-        Sotuvchilar
-      </h3>
+      {/* Добавляем SearchForm для фильтрации */}
+      <SearchForm
+        data={districts} // Передаем исходные данные
+        onSearch={setFilteredData} // Передаем функцию для обновления отфильтрованных данных
+        name="Mahsulot" // Передаем имя для отображения в SearchForm
+      />
+
       <div className="grid grid-cols-2 gap-4">
-        {districts.slice(0, visibleDistricts).map((district) => (
+        {filteredData.slice(0, visibleDistricts).map((district) => (
           <div
             key={district.id}
             className="block bg-gray-800 text-white p-4 rounded-lg  transition"
@@ -294,7 +300,7 @@ export default function Seller() {
           </div>
         ))}
       </div>
-      {visibleDistricts < districts.length && (
+      {visibleDistricts < filteredData.length && (
         <div className="flex justify-center mt-4">
           <button
             onClick={loadMoreDistricts}

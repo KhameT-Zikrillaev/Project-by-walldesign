@@ -89,7 +89,7 @@ export default function ProductDetails() {
     <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
 
     <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-      <SearchForm data={dataSource} name={product.name} onSearch={setFilteredData} />
+      <SearchForm data={dataSource} name={product.name + ' Tovarlari'} onSearch={setFilteredData} />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
         {currentData.map((item) => (
@@ -100,7 +100,7 @@ export default function ProductDetails() {
             cover={
               <div
               onClick={() => setSelectedImage(item.photo)}
-                className="h-28 bg-cover bg-center rounded-t-lg"
+                className="h-28 bg-cover  bg-center rounded-t-lg"
                 style={{ backgroundImage: `url(${item.photo})` }}
               />
             }
@@ -132,7 +132,7 @@ export default function ProductDetails() {
           pageSize={itemsPerPage}
           onChange={(page) => setCurrentPage(page)}
           showSizeChanger={false}
-          className="text-white"
+          className="custom-pagination text-white"
         />
       </div>
     </div>

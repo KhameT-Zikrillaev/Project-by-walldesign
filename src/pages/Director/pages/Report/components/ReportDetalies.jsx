@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Pagination, Tag } from 'antd';
-import 'antd/dist/reset.css';
-import bgsklad from '@/assets/images/bg-sklad.png';
-import SearchForm from '../modules/SearchForm';
-import bg from '@/assets/images/bg-login.jpg';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Card, Pagination, Tag } from "antd";
+import "antd/dist/reset.css";
+import bgsklad from "@/assets/images/bg-sklad.png";
+import SearchForm from "../modules/SearchForm";
+import bg from "@/assets/images/bg-login.jpg";
+import { useParams } from "react-router-dom";
 import ImageModal from "@/components/modal/ImageModal";
 const products = [
   { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
@@ -19,7 +19,11 @@ const products = [
   { id: 10, name: "Sergeli", description: "Описание Sergeli" },
   { id: 11, name: "Uchtepa", description: "Описание Uchtepa" },
   { id: 12, name: "Yangihayot", description: "Описание Yangihayot" },
-  { id: 13, name: "Tashkent District", description: "Описание Tashkent District" },
+  {
+    id: 13,
+    name: "Tashkent District",
+    description: "Описание Tashkent District",
+  },
   { id: 14, name: "Samarkand", description: "Описание Samarkand" },
   { id: 15, name: "Bukhara", description: "Описание Bukhara" },
   { id: 16, name: "Khiva", description: "Описание Khiva" },
@@ -192,10 +196,10 @@ export default function Report() {
   const [filteredData, setFilteredData] = useState(dataSource);
   const [selectedImage, setSelectedImage] = useState(null);
   const { name } = useParams(); // Получаем параметр name из URL
-  console.log('URL параметр name:', name);
+  console.log("URL параметр name:", name);
 
   const product = products.find((p) => p.name === name);
-  console.log('Найденный продукт:', product);
+  console.log("Найденный продукт:", product);
 
   const updateItemsPerPage = () => {
     setItemsPerPage(5); // Фиксированное количество карточек на странице
@@ -203,8 +207,8 @@ export default function Report() {
 
   useEffect(() => {
     updateItemsPerPage();
-    window.addEventListener('resize', updateItemsPerPage);
-    return () => window.removeEventListener('resize', updateItemsPerPage);
+    window.addEventListener("resize", updateItemsPerPage);
+    return () => window.removeEventListener("resize", updateItemsPerPage);
   }, []);
 
   const currentData = filteredData.slice(
@@ -220,12 +224,16 @@ export default function Report() {
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
 
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-        <SearchForm data={dataSource} name={product.name} onSearch={setFilteredData} />
+        <SearchForm
+          data={dataSource}
+          name={product.name}
+          onSearch={setFilteredData}
+        />
         <div className="grid grid-cols-1 mb-4 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full px-4">
           {currentData.map((item) => (
             <Card
               key={item.key}
-              className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
+              className="shadow-lg hover:shadow-xl  transition-shadow rounded-lg"
               style={{
                 background: "rgba(255, 255, 255, 0.1)",
                 backdropFilter: "blur(10px)",
@@ -233,10 +241,10 @@ export default function Report() {
               }}
               bodyStyle={{ padding: "12px", color: "white" }}
             >
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col justify-center items-center sm:flex-row gap-4">
                 <div
                   onClick={() => setSelectedImage(item.photo)}
-                  className="w-full sm:w-1/3 h-32 bg-cover bg-center rounded-lg cursor-pointer"
+                  className="w-full flex  sm:w-1/3 h-32 bg-cover bg-center rounded-lg cursor-pointer"
                   style={{ backgroundImage: `url(${item.photo})` }}
                 />
                 <div className="w-full sm:w-2/3 flex flex-col gap-2">
@@ -258,6 +266,12 @@ export default function Report() {
                     </p>
                     <p className="text-gray-300 text-xs">
                       Berilgan sanasi: {item.date}
+                    </p>
+                    <p className="text-gray-300 text-xs pt-2 text-right">
+                      Do'kon nomi:{" "}
+                      <span className="text-white font-bold">
+                        {item.storeName}
+                      </span>
                     </p>
                   </div>
                 </div>
