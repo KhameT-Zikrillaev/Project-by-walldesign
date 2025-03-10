@@ -33,6 +33,7 @@ export default function Warehouse() {
   const [selectedImage, setSelectedImage] = useState(null);
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~modal
 const [isModalOpen, setIsModalOpen] = useState(false);
+
 const showModal = (product) => {
   setSelectedProduct(product); // Устанавливаем выбранный товар
   setIsModalOpen(true);
@@ -78,7 +79,7 @@ const onClose = () => {
               cover={
                 <div
                   onClick={() => setSelectedImage(item.photo)}
-                  className="h-28 bg-cover bg-center rounded-t-lg"
+                  className="h-28 bg-cover cursor-pointer bg-center rounded-t-lg"
                   style={{ backgroundImage: `url(${item.photo})` }}
                 />
               }

@@ -37,7 +37,9 @@ export default function DirectorProduct() {
 
   return (
     <div className="DirectorProduct pt-[150px] p-4">
-      <h3 className="text-white mb-4 text-center">Omborlar</h3>
+      <h3 className="text-white text-xl font-bold mb-4 text-center bg-gray-800 p-2 rounded-lg shadow-lg">
+        Omborlar
+      </h3>
       <div className="grid grid-cols-2 gap-4">
         {districts.slice(0, visibleDistricts).map((district) => (
           <Link

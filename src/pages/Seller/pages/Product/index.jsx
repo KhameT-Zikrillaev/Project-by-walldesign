@@ -4,7 +4,7 @@ import 'antd/dist/reset.css';
 import bgsklad from '@/assets/images/bg-sklad.png';
 import SearchForm from './modules/SearchForm';
 import bg from '@/assets/images/bg-login.jpg';
-
+import ImageModal from '@/components/modal/ImageModal';
 const dataSource = [
   { key: '1', code: 'OB001', name: 'Обои "Синий океан"', stock: 10, photo: bg },
   { key: '2', code: 'OB002', name: 'Обои "Зеленый лес"', stock: 5, photo: bg },
@@ -27,6 +27,8 @@ export default function Warehouse() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [filteredData, setFilteredData] = useState(dataSource);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const updateItemsPerPage = () => {
     setItemsPerPage(window.innerWidth < 768 ? 4 : 10);
@@ -61,7 +63,8 @@ export default function Warehouse() {
               style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
               cover={
                 <div
-                  className="h-28 bg-cover bg-center rounded-t-lg"
+                onClick={() => setSelectedImage(item.photo)}
+                  className="h-28 bg-cover cursor-pointer bg-center rounded-t-lg"
                   style={{ backgroundImage: `url(${item.photo})` }}
                 />
               }
@@ -74,7 +77,11 @@ export default function Warehouse() {
             </Card>
           ))}
         </div>
-
+        <ImageModal
+          isOpen={!!selectedImage}
+          onClose={() => setSelectedImage(null)}
+          imageUrl={selectedImage}
+        />
         <div className="my-2 mb-12 md:mb-0 flex justify-center">
           <Pagination
             current={currentPage}

@@ -5,6 +5,7 @@ import 'antd/dist/reset.css';
 import bgsklad from '@/assets/images/bg-sklad.png';
 import SearchForm from '../modules/SearchForm';
 import bg from '@/assets/images/bg-login.jpg';
+import ImageModal from "@/components/modal/ImageModal";
 const products = [
   { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
   { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
@@ -59,7 +60,7 @@ export default function ProductDetails() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [filteredData, setFilteredData] = useState(dataSource);
-
+  const [selectedImage, setSelectedImage] = useState(null);
   const updateItemsPerPage = () => {
     setItemsPerPage(window.innerWidth < 768 ? 4 : 10);
   };
@@ -98,6 +99,7 @@ export default function ProductDetails() {
             style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
             cover={
               <div
+              onClick={() => setSelectedImage(item.photo)}
                 className="h-28 bg-cover bg-center rounded-t-lg"
                 style={{ backgroundImage: `url(${item.photo})` }}
               />
@@ -115,6 +117,13 @@ export default function ProductDetails() {
           </Card>
         ))}
       </div>
+      <ImageModal
+          isOpen={!!selectedImage}
+          onClose={() => setSelectedImage(null)}
+          imageUrl={selectedImage}
+        />
+
+
 
       <div className="my-2 mb-12 md:mb-0 flex justify-center">
         <Pagination
