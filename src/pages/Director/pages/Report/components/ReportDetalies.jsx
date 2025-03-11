@@ -43,7 +43,6 @@ const dataSource = [
     date: "2023-10-01",
     returnDate: "2023-10-05",
     code: "#4443",
-    name: 'Oboi "Yashil o‘rmon"',
     color: "#008000",
     action: "sotib olindi",
     quantity: 10,
@@ -51,14 +50,13 @@ const dataSource = [
     price: 250000,
     party: "123-45",
     photo: bg,
-    name: "Lesnoy Dom",
+    name: "Lesnoy Dom"
   },
   {
     key: "2",
     date: "2023-10-02",
     returnDate: "2023-10-06",
     code: "#4444",
-    name: 'Oboi "Moviy okean"',
     color: "#0000FF",
     action: "sotib olindi",
     quantity: 5,
@@ -66,14 +64,13 @@ const dataSource = [
     price: 220000,
     party: "234-56",
     photo: bgsklad,
-    name: "Okean Dekor",
+    name: "Okean Dekor"
   },
   {
     key: "3",
     date: "2023-10-03",
     returnDate: "2023-10-07",
     code: "#4445",
-    name: 'Oboi "Qizil shafaq"',
     color: "#FF0000",
     action: "sotib olindi",
     quantity: 8,
@@ -81,14 +78,13 @@ const dataSource = [
     price: 275000,
     party: "345-67",
     photo: bg,
-    name: "Solnechnyy Svet",
+    name: "Solnechnyy Svet"
   },
   {
     key: "4",
     date: "2023-10-04",
     returnDate: "2023-10-08",
     code: "#4446",
-    name: 'Oboi "Sariq qum"',
     color: "#FFFF00",
     action: "sotib olindi",
     quantity: 15,
@@ -96,14 +92,13 @@ const dataSource = [
     price: 190000,
     party: "456-78",
     photo: bg,
-    name: "Peschanaya Lavka",
+    name: "Peschanaya Lavka"
   },
   {
     key: "5",
     date: "2023-10-05",
     returnDate: "2023-10-09",
     code: "#4447",
-    name: 'Oboi "Binafsha tuman"',
     color: "#800080",
     action: "sotib olindi",
     quantity: 3,
@@ -111,14 +106,13 @@ const dataSource = [
     price: 300000,
     party: "567-89",
     photo: bg,
-    name: "Tumannyy Ray",
+    name: "Tumannyy Ray"
   },
   {
     key: "6",
     date: "2023-10-06",
     returnDate: "2023-10-10",
     code: "#4448",
-    name: 'Oboi "Moviy osmon"',
     color: "#87CEEB",
     action: "sotib olindi",
     quantity: 7,
@@ -126,14 +120,13 @@ const dataSource = [
     price: 210000,
     party: "678-90",
     photo: bg,
-    name: "Nebesnyy Mir",
+    name: "Nebesnyy Mir"
   },
   {
     key: "7",
     date: "2023-10-07",
     returnDate: "2023-10-11",
     code: "#4449",
-    name: 'Oboi "Pushti tong"',
     color: "#FFC0CB",
     action: "sotib olindi",
     quantity: 12,
@@ -141,14 +134,13 @@ const dataSource = [
     price: 230000,
     party: "789-12",
     photo: bg,
-    name: "Rassvet Dekor",
+    name: "Rassvet Dekor"
   },
   {
     key: "8",
     date: "2023-10-08",
     returnDate: "2023-10-12",
     code: "#4450",
-    name: 'Oboi "Kulrang tosh"',
     color: "#808080",
     action: "sotib olindi",
     quantity: 20,
@@ -156,14 +148,13 @@ const dataSource = [
     price: 280000,
     party: "890-23",
     photo: bg,
-    name: "Kamennyy Ugol",
+    name: "Kamennyy Ugol"
   },
   {
     key: "9",
     date: "2023-10-09",
     returnDate: "2023-10-13",
     code: "#4451",
-    name: 'Oboi "Oq qor"',
     color: "#FFFFFF",
     action: "sotib olindi",
     quantity: 0,
@@ -171,14 +162,13 @@ const dataSource = [
     price: 200000,
     party: "901-34",
     photo: bg,
-    name: "Zimniy Ray",
+    name: "Zimniy Ray"
   },
   {
     key: "10",
     date: "2023-10-10",
     returnDate: "2023-10-14",
     code: "#4452",
-    name: 'Oboi "Qora tun"',
     color: "#000000",
     action: "sotib olindi",
     quantity: 6,
@@ -186,7 +176,7 @@ const dataSource = [
     price: 260000,
     party: "012-45",
     photo: bg,
-    name: "Nochnaya Magiya",
+    name: "Nochnaya Magiya"
   }
 ];
 
