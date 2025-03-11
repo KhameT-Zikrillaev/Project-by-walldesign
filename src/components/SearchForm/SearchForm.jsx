@@ -7,6 +7,7 @@ const { Search } = Input;
 
 const iconMap = {
   Vitrina: FaListAlt,
+  Vitrinasi: FaListAlt,
   Tovarlar: FaBox,
   Tovarlari: FaBox,
   Sotuvchilar: FaUserTie,
