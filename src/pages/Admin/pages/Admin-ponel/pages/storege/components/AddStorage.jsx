@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Input, Button, Form, message, Switch } from "antd";
+import { Input, Button, Form, Switch } from "antd";
 import useApiMutation from "@/hooks/useApiMutation";
 
 const AddStorage = ({ onClose, refetch }) => {
@@ -25,13 +25,12 @@ const AddStorage = ({ onClose, refetch }) => {
     },
   });
 
-  console.log(isLoading);
-  
-
   const onSubmit = (data) => {
-    // console.log("Forma ma'lumotlari:", data);
-    mutate(data);
-    
+    mutate({
+      name: data.name,
+      isMain: data.isMain ? true : false,
+      isTrusted: data.isTrusted ? true : false
+    });
   };
 
   return (
