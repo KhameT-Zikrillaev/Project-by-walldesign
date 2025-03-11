@@ -1,11 +1,8 @@
 // data/SellerCards.js
 import {
     FaListAlt,
-    FaMoneyBillAlt,
     FaChartLine,
-    FaBox,
     FaWarehouse,
-    FaArchive,
 } from "react-icons/fa";
 import React from "react";
 
@@ -19,7 +16,7 @@ export const SellerCards = [
         link: "/seller/product-list",
     },
     {
-        icon: React.createElement(FaBox, {
+        icon: React.createElement(FaWarehouse, {
             className: "text-4xl text-white mb-4",
         }),
         title: "Sklad",

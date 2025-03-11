@@ -29,18 +29,18 @@ const CustomModal = ({ isOpen, onClose, title, children }) => {
       onClick={handleOverlayClick}
     >
       <div
-        className={`bg-gray-900 text-white min-w-[320px] p-6 pb-0 rounded-lg shadow-lg relative transform transition-all ${
+        className={`bg-gray-900 text-white min-w-[320px] max-w-[450px] w-full p-6 pb-0 rounded-lg shadow-lg relative transform transition-all ${
           isOpen ? "scale-100 opacity-100" : "scale-90 opacity-0"
         }`}
       >
         {/* Modal header */}
         <div className="flex justify-between items-center  border-gray-600 pb-2">
-          <h2 className="text-lg font-semibold text-gray-100">{title}</h2>
+          <div className="text-lg font-semibold text-gray-100 ">{title}</div>
           <button
             onClick={onClose}
-            className="text-gray-100 text-[25px] hover:text-red-400 transition cursor-pointer"
+            className="text-gray-100  cursor-pointer"
           >
-            <MdOutlineCancel />
+            <MdOutlineCancel className="text-[25px] hover:text-red-400 transition"/>
           </button>
         </div>
 

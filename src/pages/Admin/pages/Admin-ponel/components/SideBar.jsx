@@ -61,7 +61,7 @@ const SideBar = () => {
           <ul className="space-y-3">
             <li>
               <Link
-                to="/admin/admin-panel/storege  "
+                to="/admin/admin-panel/storage  "
                 className={`block py-3 px-4 rounded-lg transition duration-200 font-medium border-b-2 border-gray-900  ${
                   location.pathname === '/admin/admin-panel/storage'
                     ? 'bg-gray-700 text-white'
@@ -74,6 +74,46 @@ const SideBar = () => {
             </li>
             <li>
               <Link
+                to="/admin/admin-panel/shop"
+                className={`block py-3 px-4 rounded-lg transition duration-200 font-medium border-b-2 border-gray-900  ${
+                  location.pathname === '/admin/admin-panel/shop'
+                    ? 'bg-gray-700 text-white'
+                    : 'text-gray-300 hover:bg-gray-800'
+                }`}
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                Magazinlar
+              </Link>
+            </li>
+            
+            {/* <li>
+              <Link
+                to="/admin/admin-panel/seller2"
+                className={`block py-3 px-4 rounded-lg transition duration-200 font-medium border-b-2 border-gray-900  ${
+                  location.pathname === '/admin/admin-panel/seller2'
+                    ? 'bg-gray-700 text-white'
+                    : 'text-gray-300 hover:bg-gray-800'
+                }`}
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                Sotuvchilar 2
+              </Link>
+            </li> */}
+            <li>
+              <Link
+                to="/admin/admin-panel/products"
+                className={`block py-3 px-4 rounded-lg transition duration-200 font-medium border-b-2 border-gray-900  ${
+                  location.pathname === '/admin/admin-panel/products'
+                    ? 'bg-gray-700 text-white'
+                    : 'text-gray-300 hover:bg-gray-800'
+                }`}
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                Mahsulotlar
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/admin/admin-panel/users"
                 className={`block py-3 px-4 rounded-lg transition duration-200 font-medium border-b-2 border-gray-900  ${
                   location.pathname === '/admin/admin-panel/users'
@@ -82,7 +122,7 @@ const SideBar = () => {
                 }`}
                 onClick={() => setIsSidebarOpen(false)}
               >
-                Пользователи
+                Userlar
               </Link>
             </li>
           </ul>

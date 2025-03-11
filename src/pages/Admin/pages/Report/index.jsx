@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import "antd/dist/reset.css";
 import { Link } from "react-router-dom";
-
-
+import SearchForm from "@/components/SearchForm/SearchForm";
 const products = [
   { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
   { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
@@ -13,12 +13,14 @@ const products = [
 ];
 
 export default function Report() {
+  const [filteredData, setFilteredData] = useState(products);
+  const { name } = useParams();
 
   return (
     <div className="DirectorProduct mt-[150px] p-4">
-      <h3 className="text-white mb-4">Omborlar ro'yxati</h3>
+      <SearchForm data={products} name="" title="Omborlar" showDatePicker={false} onSearch={setFilteredData}/>
       <div className="grid grid-cols-2 gap-4">
-        {products.map((product) => (
+        {filteredData.map((product) => (
           <Link
             key={product.id}
             to={`/admin/report/${product.name}`}

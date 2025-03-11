@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Card, Pagination, Tag, Button } from 'antd';
 import 'antd/dist/reset.css';
 import bgsklad from '@/assets/images/bg-sklad.png';
-import SearchForm from '../modules/SearchForm';
+import SearchForm from '@/components/SearchForm/SearchForm';
 import bg from '@/assets/images/bg-login.jpg';
 import ImageModal from "@/components/modal/ImageModal";
 const products = [
@@ -89,7 +89,7 @@ export default function ProductDetails() {
     <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
 
     <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-      <SearchForm data={dataSource} name={product.name} onSearch={setFilteredData} />
+      <SearchForm data={dataSource} name={product.name} title="Tovarlari" showDatePicker={true} onSearch={setFilteredData} />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
         {currentData.map((item) => (
@@ -100,7 +100,7 @@ export default function ProductDetails() {
             cover={
               <div
               onClick={() => setSelectedImage(item.photo)}
-                className="h-28 bg-cover bg-center rounded-t-lg"
+                className="h-28 bg-cover  bg-center rounded-t-lg"
                 style={{ backgroundImage: `url(${item.photo})` }}
               />
             }
@@ -117,24 +117,25 @@ export default function ProductDetails() {
           </Card>
         ))}
       </div>
-      <ImageModal
+  
+{filteredData.length > 0 && (
+          <div className="my-2 mb-12 md:mb-0 flex justify-center">
+            <Pagination
+              current={currentPage}
+              total={filteredData.length}
+              pageSize={itemsPerPage}
+              onChange={(page) => setCurrentPage(page)}
+              showSizeChanger={false}
+              className="custom-pagination text-white"
+            />
+          </div>
+        )}
+
+<ImageModal
           isOpen={!!selectedImage}
           onClose={() => setSelectedImage(null)}
           imageUrl={selectedImage}
         />
-
-
-
-      <div className="my-2 mb-12 md:mb-0 flex justify-center">
-        <Pagination
-          current={currentPage}
-          total={filteredData.length}
-          pageSize={itemsPerPage}
-          onChange={(page) => setCurrentPage(page)}
-          showSizeChanger={false}
-          className="text-white"
-        />
-      </div>
     </div>
   </div>
   );

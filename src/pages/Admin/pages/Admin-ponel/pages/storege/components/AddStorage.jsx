@@ -1,8 +1,9 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Input, Button, Form, message } from "antd";
+import { Input, Button, Form, message, Switch } from "antd";
+import useApiMutation from "@/hooks/useApiMutation";
 
-const AddStorage = ({onClose}) => {
+const AddStorage = ({ onClose, refetch }) => {
   const {
     handleSubmit,
     control,
@@ -10,19 +11,37 @@ const AddStorage = ({onClose}) => {
     reset,
   } = useForm();
 
+  const { mutate, isLoading, isSuccess, isError, error } = useApiMutation({
+    url: "warehouse",
+    method: "POST",
+    onSuccess: () => {
+      reset(); // Formani tozalash
+      onClose();
+      refetch();
+    },
+    onError: (error) => {
+      console.error("Error creating user:", error);
+      alert("Xatolik yuz berdi!");
+    },
+  });
+
+  console.log(isLoading);
+  
+
   const onSubmit = (data) => {
-    console.log("Forma ma'lumotlari:", data);
-    message.success("Ombor muvaffaqiyatli qo‘shildi!");
-    reset(); // Formani tozalash
-    onClose();
+    // console.log("Forma ma'lumotlari:", data);
+    mutate(data);
+    
   };
 
   return (
-    <div className="">
+    <div>
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
         {/* Ombor nomi */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Ombor nomi</span>}
+          label={
+            <span className="text-gray-100 font-semibold">Ombor nomi</span>
+          }
           validateStatus={errors.name ? "error" : ""}
           help={errors.name?.message}
         >
@@ -31,60 +50,53 @@ const AddStorage = ({onClose}) => {
             control={control}
             rules={{ required: "Ombor nomi majburiy" }}
             render={({ field }) => (
-              <Input placeholder="Ombor nomini kiriting" className="custom-input" {...field} />
+              <Input
+                placeholder="Ombor nomini kiriting"
+                className="custom-input"
+                {...field}
+              />
             )}
           />
         </Form.Item>
 
-        {/* Joylashuv */}
-        <Form.Item
-          label={<span className="text-gray-100 font-semibold">Telfon nomer</span>}
-          validateStatus={errors.phone_number ? "error" : ""}
-          help={errors.phone_number?.message}
-        >
-          <Controller
-            name="phone_number"
-            control={control}
-            rules={{ required: "Telfon nomer majburiy" }}
-            render={({ field }) => (
-              <Input placeholder="Telfon nomerini kiriting" className="custom-input" {...field} />
-            )}
-          />
-        </Form.Item>
-        <Form.Item
-          label={<span className="text-gray-100 font-semibold">Login</span>}
-          validateStatus={errors.login ? "error" : ""}
-          help={errors.login?.message}
-        >
-          <Controller
-            name="login"
-            control={control}
-            rules={{ required: "Login majburiy" }}
-            render={({ field }) => (
-              <Input placeholder="Login kiriting" className="custom-input" {...field} />
-            )}
-          />
-        </Form.Item>
-        <Form.Item
-          label={<span className="text-gray-100 font-semibold">Parol</span>}
-          validateStatus={errors.password ? "error" : ""}
-          help={errors.password?.message}
-        >
-          <Controller
-            name="password"
-            control={control}
-            rules={{ required: "Parol majburiy" }}
-            render={({ field }) => (
-              <Input placeholder="Parolni kiriting" className="custom-input" {...field} />
-            )}
-          />
-        </Form.Item>
+        <div className="flex justify-between">
+          {/* Ruxsat berish Switch */}
+          <Form.Item
+            label={
+              <span className="text-gray-100 font-semibold">Asosiy ombor</span>
+            }
+          >
+            <Controller
+              name="isMain"
+              control={control}
+              render={({ field }) => (
+                <Switch checked={field.value} onChange={field.onChange} />
+              )}
+            />
+          </Form.Item>
+
+          {/* Ruxsat berish Switch */}
+          <Form.Item
+            label={
+              <span className="text-gray-100 font-semibold">Ruxsat berish</span>
+            }
+          >
+            <Controller
+              name="isTrusted"
+              control={control}
+              render={({ field }) => (
+                <Switch checked={field.value} onChange={field.onChange} />
+              )}
+            />
+          </Form.Item>
+        </div>
 
         {/* Yuborish tugmasi */}
         <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
+            loading={isLoading}
             style={{
               backgroundColor: "#364153",
               color: "#f3f4f6",

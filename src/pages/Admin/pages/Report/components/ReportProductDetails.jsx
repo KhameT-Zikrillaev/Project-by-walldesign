@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Pagination, Tag } from "antd";
 import "antd/dist/reset.css";
 import bgsklad from "../../../../../assets/images/bg-sklad.png";
-import ReportProductFilter from "../modules/reportProductFilter";
+import SearchForm from "@/components/SearchForm/SearchForm";
 import { useParams } from "react-router-dom";
 import  bg  from '@/assets/images/bg-login.jpg';
 import ImageModal from './../../../../../components/modal/ImageModal';
@@ -188,10 +188,8 @@ export default function Report() {
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
 
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-        <ReportProductFilter data={dataSource} onSearch={setFilteredData} />
-        <h1 className="text-white">{name} hisobotlari</h1>
-
-        <div className="grid grid-cols-1 gap-4 w-full px-4">
+        <SearchForm data={dataSource} name={name} title="Hisobotlari" showDatePicker={true} onSearch={setFilteredData}   />
+        <div className="grid grid-cols-1 mb-4 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full px-4">
           {currentData.map((item) => (
             <Card
               key={item.key}
@@ -203,17 +201,17 @@ export default function Report() {
               }}
               bodyStyle={{ padding: "12px", color: "white" }}
             >
-              <div className="flex gap-4">
+              <div className="flex flex-col justify-center items-center sm:flex-row gap-4">
                 {/* Фото обоев */}
                 <div
                   onClick={() => setSelectedImage(item.photo)}
-                  className="w-1/5 bg-cover bg-center rounded-lg cursor-pointer"
+                  className="w-full flex  sm:w-1/3 h-32 bg-cover bg-center rounded-lg cursor-pointer"
                   style={{ backgroundImage: `url(${item.photo})` }}
                 />
 
                 {/* Данные */}
-                <div className="w-4/5 flex flex-col gap-2">
-                  <div className="flex gap-2 items-center justify-between">
+                <div className="w-full sm:w-2/3 flex flex-col gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center justify-between">
                     <div className="flex gap-[5px]">
                       <Tag color="blue">{item.code}</Tag>
                       <Tag color="orange">{item?.party}</Tag>
@@ -245,6 +243,7 @@ export default function Report() {
           imageUrl={selectedImage}
         />
 
+   {filteredData.length > 0 && (
         <div className="my-2 mb-12 md:mb-2  flex justify-center">
           <Pagination
             current={currentPage}
@@ -255,6 +254,7 @@ export default function Report() {
             className="text-white [&_.ant-pagination-item]:bg-transparent [&_.ant-pagination-item]:transition [&_.ant-pagination-item:hover]:bg-white [&_.ant-pagination-item-active]:bg-white [&_.ant-pagination-item-active]:text-black"
           />
         </div>
+      )}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Pagination, Tag } from 'antd';
 import 'antd/dist/reset.css';
 import bgsklad from '@/assets/images/bg-sklad.png';
-import SearchForm from './modules/SearchForm';
+import SearchForm from '@/components/SearchForm/SearchForm';
 import bg from '@/assets/images/bg-login.jpg';
 import ImageModal from '@/components/modal/ImageModal';
 const dataSource = [
@@ -20,7 +20,7 @@ const dataSource = [
   { key: '12', code: 'OB012', name: 'Обои "Коричневый дуб"', stock: 4, photo: bg },
   { key: '13', code: 'OB013', name: 'Обои "Бирюзовый океан"', stock: 15, photo: bg },
   { key: '14', code: 'OB014', name: 'Обои "Лавандовый туман"', stock: 12, photo: bg },
-  { key: '15', code: 'OB015', name: 'Обои "Мятный бриз"', stock: 7, photo: bg },
+  { key: '15', code: 'OB015', name: 'Обои "Мятный бриз"', stock: 7, photo: bg }
 ];
 
 export default function Warehouse() {
@@ -53,7 +53,7 @@ export default function Warehouse() {
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
 
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-        <SearchForm data={dataSource} onSearch={setFilteredData} />
+        <SearchForm data={dataSource} name="" title="Vitrina" showDatePicker={false}  onSearch={setFilteredData} />
    
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
           {currentData.map((item) => (
@@ -82,16 +82,19 @@ export default function Warehouse() {
           onClose={() => setSelectedImage(null)}
           imageUrl={selectedImage}
         />
-        <div className="my-2 mb-12 md:mb-0 flex justify-center">
-          <Pagination
-            current={currentPage}
-            total={filteredData.length}
-            pageSize={itemsPerPage}
-            onChange={(page) => setCurrentPage(page)}
-            showSizeChanger={false}
-            className="text-white"
-          />
-        </div>
+
+        {filteredData.length > 0 && (
+          <div className="my-2 mb-12 md:mb-0 flex justify-center">
+            <Pagination
+              current={currentPage}
+              total={filteredData.length}
+              pageSize={itemsPerPage}
+              onChange={(page) => setCurrentPage(page)}
+              showSizeChanger={false}
+              className="text-white"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

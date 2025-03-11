@@ -1,24 +1,68 @@
 import React, { useState } from "react";
 import { Table, Button, Space, Popconfirm, Pagination } from "antd";
 import { EditOutlined, DeleteOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { Input } from "antd";
+import { Input } from 'antd';
 import ModalComponent from "@/components/modal/Modal";
-import AddStorage from "./components/AddStorage";
-import EditStorage from "./components/EditStorage";
-import useFetch from "@/hooks/useFetch";
-
+import AddShop from "./components/AddShop";
+import EditShop from "./components/EditShop";
 const { Search } = Input;
 
+const data = [
+  {
+    key: 1,
+    name: "Sotuvchi 1",
+  },
+  {
+    key: 2,
+    name: "Sotuvchi 2",
+  },
+  {
+    key: 3,
+    name: "Sotuvchi 3",
+  },
+  {
+    key: 4,
+    name: "Sotuvchi 4",
+  },
+  {
+    key: 5,
+    name: "Sotuvchi 5",
+  },
+  {
+    key: 6,
+    name: "Sotuvchi 6",
+  },
+  {
+    key: 7,
+    name: "Sotuvchi 7",
+  },
+  {
+    key: 8,
+    name: "Sotuvchi 8",
+  },
+  {
+    key: 9,
+    name: "Sotuvchi 9",
+  },
+  {
+    key: 10,
+    name: "Sotuvchi 10",
+  },
+  {
+    key: 11,
+    name: "Sotuvchi 11",
+  }
+]
 
 
-const Statistics = () => {
+
+
+const Seller = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [storageSingleData, setStorageSingleData] = useState(null);
+  const [sellerSingleData, setSellerSingleData] = useState(null);
   const [formType, setFormType] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
-
-  const { data, isLoading, error, refetch } = useFetch('warehouse', 'warehouse');
 
   const showModal = (type) => {
     setFormType(type);
@@ -27,11 +71,11 @@ const Statistics = () => {
 
   const onClose = () => {
     setIsModalOpen(false);
-    setStorageSingleData(null);
+    setSellerSingleData(null);
   };
-
+  
   const handleEdit = (record) => {
-    setStorageSingleData(record);
+    setSellerSingleData(record);
     showModal("edit");
   };
 
@@ -76,15 +120,15 @@ const Statistics = () => {
       width: 70,
     },
     {
-      title: "Ombor nomi",
+      title: "Magazin nomi",
       dataIndex: "name",
       key: "name",
       render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
     },
     {
-      title: "Ruxsat berilgan",
-      dataIndex: "isTrusted",
-      key: "isTrusted",
+      title: "Ombor nomi",
+      dataIndex: "warehouse",
+      key: "warehouse",
       render: (text) => <span className="text-gray-100 font-semibold">{text}</span>,
     },
     {
@@ -100,7 +144,7 @@ const Statistics = () => {
           />
           <Popconfirm
             title="O‘chirishni tasdiqlaysizmi?"
-            onConfirm={() => console.log("Deleted", record?.id)}
+            onConfirm={() => console.log("Deleted", record.key)}
             okText="Ha"
             cancelText="Yo‘q"
           >
@@ -114,41 +158,40 @@ const Statistics = () => {
   return (
     <div className="p-5">
       <div className="flex justify-between items-center mb-5">
-        <div className="text-3xl font-bold text-gray-100">Omborlar</div>
+        <div className="text-3xl font-bold  text-gray-100">Magazinlar</div>
         <div className="flex gap-3 items-center">
-          <Search placeholder="Qidirish" onSearch={onSearch} enterButton className="custom-search" />
-          <Button
-            type="primary"
-            style={{
-              backgroundColor: "#364153",
-              color: "#f3f4f6",
-              fontWeight: "500",
-              padding: "17px 20px",
-              borderRadius: "8px",
-              fontSize: "20px",
-            }}
-            className="hover:bg-[#0056b3] hover:border-[#004494] focus:bg-[#004494]"
-            onClick={() => showModal("add")}
-          >
-            Qo'shish
-          </Button>
+        <Search placeholder="Qidirish" onSearch={onSearch} enterButton className="custom-search"/>
+        <Button
+          type="primary"
+          style={{
+            backgroundColor: "#364153",
+            color: "#f3f4f6",
+            fontWeight: "500",
+            padding: "17px 20px",
+            borderRadius: "8px",
+            fontSize: "20px"
+          }}
+          className="hover:bg-[#0056b3] hover:border-[#004494] focus:bg-[#004494] "
+          onClick={() => showModal("add")}
+        >
+          Qo'shish
+        </Button>
         </div>
       </div>
       <div className="text-gray-100">
         <Table
           columns={columns}
-          dataSource={data?.data?.warehouses || []}
+          dataSource={data.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
           pagination={false}
           className="custom-table"
           rowClassName={() => "custom-row"}
           bordered
-          loading={isLoading}
         />
         <div className="flex justify-center mt-5">
           <Pagination
             className="custom-pagination"
             current={currentPage}
-            total={data?.data?.total}
+            total={data.length}
             pageSize={pageSize}
             onChange={(page) => setCurrentPage(page)}
             itemRender={itemRender}
@@ -158,12 +201,12 @@ const Statistics = () => {
       <ModalComponent
         isOpen={isModalOpen}
         onClose={onClose}
-        title={formType === "add" ? "Ombor qo'shish" : "Omborni tahrirlash"}
+        title={formType === "add" ? "Magazin qo'shish" : "Magazinni tahrirlash"}
       >
-        {formType === "add" ? <AddStorage onClose={onClose} refetch={refetch} /> : <EditStorage onClose={onClose} storageSingleData={storageSingleData} />}
+       {formType === "add" ?<AddShop onClose={onClose}/> : <EditShop onClose={onClose} sellerSingleData={sellerSingleData}/>} 
       </ModalComponent>
     </div>
   );
 };
 
-export default Statistics;
+export default Seller;

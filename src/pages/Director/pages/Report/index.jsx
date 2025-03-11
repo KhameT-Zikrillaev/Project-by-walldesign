@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import SearchForm from "@/components/SearchForm/SearchForm";
 const districts = [
   { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
   { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
@@ -25,23 +25,21 @@ const districts = [
   { id: 21, name: "Urgench", description: "Описание Urgench" },
   { id: 22, name: "Navoi", description: "Описание Navoi" },
   { id: 23, name: "Jizzakh", description: "Описание Jizzakh" },
-  { id: 24, name: "Termez", description: "Описание Termez" },
+  { id: 24, name: "Termez", description: "Описание Termez" }
 ];
 
 export default function Report() {
   const [visibleDistricts, setVisibleDistricts] = useState(12);
-
+  const [filteredData, setFilteredData] = useState(districts);
   const loadMoreDistricts = () => {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
   };
 
   return (
     <div className="DirectorReport pt-[150px] p-4">
-       <h3 className="text-white text-xl font-bold mb-4 text-center bg-gray-800 p-2 rounded-lg shadow-lg">
-        Omborlar
-      </h3>
+      <SearchForm data={districts} onSearch={setFilteredData} name="" title="Omborlar" showDatePicker={false} />
       <div className="grid grid-cols-2 gap-4">
-        {districts.slice(0, visibleDistricts).map((district) => (
+        {filteredData.slice(0, visibleDistricts).map((district) => (
           <Link
             key={district.id}
             to={`/director/report/${district.name}`}
@@ -52,7 +50,7 @@ export default function Report() {
           </Link>
         ))}
       </div>
-      {visibleDistricts < districts.length && (
+      {visibleDistricts < filteredData.length && (
         <div className="flex justify-center mt-4">
           <button
             onClick={loadMoreDistricts}

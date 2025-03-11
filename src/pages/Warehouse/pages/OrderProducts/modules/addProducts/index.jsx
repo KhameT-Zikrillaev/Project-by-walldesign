@@ -12,34 +12,34 @@ const AddProduct = ({ onClose, product }) => {
     watch,
   } = useForm();
 
-  const quantity = watch("quantity"); // Следим за значением количества
+  const stock = watch("stock"); // Следим за значением количества
 
   const onSubmit = (data) => {
-    if (data.quantity > product.stock) {
+    if (data.stock > product.stock) {
       message.error(`Max ${product.stock} ta.`);
       return;
     }
     console.log("Forma ma'lumotlari:", data);
     message.success(
-      `Заказ на ${product.name} в количестве ${data.quantity} ta оформлен!`
+      `Заказ на ${product.name} в количестве ${data.stock} ta оформлен!`
     );
     reset(); // Formani tozalash
     onClose();
   };
 
   // Функция для ограничения ввода только цифрами от 1 до product.stock
-  const handleQuantityChange = (e) => {
+  const handlestockChange = (e) => {
     const value = e.target.value.replace(/\D/g, ""); // Удаляем все символы, кроме цифр
     const maxValue = product.stock; // Максимальное значение равно product.stock
     const parsedValue = parseInt(value, 10);
 
     // Если значение больше максимального, устанавливаем максимальное значение
     if (parsedValue > maxValue) {
-      setValue("quantity", maxValue.toString());
+      setValue("stock", maxValue.toString());
     } else if (value === "") {
-      setValue("quantity", ""); // Позволяем очистить поле
+      setValue("stock", ""); // Позволяем очистить поле
     } else {
-      setValue("quantity", value); // Устанавливаем значение в форму
+      setValue("stock", value); // Устанавливаем значение в форму
     }
   };
 
@@ -58,6 +58,9 @@ const AddProduct = ({ onClose, product }) => {
               {" "}
               Part: <span className="text-red-500">{product?.code}</span>
             </p>
+            <p className="text-gray-100 font-semibold">
+              Jami narxi: { (stock || product?.stock) * product?.price} so'm
+            </p>
             <span className="text-gray-100 font-semibold">
               {product?.stock} dona bor omborda
             </span>
@@ -67,14 +70,14 @@ const AddProduct = ({ onClose, product }) => {
         {/* Поле для ввода количества */}
         <Form.Item
           label={<span className="text-gray-100 font-semibold">Soni</span>}
-          validateStatus={errors.quantity ? "error" : ""}
+          validateStatus={errors.stock ? "error" : ""}
           help={
-            errors.quantity?.message ||
-            (quantity > product?.stock && `Max ${product?.stock} ta`)
+            errors.stock?.message ||
+            (stock > product?.stock && `Max ${product?.stock} ta`)
           }
         >
           <Controller
-            name="quantity"
+            name="stock"
             control={control}
             rules={{
               required: "Sonni kiriting",
@@ -91,8 +94,9 @@ const AddProduct = ({ onClose, product }) => {
               <Input
                 placeholder="Sonnini kiriting"
                 className="custom-input"
+                defaultValue={product?.stock}
                 {...field}
-                onChange={handleQuantityChange} // Обработчик для ограничения ввода
+                onChange={handlestockChange} // Обработчик для ограничения ввода
                 max={product?.stock} // Максимальное значение
                 type="number" // Тип поля для мобильных устройств
               />
@@ -105,7 +109,7 @@ const AddProduct = ({ onClose, product }) => {
           <Button
             type="primary"
             htmlType="submit"
-            disabled={quantity > product?.stock}
+            disabled={stock > product?.stock}
             style={{
               backgroundColor: "#364153",
               color: "#f3f4f6",
