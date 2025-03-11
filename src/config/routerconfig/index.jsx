@@ -31,7 +31,6 @@ import WarehouseCashregister from '@/pages/Warehouse/pages/Cashregister';
 import WarehouseReport from '@/pages/Warehouse/pages/Report';
 import WarehouseViewDetaliesSendProducts from '@/pages/Warehouse/pages/SendProductsToShowcase/components/ViewDetaliesSendProducts'
 import WarehouseViewDetaliesRemoveProducts from '@/pages/Warehouse/pages/RemoveProductsFromShowcase/components/ViewDetaliesRemoveProducts'
-import WarehouseViewDetaliesTransferProducts from '@/pages/Warehouse/pages/TransferProductsToWarehouse/components/ViewDetaliesTransferProducts'
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Seller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import Seller from '@/pages/Seller';
 import SellerProduct from '@/pages/Seller/pages/Product';
@@ -74,10 +73,7 @@ export default function RouterConfig() {
         <Route path="send-to-showcase/:name" element={<WarehouseViewDetaliesSendProducts />} /> {/* /warehouse/send-to-showcase */}
         <Route path="remove-from-showcase" element={<WarehouseRemoveProductsFromShowcase />} /> {/* /warehouse/remove-from-showcase */}
         <Route path="remove-from-showcase/:name" element={<WarehouseViewDetaliesRemoveProducts />} /> {/* /warehouse/remove-from-showcase */}
-
         <Route path="transfer-to-warehouse" element={<WarehouseTransferProductsToWarehouse />} /> {/* /warehouse/transfer-to-warehouse */}
-        <Route path="transfer-to-warehouse/:name" element={<WarehouseViewDetaliesTransferProducts />} /> /warehouse/transfer-to-warehouse
-
         <Route path="order-products" element={<WarehouseOrderProducts />} /> {/* /warehouse/order-products */}
         <Route path="cash-register" element={<WarehouseCashregister />} /> {/* /warehouse/cash */}
         <Route path="shop" element={<WarehouseShop />}/>

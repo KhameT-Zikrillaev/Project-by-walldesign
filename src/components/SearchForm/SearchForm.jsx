@@ -16,6 +16,7 @@ const iconMap = {
   Hisobot: FaChartLine,
   Hisobotlar:FaChartLine,
   Hisobotlari: FaChartLine,
+  'Omboridigi mahsulotlarni yuborish': FaWarehouse,
 };
 
 const SearchForm = ({ data, onSearch, name, title, showDatePicker = true }) => {
