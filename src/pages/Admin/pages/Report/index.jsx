@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import "antd/dist/reset.css";
 import { Link } from "react-router-dom";
-import SearchForm from "./modules/SearchForm";
+import SearchForm from "@/components/SearchForm/SearchForm";
 const products = [
   { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
   { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
@@ -18,7 +18,7 @@ export default function Report() {
 
   return (
     <div className="DirectorProduct mt-[150px] p-4">
-      <SearchForm data={products} onSearch={setFilteredData} name={'Omborlar'} />
+      <SearchForm data={products} name="" title="Omborlar" showDatePicker={false} onSearch={setFilteredData}/>
       <div className="grid grid-cols-2 gap-4">
         {filteredData.map((product) => (
           <Link

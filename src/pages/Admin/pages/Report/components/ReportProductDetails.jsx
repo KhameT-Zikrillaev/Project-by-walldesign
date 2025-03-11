@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Pagination, Tag } from "antd";
 import "antd/dist/reset.css";
 import bgsklad from "../../../../../assets/images/bg-sklad.png";
-import ReportProductFilter from "../modules/reportProductFilter";
+import SearchForm from "@/components/SearchForm/SearchForm";
 import { useParams } from "react-router-dom";
 import ImageModal from "@/components/modal/ImageModal";
 import  bg  from '@/assets/images/bg-login.jpg';
@@ -188,7 +188,7 @@ export default function Report() {
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
 
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-        <ReportProductFilter data={dataSource} onSearch={setFilteredData}   />
+        <SearchForm data={dataSource} name={name} title="Hisobotlari" showDatePicker={true} onSearch={setFilteredData}   />
         <div className="grid grid-cols-1 mb-4 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full px-4">
           {currentData.map((item) => (
             <Card
@@ -244,6 +244,7 @@ export default function Report() {
           imageUrl={selectedImage}
         />
 
+   {filteredData.length > 0 && (
         <div className="my-2 mb-12 md:mb-2  flex justify-center">
           <Pagination
             current={currentPage}
@@ -254,6 +255,7 @@ export default function Report() {
             className="text-white [&_.ant-pagination-item]:bg-transparent [&_.ant-pagination-item]:transition [&_.ant-pagination-item:hover]:bg-white [&_.ant-pagination-item-active]:bg-white [&_.ant-pagination-item-active]:text-black"
           />
         </div>
+      )}
       </div>
     </div>
   );

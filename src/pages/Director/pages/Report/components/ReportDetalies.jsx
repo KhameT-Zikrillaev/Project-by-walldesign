@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Pagination, Tag } from "antd";
 import "antd/dist/reset.css";
 import bgsklad from "@/assets/images/bg-sklad.png";
-import SearchForm from "../modules/SearchForm";
+import SearchForm from "@/components/SearchForm/SearchForm";
 import bg from "@/assets/images/bg-login.jpg";
 import { useParams } from "react-router-dom";
 import ImageModal from "@/components/modal/ImageModal";
@@ -22,7 +22,7 @@ const products = [
   {
     id: 13,
     name: "Tashkent District",
-    description: "Описание Tashkent District",
+    description: "Описание Tashkent District"
   },
   { id: 14, name: "Samarkand", description: "Описание Samarkand" },
   { id: 15, name: "Bukhara", description: "Описание Bukhara" },
@@ -218,6 +218,8 @@ export default function Report() {
           data={dataSource}
           name={product.name}
           onSearch={setFilteredData}
+          title="Hisoboti"
+          showDatePicker={true}
         />
         <div className="grid grid-cols-1 mb-4 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full px-4">
           {currentData.map((item) => (
@@ -259,9 +261,7 @@ export default function Report() {
                     </p>
                     <p className="text-gray-300 text-xs pt-2 text-right">
                       Do'kon nomi:{" "}
-                      <span className="text-white font-bold">
-                        {item.name}
-                      </span>
+                      <span className="text-white font-bold">{item.name}</span>
                     </p>
                   </div>
                 </div>

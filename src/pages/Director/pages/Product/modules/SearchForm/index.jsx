@@ -20,8 +20,6 @@ const SearchForm = ({ data, onSearch,name }) => {
       <FaWarehouse className="text-3xl text-white" />
       <span className="text-xl font-semibold text-white ml-2">{name}</span>
       </div>
-      
-    
       <Search
         placeholder="Qidirish"
         onChange={(e) => handleSearch(e.target.value)}

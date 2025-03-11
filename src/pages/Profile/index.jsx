@@ -44,14 +44,14 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center p-4"
+      className="min-h-screen relative bg-cover bg-center p-4"
       style={{ backgroundImage: `url(${bgsklad})` }}
     >
       {isLoading && <Loading />}
       <Navbar />
 
       {/* Размытый фон */}
-      <div className="absolute hidden md:block inset-0 bg-black/40 backdrop-blur-sm z-0"></div>
+      <div className="absolute min-h-screen hidden md:block inset-0 bg-black/40 backdrop-blur-sm z-0"></div>
 
       {/* Основной контент */}
       <div className="relative z-0 flex flex-col items-center justify-center mt-[120px]">

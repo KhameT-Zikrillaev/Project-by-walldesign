@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const token = localStorage.getItem('tokenWall'); // Tokenni localStorage'dan olish
-
 const api = axios.create({
   baseURL: 'https://9bc8-82-215-106-106.ngrok-free.app/', // Asosiy API manzili
   withCredentials: true,
