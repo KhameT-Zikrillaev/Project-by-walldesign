@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const token = localStorage.getItem('tokenWall'); // Tokenni localStorage'dan olish
 const api = axios.create({
-  baseURL: 'https://9bc8-82-215-106-106.ngrok-free.app/', // Asosiy API manzili
+  baseURL: 'https://walldesign.limsa.uz/', // Asosiy API manzili
   withCredentials: true,
   headers: {
     Authorization: token ? `Bearer ${token}` : '', // Tokenni avtomatik qo'shish
@@ -28,7 +28,7 @@ api.interceptors.response.use(
 
       try {
         const response = await api.post('auth/refresh');
-
+        api.defaults.headers.Authorization = `Bearer ${response.data.accessToken}`;
         originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
         return api(originalRequest);
       } catch (err) {
