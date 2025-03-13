@@ -14,7 +14,7 @@ const AddSeller = ({ onClose, refetch }) => {
     reset,
   } = useForm();
 
-  const { data: warehouses } = useFetch('warehouse', 'warehouse', {limit: 50});
+  const { data: warehouses } = useFetch('warehouse', 'warehouse');
 
   const { mutate, isLoading } = useApiMutation({
       url: "shop",

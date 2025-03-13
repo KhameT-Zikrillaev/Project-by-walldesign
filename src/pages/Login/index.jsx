@@ -52,6 +52,7 @@ export default function Login() {
       }
     },
     onError: (error) => {
+      navigate("/");
     },
   });
 

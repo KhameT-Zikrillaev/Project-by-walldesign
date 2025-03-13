@@ -1,22 +1,39 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Input, Button, Form, message, Select } from "antd";
+import { Input, Button, Form, Select } from "antd";
+import useFetch from "@/hooks/useFetch";
+import useApiMutation from "@/hooks/useApiMutation";
 
 const { Option } = Select;
 
-const AddUser = ({ onClose }) => {
+const AddUser = ({ onClose, refetch }) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
     reset,
+    watch
   } = useForm();
 
+  const { data: warehouses } = useFetch('warehouse', 'warehouse');
+  const { data: shops } = useFetch('shop', 'shop');
+
+  const { mutate, isLoading } = useApiMutation({
+        url: "users",
+        method: "POST",
+        onSuccess: () => {
+          reset(); // Formani tozalash
+          onClose();
+          refetch();
+        },
+        onError: (error) => {
+          console.error("Error creating user:", error);
+          alert("Xatolik yuz berdi!");
+        },
+      });
+
   const onSubmit = (data) => {
-    console.log("Forma ma'lumotlari:", data);
-    message.success("Ombor 2 muvaffaqiyatli qo‘shildi!");
-    reset(); // Formani tozalash
-    onClose();
+    mutate(data);
   };
 
   return (
@@ -75,7 +92,9 @@ const AddUser = ({ onClose }) => {
           />
         </Form.Item>
 
-        <Form.Item
+        
+        {watch('role') === 'staff' && (
+          <Form.Item
           label={
             <span className="text-gray-100 font-semibold">
               Ombor nomi
@@ -96,15 +115,22 @@ const AddUser = ({ onClose }) => {
                 onChange={(value) => field.onChange(value)}
                 dropdownClassName="custom-dropdown"
               >
-                <Option value="staff">Omborchi</Option>
-                <Option value="seller">Sotuvchi</Option>
-                <Option value="user">Sotuvchi 2</Option>
+
+                {
+                  warehouses?.data?.warehouses?.map((warehouse) => (
+                    <Option key={warehouse?.id} value={warehouse?.id}>
+                      {warehouse?.name}
+                    </Option>
+                  ))
+                }
               </Select>
             )}
           />
         </Form.Item>
+        )}
 
-        <Form.Item
+        {(watch('role') === 'seller' || watch('role') === 'user') && (
+          <Form.Item
           label={
             <span className="text-gray-100 font-semibold">
               Magazin nomi
@@ -125,13 +151,18 @@ const AddUser = ({ onClose }) => {
                 onChange={(value) => field.onChange(value)}
                 dropdownClassName="custom-dropdown"
               >
-                <Option value="staff">Omborchi</Option>
-                <Option value="seller">Sotuvchi</Option>
-                <Option value="user">Sotuvchi 2</Option>
+                {
+                  shops?.data?.shops?.map((shop) => (
+                    <Option key={shop?.id} value={shop?.id}>
+                      {shop?.name}
+                    </Option>
+                  ))
+                }
               </Select>
             )}
           />
         </Form.Item>
+        )}
 
         {/* Telfon nomer */}
         <Form.Item
@@ -180,6 +211,7 @@ const AddUser = ({ onClose }) => {
           <Button
             type="primary"
             htmlType="submit"
+            loading={isLoading}
             style={{
               backgroundColor: "#364153",
               color: "#f3f4f6",

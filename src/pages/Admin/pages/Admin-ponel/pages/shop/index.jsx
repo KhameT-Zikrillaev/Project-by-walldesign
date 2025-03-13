@@ -91,8 +91,6 @@ const Seller = () => {
   const columns = [
     {
       title: "№",
-      dataIndex: "key",
-      key: "key",
       render: (_, __, index) => <span className="text-gray-100 font-semibold">{(page - 1) * limit + index + 1}</span>,
       width: 70,
     },
