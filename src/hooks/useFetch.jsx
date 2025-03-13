@@ -6,6 +6,7 @@ const fetchData = async (url, params = {}) => {
   return data;
 };
 
+
 const useFetch = (key, url, params = {}, options = {}) => {
   return useQuery({
     queryKey: [key, JSON.stringify(params)], // params obyektini stabilizatsiya qilamiz

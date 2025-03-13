@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SearchForm from "@/components/SearchForm/SearchForm";
+import useFetch from "@/hooks/useFetch";
 
 const districts = [
   { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
@@ -36,6 +37,20 @@ export default function DirectorProduct() {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
   };
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ZAPROS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+const { data, isLoading, refetch } = useFetch('warehouse', 'warehouse', {});
+
+useEffect(() => {
+  refetch()
+}, [])
+
+useEffect(() => {
+  setFilteredData(data?.data?.warehouses)
+}, [data])
+
+console.log(data)
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ZAPROS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   return (
     <div className="DirectorProduct pt-[150px] p-4">
       <SearchForm data={districts} name="" title="Omborlar" showDatePicker={false} onSearch={setFilteredData} />
