@@ -33,7 +33,7 @@ import WarehouseViewDetaliesSendProducts from '@/pages/Warehouse/pages/SendProdu
 import WarehouseViewDetaliesRemoveProducts from '@/pages/Warehouse/pages/RemoveProductsFromShowcase/components/ViewDetaliesRemoveProducts'
 import WarehouseOrderProducts from "../../pages/Warehouse/pages/OrderProducts";
 import WarehouseDetailProductsLists from "./../../pages/Warehouse/pages/OrderProducts/components/DetialOrderProducts";
-
+import WarehouseViewDetaliesTransferProducts from '@/pages/Warehouse/pages/TransferProductsToWarehouse/components/ViewDetaliesTransferProducts'
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Seller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import Seller from '@/pages/Seller';
@@ -98,6 +98,11 @@ export default function RouterConfig() {
         <Route
           path="transfer-to-warehouse"
           element={<WarehouseTransferProductsToWarehouse />}
+        />{" "}
+        {/* /warehouse/transfer-to-warehouse */}
+        <Route
+          path="transfer-to-warehouse/:name"
+          element={<WarehouseViewDetaliesTransferProducts />}
         />{" "}
         {/* /warehouse/transfer-to-warehouse */}
         <Route
