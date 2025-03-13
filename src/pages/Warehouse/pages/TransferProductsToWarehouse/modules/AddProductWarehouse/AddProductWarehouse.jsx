@@ -11,7 +11,7 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess }) => {
     { key: '2', code: 'OB002', name: 'Обои "Зеленый лес"', price: 1200, stock: 5, photo: bg },
     { key: '3', code: 'OB003', name: 'Обои "Красный закат"', price: 1100, stock: 8, photo: bg },
     { key: '4', code: 'OB004', name: 'Обои "Желтый песок"', price: 900, stock: 15, photo: bg },
-    { key: '5', code: 'OB005', name: 'Обои "Фиолетовый туман"', price: 1300, stock: 3, photo: bg },
+    { key: '5', code: 'OB005', name: 'Обои "Фиолетой туман"', price: 1300, stock: 3, photo: bg },
     { key: '6', code: 'OB006', name: 'Обои "Голубое небо"', price: 950, stock: 7, photo: bg },
     { key: '7', code: 'OB007', name: 'Обои "Розовый рассвет"', price: 1050, stock: 12, photo: bg },
     { key: '8', code: 'OB008', name: 'Обои "Серый камень"', price: 800, stock: 20, photo: bg },
