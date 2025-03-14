@@ -4,7 +4,7 @@ import { Input, Button, Form, Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import useApiMutation from "@/hooks/useApiMutation";
 
-const AddProduct = ({ onClose }) => {
+const AddProduct = ({ onClose, refetch }) => {
   const {
     handleSubmit,
     control,
@@ -16,11 +16,15 @@ const AddProduct = ({ onClose }) => {
   const imageFile = watch("image");
   const [previewImage, setPreviewImage] = useState(null);
 
-  const { mutate } = useApiMutation({
+  const { mutate, isLoading } = useApiMutation({
     url: 'product',
     method: 'POST', 
     isFormData: true, 
-    onSuccess: (data) => console.log('Profil yangilandi:', data),
+    onSuccess: (data) => {
+      reset(); // Formani tozalash
+      onClose();
+      refetch();
+    },
     onError: (error) => console.error('Xatolik:', error),
   });
 
@@ -172,6 +176,7 @@ const AddProduct = ({ onClose }) => {
           <Button
             type="primary"
             htmlType="submit"
+            loading={isLoading}
             style={{
               backgroundColor: "#364153",
               color: "#f3f4f6",

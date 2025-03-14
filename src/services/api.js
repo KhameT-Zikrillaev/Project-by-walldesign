@@ -19,24 +19,23 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+// api.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     const originalRequest = error.config;
 
-    if (error.response?.status === 401) {
+//     if (error.response?.status === 401) {
 
-      try {
-        const response = await api.post('auth/refresh');
-        api.defaults.headers.Authorization = `Bearer ${response.data.accessToken}`;
-        originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
-        return api(originalRequest);
-      } catch (err) {
-        console.error("Refresh token ishlamadi");
-      }
-    }
-    return Promise.reject(error);
-  }
-);
+//       try {
+//         const response = await api.post('auth/refresh');
+//         originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
+//         return api(originalRequest);
+//       } catch (err) {
+//         console.error("Refresh token ishlamadi");
+//       }
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 export default api;
