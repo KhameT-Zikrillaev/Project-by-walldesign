@@ -41,13 +41,13 @@ export default function DirectorProduct() {
 
 const { data, isLoading, refetch } = useFetch('warehouse', 'warehouse', {});
 
-// useEffect(() => {
-//   refetch()
-// }, [])
+useEffect(() => {
+  refetch()
+}, [])
 
-// useEffect(() => {
-//   setFilteredData(data?.data?.warehouses)
-// }, [data])
+useEffect(() => {
+  setFilteredData(data?.data?.warehouses)
+}, [data])
 
 console.log(data)
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ZAPROS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

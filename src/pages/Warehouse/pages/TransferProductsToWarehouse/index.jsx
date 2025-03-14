@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SearchForm from "@/components/SearchForm/SearchForm";
 import useUserStore from "@/store/useUser";
+import useFetch from "@/hooks/useFetch";
 const products = [
   { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
   { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
@@ -17,18 +18,25 @@ export default function WarehouseTransferProducts() {
   const loadMoreDistricts = () => {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
   };
-  const { user, isLoggedIn } = useUserStore();
+ const { user, isLoggedIn } = useUserStore();
+
+ const { data, isLoading, refetch } = useFetch('warehouse', 'warehouse', {});
+
+
+useEffect(() => {
+  setFilteredData(data?.data?.warehouses)
+}, [data])
 
   // Если пользователь не авторизован, показываем сообщение
   if (!isLoggedIn) {
     return <p>Пожалуйста, войдите в систему, чтобы увидеть ваш профиль.</p>;
   }
-  console.log(user)
+  console.log(data?.data?.warehouses)
   return (
     <div className="WarehouseTransferProduct mt-[150px] p-4">
        <SearchForm data={products} name="" title="Omborlar" showDatePicker={false} onSearch={setFilteredData} />
       <div className="grid grid-cols-2 gap-4">
-        {filteredData.slice(0, visibleDistricts).map((product) => (
+        {filteredData?.slice(0, visibleDistricts).map((product) => (
           <Link
             key={product.id}
             to={`/warehouse/transfer-to-warehouse/${product.name}`}
@@ -39,7 +47,7 @@ export default function WarehouseTransferProducts() {
           </Link>
         ))}
       </div>
-      {visibleDistricts < filteredData.length && (
+      {visibleDistricts < filteredData?.length && (
         <div className="flex justify-center mt-4">
           <button
             onClick={loadMoreDistricts}
