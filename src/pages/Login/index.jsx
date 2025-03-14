@@ -41,7 +41,7 @@ export default function Login() {
           if(response?.data?.role === "admin"){
             navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
           }else if(response?.data?.role === "staff"){
-            navigate("/werehouse");
+            navigate("/warehouse");
           }
 
           // navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "antd/dist/reset.css";
 import { Link } from "react-router-dom";
+import SearchForm from "@/components/SearchForm/SearchForm";
 
 const products = [
   { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
@@ -12,11 +13,12 @@ const products = [
 ];
 
 export default function WarehouseOrderProducts() {
+  const [filteredData, setFilteredData] = useState(products);
   return (
     <div className="DirectorProduct mt-[150px] p-4">
-      <h3 className="text-white mb-4">Omborlar ro'yxati</h3>
+      <SearchForm data={products} name="" title="Omborlar" showDatePicker={false} onSearch={setFilteredData} />
       <div className="grid grid-cols-2 gap-4">
-        {products.map((product) => (
+        {filteredData.map((product) => (
           <Link
             key={product.id}
             to={`/warehouse/order-products/${product.name}`}
