@@ -28,6 +28,7 @@ import WarehouseTransferProductsToWarehouse from '@/pages/Warehouse/pages/Transf
 import WarehouseShop from '@/pages/Warehouse/pages/Shop';
 import WarehouseReturnProducts from '@/pages/Warehouse/pages/Shop/pages/ReturnProducts';
 import WarehouseCashregister from '@/pages/Warehouse/pages/Cashregister';
+import WarehouseCashregisterDetails from '@/pages/Warehouse/pages/Cashregister/components/CashregisterDetailes';
 import WarehouseReport from '@/pages/Warehouse/pages/Report';
 import WarehouseViewDetaliesSendProducts from '@/pages/Warehouse/pages/SendProductsToShowcase/components/ViewDetaliesSendProducts'
 import WarehouseViewDetaliesRemoveProducts from '@/pages/Warehouse/pages/RemoveProductsFromShowcase/components/ViewDetaliesRemoveProducts'
@@ -116,6 +117,8 @@ export default function RouterConfig() {
         />{" "}
         {/* /warehouse/order-products */}
         <Route path="cash-register" element={<WarehouseCashregister />} />{" "}
+        {/* /warehouse/cash */}
+        <Route path="cash-register/:name" element={<WarehouseCashregisterDetails />} />{" "}
         {/* /warehouse/cash */}
         <Route path="shop" element={<WarehouseShop />} />
         <Route path="report" element={<WarehouseReport />}></Route>

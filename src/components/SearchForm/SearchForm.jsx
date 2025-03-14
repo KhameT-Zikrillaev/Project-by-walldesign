@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Input, DatePicker } from 'antd'; // Импортируем DatePicker из antd
 import { FaWarehouse, FaChartLine,FaListAlt, FaBox,FaUserTie} from "react-icons/fa";
+import { TbShoppingCartCheck } from "react-icons/tb";
 import dayjs from 'dayjs'; // Для работы с датами
 
 const { Search } = Input;
@@ -17,7 +18,10 @@ const iconMap = {
   Hisobot: FaChartLine,
   Hisobotlar:FaChartLine,
   Hisobotlari: FaChartLine,
+  Kassa:TbShoppingCartCheck,
+  "Kassa ma'lumotlari":TbShoppingCartCheck,
   'Omboridigi mahsulotlarni yuborish': FaWarehouse,
+  "Omborlar ro'yxati": FaWarehouse,
 };
 
 const SearchForm = ({ data, onSearch, name, title, showDatePicker = true }) => {

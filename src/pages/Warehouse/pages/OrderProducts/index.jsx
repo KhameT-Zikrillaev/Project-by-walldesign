@@ -16,7 +16,7 @@ export default function WarehouseOrderProducts() {
   const [filteredData, setFilteredData] = useState(products);
   return (
     <div className="DirectorProduct mt-[150px] p-4">
-      <SearchForm data={products} name="" title="Omborlar" showDatePicker={false} onSearch={setFilteredData} />
+      <SearchForm data={products} name="" title="Omborlar ro'yxati" showDatePicker={false} onSearch={setFilteredData} />
       <div className="grid grid-cols-2 gap-4">
         {filteredData.map((product) => (
           <Link
