@@ -40,6 +40,8 @@ export default function Login() {
 
           if(response?.data?.role === "admin"){
             navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
+          }else if(response?.data?.role === "staff"){
+            navigate("/werehouse");
           }
 
           // navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
@@ -69,9 +71,9 @@ export default function Login() {
     }
 
     // Здесь можно добавить логику проверки логина и пароля
-    if (username === "sklad" && password === "sklad123") {
-      navigate("/warehouse"); // Перенаправление на домашнюю страницу
-    }
+    // if (username === "sklad" && password === "sklad123") {
+    //   navigate("/warehouse"); // Перенаправление на домашнюю страницу
+    // }
     if (username === "seller" && password === "seller123") {
       navigate("/seller"); // Перенаправление на домашнюю страницу
     } 
