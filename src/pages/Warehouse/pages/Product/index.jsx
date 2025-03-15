@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Pagination, Tag } from "antd";
+import { Card, Pagination, Tag, Spin } from "antd";
 import "antd/dist/reset.css";
 import bgsklad from "../../../../assets/images/bg-sklad.png";
 import SearchForm from "@/components/SearchForm/SearchForm";
@@ -18,7 +18,7 @@ export default function Warehouse() {
   // Update filteredData when data changes
   useEffect(() => {
     if (data?.data?.products) {
-      console.log("Data from API:", data.data.products); // Отладочная информация
+      console.log("Data from API:", data.data.products);
       setFilteredData(data.data.products);
     }
   }, [data]);
@@ -55,49 +55,50 @@ export default function Warehouse() {
           showDatePicker={false}
           onSearch={setFilteredData}
         />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full px-4">
-          {currentData.map((item) => (
-            <Card
-              key={item.id}
-              className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
-              style={{
-                background: "rgba(255, 255, 255, 0.1)",
-                backdropFilter: "blur(10px)",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
-              }}
-              cover={
-                <div
-                  onClick={() => {
-                    console.log("Selected Image URL:", item.image_url); // Отладочная информация
-                    setSelectedImage(item.image_url);
-                  }}
-                  className="h-48 w-full bg-cover cursor-pointer bg-center rounded-t-lg"
-                  style={{
-                    backgroundImage: `url('${item.image_url}')`,
-                    border: "2px solid red", // Временная рамка для отладки
-                  }}
-                />
-              }
-              bodyStyle={{ padding: "12px", color: "white" }}
-            >
-              <div className="flex flex-col gap-2">
-                <Tag color="blue">
-                  Part: <span className="text-red-500">{item.article}</span>
-                </Tag>
-                <h4 className="text-sm font-semibold text-white">
-                  {item.description || "No description"}
-                </h4>
-                <div className="flex justify-between">
-                  <p className="text-gray-300 text-xs">
-                    Batch: {item.batch_number}
-                  </p>
+        
+        {/* Loader while data is loading */}
+        {isLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <Spin size="large" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full px-4">
+            {currentData.map((item) => (
+              <Card
+                key={item.id}
+                className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
+                style={{
+                  background: "rgba(255, 255, 255, 0.1)",
+                  backdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255, 255, 255, 0.2)",
+                }}
+                cover={
+                  <div
+                    onClick={() => setSelectedImage(item.image_url)}
+                    className="h-48 w-full bg-cover cursor-pointer bg-center rounded-t-lg"
+                    style={{ backgroundImage: `url('${item.image_url}')` }}
+                  />
+                }
+                bodyStyle={{ padding: "12px", color: "white" }}
+              >
+                <div className="flex flex-col gap-2">
+                  <Tag color="blue">
+                    Part: <span className="text-red-500">{item.article}</span>
+                  </Tag>
+                  <h4 className="text-sm font-semibold text-white">
+                    {item.description || "No description"}
+                  </h4>
+                  <div className="flex justify-between">
+                    <p className="text-gray-300 text-xs">
+                      Batch: {item.batch_number}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-
+              </Card>
+            ))}
+          </div>
+        )}
+        
         {/* Image Modal */}
         <ImageModal
           isOpen={!!selectedImage}
@@ -106,7 +107,7 @@ export default function Warehouse() {
         />
 
         {/* Pagination */}
-        {filteredData.length > 0 && (
+        {filteredData.length > 0 && !isLoading && (
           <div className="my-4 flex justify-center">
             <Pagination
               current={currentPage}
