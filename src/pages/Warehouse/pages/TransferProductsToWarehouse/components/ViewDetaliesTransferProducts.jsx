@@ -1,41 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import { Card, Pagination, Tag, Button, Checkbox } from 'antd';
+import { Card, Pagination, Tag, Button, Spin} from 'antd';
 import 'antd/dist/reset.css';
 import bgsklad from '@/assets/images/bg-sklad.png';
 import SearchForm from '@/components/SearchForm/SearchForm';
-import bg from '@/assets/images/bg-login.jpg';
 import ModalComponent from "@/components/modal/Modal";
-import AddProductVitrina from "../modules/AddProductWarehouse/AddProductWarehouse";
+import AddProductWarehouse from "../modules/AddProductWarehouse/AddProductWarehouse";
 import ImageModal from "@/components/modal/ImageModal";
 import CustomCheckbox from "@/components/CustomCheckbox";
+import useFetch from "@/hooks/useFetch";
+import useUserStore from "@/store/useUser";
 
-const dataSource = [
-  { key: '1', code: 'OB001', name: 'Обои "Синий океан"', color: '#0000FF', price: 1000, stock: 10, photo: bg },
-  { key: '2', code: 'OB002', name: 'Обои "Зеленый лес"', color: '#008000', price: 1200, stock: 5, photo: bg },
-  { key: '3', code: 'OB003', name: 'Обои "Красный закат"', color: '#FF0000', price: 1100, stock: 8, photo: bg },
-  { key: '4', code: 'OB004', name: 'Обои "Желтый песок"', color: '#FFFF00', price: 900, stock: 15, photo: bg },
-  { key: '5', code: 'OB005', name: 'Обои "Фиолетовый туман"', color: '#800080', price: 1300, stock: 3, photo: bg },
-  { key: '6', code: 'OB006', name: 'Обои "Голубое небо"', color: '#87CEEB', price: 950, stock: 7, photo: bg },
-  { key: '7', code: 'OB007', name: 'Обои "Розовый рассвет"', color: '#FFC0CB', price: 1050, stock: 12, photo: bg },
-  { key: '8', code: 'OB008', name: 'Обои "Серый камень"', color: '#808080', price: 800, stock: 20, photo: bg },
-  { key: '9', code: 'OB009', name: 'Обои "Белый снег"', color: '#FFFFFF', price: 1000, stock: 0, photo: bg },
-  { key: '10', code: 'OB010', name: 'Обои "Черная ночь"', color: '#000000', price: 1400, stock: 6, photo: bg },
-  { key: '11', code: 'OB011', name: 'Обои "Оранжевый закат"', color: '#FFA500', price: 1150, stock: 9, photo: bg },
-  { key: '12', code: 'OB012', name: 'Обои "Коричневый дуб"', color: '#A52A2A', price: 1250, stock: 4, photo: bg },
-  { key: '13', code: 'OB013', name: 'Обои "Бирюзовый океан"', color: '#40E0D0', price: 1350, stock: 15, photo: bg },
-  { key: '14', code: 'OB014', name: 'Обои "Лавандовый туман"', color: '#E6E6FA', price: 950, stock: 12, photo: bg },
-  { key: '15', code: 'OB015', name: 'Обои "Мятный бриз"', color: '#98FF98', price: 1100, stock: 7, photo: bg },
-];
 
 export default function ViewDetaliesTransferProducts() {
   const { name } = useParams(); // Получаем параметр name из URL
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
-  const [filteredData, setFilteredData] = useState(dataSource);
+  const [filteredData, setFilteredData] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user } = useUserStore();
+
+// ~~~~~~~~~~~~~~~~~~~~~~логика товаров из апи~~~~~~~~~~~~~~~~~~~~~~~~~~
+const id = user?.warehouse?.id;
+const { data, isLoading, refetch } = useFetch(
+  id ? `warehouse-products/${id}` : null, // Если id нет, не создаем ключ запроса
+  id ? `warehouse-products/${id}` : null, // Если id нет, не делаем запрос
+  {},
+  {
+    enabled: !! id, // Запрос будет выполнен только если id существует
+  }
+);
+console.log(data)
+// Update filteredData when data changes
+useEffect(() => {
+  if (data) {
+    console.log("Data from API:", data);
+    setFilteredData(data.map(item => ({
+      ...item,
+      key: item.product_id // используем product_id как key
+    })));
+  }
+}, [data]);
+
+
 
   // Открытие модального окна
   const showModal = () => {
@@ -61,9 +70,9 @@ export default function ViewDetaliesTransferProducts() {
   // Обработчик выбора товара
   const handleCheckboxChange = (item) => {
     setSelectedProducts((prev) =>
-      prev.includes(item.key)
-        ? prev.filter((key) => key !== item.key)
-        : [...prev, item.key]
+      prev.includes(item.product_id)
+        ? prev.filter((id) => id !== item.product_id)
+        : [...prev, item.product_id]
     );
   };
   const resetSelection = () => {
@@ -75,7 +84,7 @@ export default function ViewDetaliesTransferProducts() {
     if (selectedProducts.length === filteredData.length) {
       setSelectedProducts([]);
     } else {
-      setSelectedProducts(filteredData.map(item => item.key));
+      setSelectedProducts(filteredData.map(item => item.product_id));
     }
   };
 
@@ -90,7 +99,7 @@ export default function ViewDetaliesTransferProducts() {
     <div className="min-h-screen bg-cover bg-center p-1 relative" style={{ backgroundImage: `url(${bgsklad})` }}>
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-        <SearchForm data={dataSource} onSearch={setFilteredData} name={name +'ga'} title="Omboridigi mahsulotlarni yuborish" showDatePicker={false} />
+        <SearchForm data={data} onSearch={setFilteredData} name={name +" " +'omboriga'} title="Omboridigi mahsulotlarni yuborish" showDatePicker={false} />
         <div className='w-full flex justify-end'>
         <Button
           type=""
@@ -101,6 +110,11 @@ export default function ViewDetaliesTransferProducts() {
           {selectedProducts.length === filteredData.length ? 'Hammasini yechish' : 'Hammasini tanlash'}
         </Button>
         </div>
+        {isLoading ? (
+  <div className="flex justify-center items-center h-[300px]">
+    <Spin size="large" />
+  </div>
+      ):(
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
           {currentData.map((item) => (
             <Card
@@ -119,18 +133,10 @@ export default function ViewDetaliesTransferProducts() {
           >
             <div className="flex flex-col gap-2">
               <Tag color="blue">Part: <span className="text-red-500">{item.code}</span></Tag>
-              <h4 className="text-sm font-semibold text-white">{item.name}</h4>
-              <div className="flex justify-between">
-                  <p className="text-gray-300 text-xs">
-                    Narxi: {item.price} so'm
-                  </p>
-                  <p className="text-gray-300 text-xs">
-                    Soni bor: {item.stock} dona.
-                  </p>
-                </div>
+              <h4 className="text-sm font-semibold text-white">{item.price + " $"}</h4>
               <div className='mt-[15px]'>
               <CustomCheckbox
-  checked={selectedProducts.includes(item.key)}
+  checked={selectedProducts.includes(item.product_id)}
   onChange={() => handleCheckboxChange(item)}
   label="Tanlash"
 />
@@ -139,7 +145,7 @@ export default function ViewDetaliesTransferProducts() {
           </Card>
           ))}
         </div>
-
+      )}
         {filteredData.length > 0 && (
           <div className="my-2 mb-12 md:mb-0 flex justify-center">
             <Pagination
@@ -152,8 +158,6 @@ export default function ViewDetaliesTransferProducts() {
             />
           </div>
         )}
-
-        {filteredData.length > 0 && (
           <div className="w-full flex flex-col md:flex-row mt-2 mb-12 gap-2 justify-center items-center">
             <span className='bg-gray-700 py-[7px] max-w-[300px] w-full text-center h-[40px] text-white text-[18px] rounded-lg shadow-lg'>
               Tanlangan: {selectedProducts.length}
@@ -181,8 +185,6 @@ export default function ViewDetaliesTransferProducts() {
   Yuborish
 </Button>
           </div>
-        )}
-
         <ImageModal
           isOpen={!!selectedImage}
           onClose={() => setSelectedImage(null)}
@@ -192,9 +194,9 @@ export default function ViewDetaliesTransferProducts() {
         <ModalComponent
           isOpen={isModalOpen}
           onClose={onClose}
-          title={ name + " " +"Omboriga yuborish"}
+          title={ name + " " +"Vitrinasiga yuborish"}
         >
-          <AddProductVitrina onClose={onClose} selectedProducts={selectedProducts} onSuccess={resetSelection}  />
+          <AddProductWarehouse onClose={onClose} selectedProducts={selectedProducts} onSuccess={resetSelection}  />
         </ModalComponent>
       </div>
     </div>
