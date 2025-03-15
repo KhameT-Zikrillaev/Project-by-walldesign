@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, List, Image } from "antd";
+import { Button, List, Image, InputNumber } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 
 const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess }) => {
@@ -10,7 +10,7 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess }) => {
     if (selectedProducts) {
       const preselectedItems = selectedProducts.map((item, index) => ({
         ...item,
-        key: `${item.product_id}-${index}`, // Делаем ключ уникальным
+        key: `${item.product_id}-${index}`,
         quantity: item.quantity || 1,
       }));
       setSelectedItems(preselectedItems);
@@ -27,6 +27,15 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess }) => {
       }
       return updatedItems;
     });
+  };
+
+  // Изменяем количество товара
+  const handleQuantityChange = (key, value) => {
+    setSelectedItems((prev) =>
+      prev.map((item) =>
+        item.key === key ? { ...item, quantity: value } : item
+      )
+    );
   };
 
   // Отправка данных
@@ -69,31 +78,53 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess }) => {
                     <div className="text-white">{product.code}</div>
                   </div>
                 </div>
-                <Button
-                  type="text"
-                  size="small"
-                  icon={<CloseOutlined />}
-                  onClick={() => handleRemove(product.key)}
-                  style={{
-                    color: "#fff",
-                    backgroundColor: "#17212b",
-                    borderRadius: "4px",
-                    width: "28px",
-                    height: "28px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    transition: "background-color 0.2s ease",
-                    marginRight: "10px",
-                  }}
-                  className="hover:bg-red-600"
-                />
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {/* ✅ Добавил InputNumber ВНУТРИ renderItem */}
+                  <InputNumber
+                    min={1}
+                    max={product.stock}
+                    value={product.quantity}
+                    onChange={(value) =>
+                      handleQuantityChange(product.key, value)
+                    }
+                    style={{ width: 60, marginRight: 10 }}
+                    controls={true}
+                    step={1}
+                    parser={(value) => value.replace(/[^\d]/g, "")}
+                    formatter={(value) => `${value}`.replace(/[^\d]/g, "")}
+                    onKeyPress={(e) => {
+                      if (!/[0-9]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                  <Button
+                    type="text"
+                    size="small"
+                    icon={<CloseOutlined />}
+                    onClick={() => handleRemove(product.key)}
+                    style={{
+                      color: "#fff",
+                      backgroundColor: "#17212b",
+                      borderRadius: "4px",
+                      width: "28px",
+                      height: "28px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "background-color 0.2s ease",
+                      marginRight: "10px",
+                    }}
+                    className="hover:bg-red-600"
+                  />
+                </div>
               </List.Item>
             )}
             pagination={{ pageSize: 5 }}
           />
         </div>
 
+        {/* ✅ Количество товаров */}
         <div className="text-center text-white mt-4">
           <span>
             Количество выбранных товаров:{" "}
@@ -101,6 +132,7 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess }) => {
           </span>
         </div>
 
+        {/* ✅ Кнопка отправки */}
         <Button
           type="primary"
           onClick={onSubmit}

@@ -69,12 +69,17 @@ useEffect(() => {
 
   // Обработчик выбора товара
   const handleCheckboxChange = (item) => {
-    setSelectedProducts((prev) =>
-      prev.includes(item.product_id)
-        ? prev.filter((id) => id !== item.product_id)
-        : [...prev, item.product_id]
-    );
+    setSelectedProducts((prev) => {
+      const isSelected = prev.some((product) => product.product_id === item.product_id);
+      if (isSelected) {
+        return prev.filter((product) => product.product_id !== item.product_id);
+      } else {
+        return [...prev, item]; // Добавляем весь объект товара
+      }
+    });
   };
+  
+  
   const resetSelection = () => {
     setSelectedProducts([]); // Сбрасываем все выбранные элементы
   };
@@ -84,7 +89,7 @@ useEffect(() => {
     if (selectedProducts.length === filteredData.length) {
       setSelectedProducts([]);
     } else {
-      setSelectedProducts(filteredData.map(item => item.product_id));
+      setSelectedProducts(filteredData); // Передаём массив объектов, а не product_id
     }
   };
 
