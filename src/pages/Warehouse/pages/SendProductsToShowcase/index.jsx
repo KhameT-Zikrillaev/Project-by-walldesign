@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SearchForm from "@/components/SearchForm/SearchForm";
-
+import useFetch from "@/hooks/useFetch";
+import { Spin } from "antd";
 const products = [
   { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
   { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
@@ -13,15 +14,23 @@ const products = [
 
 export default function WarehouseProducts() {
   const [visibleDistricts, setVisibleDistricts] = useState(12);
-  const [filteredData, setFilteredData] = useState(products);
+  const [filteredData, setFilteredData] = useState([]);
   const loadMoreDistricts = () => {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
   };
+  const { data, isLoading } = useFetch("shop", "shop", {});
+  useEffect(() => {
+    setFilteredData(data?.data?.shops);
+  }, [data]);
   return (
     <div className="DirectorProduct mt-[150px] p-4">
        <SearchForm data={products} name="" title="Sotuvchilar" showDatePicker={false} onSearch={setFilteredData} />
+       {isLoading ? (
+  <div className="flex justify-center items-center h-[300px]">
+    <Spin size="large" />
+  </div> ) : (
       <div className="grid grid-cols-2 gap-4">
-        {filteredData.slice(0, visibleDistricts).map((product) => (
+        {filteredData?.slice(0, visibleDistricts).map((product) => (
           <Link
             key={product.id}
             to={`/warehouse/send-to-showcase/${product.name}`}
@@ -32,7 +41,8 @@ export default function WarehouseProducts() {
           </Link>
         ))}
       </div>
-      {visibleDistricts < filteredData.length && (
+    )}
+      {visibleDistricts < filteredData?.length && (
         <div className="flex justify-center mt-4">
           <button
             onClick={loadMoreDistricts}

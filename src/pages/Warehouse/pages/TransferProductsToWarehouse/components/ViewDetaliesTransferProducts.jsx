@@ -9,14 +9,6 @@ import ModalComponent from "@/components/modal/Modal";
 import AddProductVitrina from "../modules/AddProductWarehouse/AddProductWarehouse";
 import ImageModal from "@/components/modal/ImageModal";
 import CustomCheckbox from "@/components/CustomCheckbox";
-const products = [
-  { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
-  { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
-  { id: 3, name: "Namangan", description: "Описание Namangan" },
-  { id: 4, name: "Samarqand", description: "Описание Samarqand" },
-  { id: 5, name: "Mirzo Ulug'bek", description: "Описание Mirzo Ulug'bek" },
-  { id: 6, name: "Navoiy", description: "Описание Navoiy" },
-];
 
 const dataSource = [
   { key: '1', code: 'OB001', name: 'Обои "Синий океан"', color: '#0000FF', price: 1000, stock: 10, photo: bg },
@@ -38,8 +30,6 @@ const dataSource = [
 
 export default function ViewDetaliesTransferProducts() {
   const { name } = useParams(); // Получаем параметр name из URL
-  const product = products.find((p) => p.name === name);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [filteredData, setFilteredData] = useState(dataSource);
@@ -95,9 +85,6 @@ export default function ViewDetaliesTransferProducts() {
     currentPage * itemsPerPage
   );
 
-  if (!product) {
-    return <div>Продукт не найден</div>;
-  }
 
   return (
     <div className="min-h-screen bg-cover bg-center p-1 relative" style={{ backgroundImage: `url(${bgsklad})` }}>
@@ -150,35 +137,6 @@ export default function ViewDetaliesTransferProducts() {
                 </div>
             </div>
           </Card>
-            // <Card
-            //   key={item.key}
-            //   className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
-            //   style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
-            //   cover={
-            //     <div
-            //       onClick={() => setSelectedImage(item.photo)}
-            //       className="h-44 bg-cover bg-center rounded-t-lg"
-            //       style={{ backgroundImage: `url(${item.photo})` }}
-            //     />
-            //   }
-            //   bodyStyle={{ padding: '12px', color: 'white' }}
-            // >
-            //   <div className="flex flex-col gap-2">
-            //     <Tag color="blue">{item.code}</Tag>
-            //     <h4 className="text-sm font-semibold text-white">{item.name}</h4>
-            //     <Tag style={{ backgroundColor: item.color, color: '#fff' }}>{item.color}</Tag>
-            //     <div className='mt-[15px]'>
-            //       <Checkbox
-            //         className="absolute bottom-0.5 items-cente"
-            //         style={{ color: 'white' }}
-            //         checked={selectedProducts.includes(item.key)}
-            //         onChange={() => handleCheckboxChange(item)}
-            //       >
-            //         Tanlash
-            //       </Checkbox>
-            //     </div>
-            //   </div>
-            // </Card>
           ))}
         </div>
 
