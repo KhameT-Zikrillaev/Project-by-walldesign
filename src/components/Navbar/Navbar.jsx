@@ -56,6 +56,9 @@ const Navbar = () => {
         </div>
         <Link
           to="/"
+          onClick={() => {
+            localStorage.removeItem("tokenWall");
+          }}
           className="flex items-center bg-gradient-to-r from-yellow-400 to-yellow-700 hover:scale-105 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 ease-in-out border border-white/20 hover:border-white/30"
         >
           <svg

@@ -231,7 +231,7 @@ export default function Warehouse() {
               pageSize={itemsPerPage}
               onChange={(page) => setCurrentPage(page)}
               showSizeChanger={false}
-              className="text-white"
+              className="custom-pagination"
             />
           </div>
         )}

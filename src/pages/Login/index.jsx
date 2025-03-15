@@ -185,7 +185,7 @@ export default function Login() {
             </div>
           )}
           <button
-          disabled={loadingUser}
+          disabled={isLoading}
             type="submit"
             className="w-full cursor-pointer py-3 px-6 rounded-xl bg-yellow-400 text-gray-900 font-bold hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:ring-offset-2 focus:ring-offset-yellow-100 transition-all duration-300 border-2 border-yellow-500/30 hover:border-yellow-500/50 shadow-lg hover:shadow-xl active:scale-95"
           >
