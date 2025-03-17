@@ -14,6 +14,9 @@ const AddProduct = ({ onClose, product }) => {
 
   const stock = watch("stock"); // Следим за значением количества
 
+  console.log(product);
+  
+
   const onSubmit = (data) => {
     if (data.stock > product.stock) {
       message.error(`Max ${product.stock} ta.`);
@@ -53,16 +56,16 @@ const AddProduct = ({ onClose, product }) => {
               <span className="text-gray-100 font-semibold">Tovar nomi</span>
             }
           >
-            <h3 className="text-gray-100 font-semibold">{product?.name}</h3>
+            <h3 className="text-gray-100 font-semibold">{product?.article}</h3>
             <p className="text-gray-100 font-semibold">
               {" "}
-              Part: <span className="text-red-500">{product?.code}</span>
+              Part: <span className="text-red-500">{product?.batch_number}</span>
             </p>
             <p className="text-gray-100 font-semibold">
-              Jami narxi: { (stock || product?.stock) * product?.price} so'm
+              Jami narxi: { (stock || product?.quantity) * product?.price} so'm
             </p>
             <span className="text-gray-100 font-semibold">
-              {product?.stock} dona bor omborda
+              {product?.quantity} dona bor omborda
             </span>
           </Form.Item>
         )}
@@ -70,20 +73,20 @@ const AddProduct = ({ onClose, product }) => {
         {/* Поле для ввода количества */}
         <Form.Item
           label={<span className="text-gray-100 font-semibold">Soni</span>}
-          validateStatus={errors.stock ? "error" : ""}
+          validateStatus={errors.quantity ? "error" : ""}
           help={
-            errors.stock?.message ||
-            (stock > product?.stock && `Max ${product?.stock} ta`)
+            errors.quantity?.message ||
+            (stock > product?.quantity && `Max ${product?.quantity} ta`)
           }
         >
           <Controller
-            name="stock"
+            name="quantity"
             control={control}
             rules={{
               required: "Sonni kiriting",
               max: {
                 value: product?.stock, // Максимум product.stock
-                message: `Max ${product?.stock} ta`,
+                message: `Max ${product?.quantity} ta`,
               },
               min: {
                 value: 1,
@@ -94,10 +97,10 @@ const AddProduct = ({ onClose, product }) => {
               <Input
                 placeholder="Sonnini kiriting"
                 className="custom-input"
-                defaultValue={product?.stock}
+                defaultValue={product?.quantity}
                 {...field}
                 onChange={handlestockChange} // Обработчик для ограничения ввода
-                max={product?.stock} // Максимальное значение
+                max={product?.quantity} // Максимальное значение
                 type="number" // Тип поля для мобильных устройств
               />
             )}
@@ -109,7 +112,7 @@ const AddProduct = ({ onClose, product }) => {
           <Button
             type="primary"
             htmlType="submit"
-            disabled={stock > product?.stock}
+            disabled={stock > product?.quantity}
             style={{
               backgroundColor: "#364153",
               color: "#f3f4f6",

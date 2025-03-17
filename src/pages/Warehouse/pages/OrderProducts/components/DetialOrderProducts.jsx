@@ -7,6 +7,8 @@ import ImageModal from "@/components/modal/ImageModal";
 import  bgsklad  from '@/assets/images/bg-sklad.png';
 import SearchForm from "../modules/searchForm";
 import AddProduct from './../modules/addProducts/index';
+import { useLocation } from "react-router-dom";
+import useFetch from "@/hooks/useFetch";
 const dataSource = [
   {
     key: "1",
@@ -133,11 +135,16 @@ const dataSource = [
 export default function WarehouseDetailProductsLists() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
-  const [filteredData, setFilteredData] = useState(dataSource);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~modal
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const location = useLocation()
+  const {data} = useFetch("warehouse-products", `warehouse-products/${location.pathname.split('/')[3]}`)
+  const [filteredData, setFilteredData] = useState(data?.products)
+
+  console.log(data.products);
+  
 
   const showModal = (product) => {
     setSelectedProduct(product); // Устанавливаем выбранный товар
@@ -173,7 +180,7 @@ export default function WarehouseDetailProductsLists() {
 
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
         <SearchForm data={dataSource} onSearch={setFilteredData} />
-
+        
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
           {currentData.map((item) => (
             <Card
@@ -186,26 +193,26 @@ export default function WarehouseDetailProductsLists() {
               }}
               cover={
                 <div
-                  onClick={() => setSelectedImage(item.photo)}
+                  onClick={() => setSelectedImage(item.image_url)}
                   className="h-28 bg-cover cursor-pointer bg-center rounded-t-lg"
-                  style={{ backgroundImage: `url(${item.photo})` }}
+                  style={{ backgroundImage: `url(${item.image_url})` }}
                 />
               }
               bodyStyle={{ padding: "12px", color: "white" }}
             >
               <div className="flex flex-col gap-2">
                 <Tag color="blue">
-                  Part: <span className="text-red-500">{item.code}</span>
+                  Part: <span className="text-red-500">{item.batch_number}</span>
                 </Tag>
                 <h4 className="text-sm font-semibold text-white">
-                  {item.name}
+                  {item.article}
                 </h4>
                 <div className="flex justify-between">
                   <p className="text-gray-300 text-xs">
                     Narxi: {item.price} so'm
                   </p>
                   <p className="text-gray-300 text-xs">
-                    Soni bor: {item.stock} dona.
+                    Soni bor: {item.quantity} dona.
                   </p>
                 </div>
                 <Button
@@ -237,7 +244,7 @@ export default function WarehouseDetailProductsLists() {
             pageSize={itemsPerPage}
             onChange={(page) => setCurrentPage(page)}
             showSizeChanger={false}
-            className="text-white"
+            className="custom-pagination"
           />
         </div>
       </div>
