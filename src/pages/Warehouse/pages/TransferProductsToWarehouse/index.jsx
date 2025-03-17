@@ -11,7 +11,7 @@ export default function WarehouseTransferProducts() {
   const { data, isLoading, refetch } = useFetch('warehouse', 'warehouse', {});
   const [filteredData, setFilteredData] = useState([]);
   const [filteredBySearch, setFilteredBySearch] = useState([]);
-  console.log(user?.name)
+  console.log(user)
   const loadMoreDistricts = () => {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
   };
