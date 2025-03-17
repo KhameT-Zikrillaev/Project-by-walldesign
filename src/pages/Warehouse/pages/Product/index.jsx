@@ -33,9 +33,6 @@ export default function Warehouse() {
     }
   }, [data]);
 
-
-
-
   // Адаптивность экран разрешение кароточек
   useEffect(() => {
     const updateItemsPerPage = () => {
