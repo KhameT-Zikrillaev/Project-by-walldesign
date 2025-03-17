@@ -174,9 +174,9 @@ useEffect(() => {
     >
       <div className="flex flex-col gap-2">
         <h3 className="text-lg font-semibold text-white">{item.article}</h3>
-        <Tag color="blue">Part: <span className="text-red-500">{item.code}</span></Tag>
+        <Tag color="blue">Part: <span className="text-red-500">{item.batch_number}</span></Tag>
         <h4 className="text-sm font-semibold text-white">{item.price + " $"}</h4>
-        <h5 className="text-sm font-semibold text-white">{item.quantity}</h5>
+        <h5 className="text-sm font-semibold text-white">{item.quantity} dona</h5>
         <div className='mt-[15px]'>
           <CustomCheckbox
             checked={selectedProducts.some((product) => product.id === item.id)}

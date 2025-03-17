@@ -3,7 +3,7 @@ import { Button, List, Image, InputNumber, message } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import userStore from "@/store/useUser";
 import useApiMutation from "@/hooks/useApiMutation";
-
+import { toast } from "react-toastify";
 const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const { user } = userStore();
@@ -13,12 +13,12 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
     url: 'warehouse-products',
     method: 'PATCH',
     onSuccess: (data) => {
-      message.success('Продукты успешно отправлены!');
+      toast.success('Продукты успешно отправлены!');
       if (onSuccess) onSuccess();
       onClose();
     },
     onError: (error) => {
-      message.error(`Ошибка: ${error.message || 'Не удалось отправить продукты'}`);
+      toast.error(`Ошибка: ${error.message || 'Не удалось отправить продукты'}`);
       console.error('Error sending products:', error);
     }
   });

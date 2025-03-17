@@ -55,7 +55,6 @@ export default function WarehouseProducts() {
           >
             <h4>{product.name}</h4>
             <p>{product.description}</p>
-            <p>{product.id}</p>
           </Link>
         ))}
       </div>

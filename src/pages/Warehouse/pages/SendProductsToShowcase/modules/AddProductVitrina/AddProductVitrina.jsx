@@ -3,6 +3,7 @@ import { Button, List, Image, message } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import userStore from "@/store/useUser";
 import useApiMutation from "@/hooks/useApiMutation";
+import { toast } from "react-toastify";
 
 const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, warehouseName, shopId }) => {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -22,7 +23,7 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
     url: 'Storefront-product',
     method: 'POST',
     onSuccess: (data) => {
-      message.success('Продукты успешно отправлены!');
+      toast.success('Продукты успешно отправлены!');
       if (onSuccess) onSuccess();
       onClose();
     },

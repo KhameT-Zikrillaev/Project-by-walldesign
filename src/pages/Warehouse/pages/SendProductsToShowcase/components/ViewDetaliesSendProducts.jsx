@@ -185,7 +185,7 @@ useEffect(() => {
     <div className="min-h-screen bg-cover bg-center p-1 relative" style={{ backgroundImage: `url(${bgsklad})` }}>
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-        <SearchForm data={productsData} onSearch={setFilteredData} name={name +" " +'omboriga'} title="Omboridigi mahsulotlarni yuborish" showDatePicker={false} />
+        <SearchForm data={productsData} onSearch={setFilteredData} name={name +'iga'} title="Omboridigi mahsulotlarni yuborish" showDatePicker={false} />
         <div className='w-full flex justify-between'>
 
 
@@ -228,9 +228,8 @@ useEffect(() => {
     >
       <div className="flex flex-col gap-2">
         <h3 className="text-lg font-semibold text-white">{item.article}</h3>
-        <Tag color="blue">Part: <span className="text-red-500">{item.code}</span></Tag>
+        <Tag color="blue">Part: <span className="text-red-500">{item.batch_number}</span></Tag>
         <h4 className="text-sm font-semibold text-white">{item.price + " $"}</h4>
-        <h5 className="text-sm font-semibold text-white">{item.quantity}</h5>
         <div className='mt-[15px]'>
           <CustomCheckbox
             checked={selectedProducts.some((product) => product.id === item.id)}
