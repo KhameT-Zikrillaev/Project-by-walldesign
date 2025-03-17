@@ -154,7 +154,7 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
                 </div>
               </List.Item>
             )}
-            pagination={{ pageSize: 5 }}
+            pagination={{ pageSize: 3 }}
           />
         </div>
 

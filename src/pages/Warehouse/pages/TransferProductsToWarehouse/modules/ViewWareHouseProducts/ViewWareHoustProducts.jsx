@@ -13,17 +13,23 @@ export default function ViewWareHoustProducts({ idwarehouse }) {
 
   // Исправляем параметры useFetch
   const { data, isLoading, refetch } = useFetch(
-    'warehouse-products', // Ключ для кеширования
+    `warehouse-products-${idwarehouse}`, // Уникальный ключ для кеширования
     `warehouse-products/${idwarehouse}`, // URL запроса
     {}, // Параметры запроса
     {
       enabled: !!idwarehouse, // Запрос будет выполнен только если id существует
+      staleTime: 0, // Данные всегда считаются устаревшими
+      cacheTime: 0, // Не кешируем данные
     }
   );
 
   // Вызываем refetch при изменении idwarehouse
   useEffect(() => {
     if (idwarehouse) {
+      // Очищаем данные при изменении idwarehouse
+      setFilteredData([]);
+      setCurrentPage(1);
+      // Запрашиваем новые данные
       refetch();
     }
   }, [idwarehouse, refetch]);
@@ -35,6 +41,9 @@ export default function ViewWareHoustProducts({ idwarehouse }) {
     } else if (data?.products) {
       // Альтернативная структура данных
       setFilteredData(data.products);
+    } else {
+      // Если данных нет, устанавливаем пустой массив
+      setFilteredData([]);
     }
   }, [data]);
 
