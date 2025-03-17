@@ -114,6 +114,12 @@ useEffect(() => {
     }
   };
 
+  // Обработчик успешной отправки товаров
+  const handleSuccessSubmit = () => {
+    resetSelection(); // Сбрасываем выбранные товары
+    refetch(); // Обновляем данные с сервера
+  };
+
   // Текущие данные для отображения
   const currentData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
@@ -195,6 +201,7 @@ useEffect(() => {
             />
           </div>
         )}
+        {filteredData.length > 0 && (
           <div className="w-full flex flex-col md:flex-row mt-2 mb-12 gap-2 justify-center items-center">
             <span className='bg-gray-700 py-[7px] max-w-[300px] w-full text-center h-[40px] text-white text-[18px] rounded-lg shadow-lg'>
               Tanlangan: {selectedProducts.length}
@@ -222,6 +229,7 @@ useEffect(() => {
   Yuborish
 </Button>
           </div>
+        )}
         <ImageModal
           isOpen={!!selectedImage}
           onClose={() => setSelectedImage(null)}
@@ -237,7 +245,7 @@ useEffect(() => {
           <AddProductWarehouse 
             onClose={onClose} 
             selectedProducts={selectedProducts} 
-            onSuccess={resetSelection} 
+            onSuccess={handleSuccessSubmit} 
             warehouseName={name}
             warehouseId={warehouseId} // Передаем найденный ID склада
           />
