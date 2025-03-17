@@ -33,7 +33,7 @@ const SearchForm = ({ data, onSearch, name, title, showDatePicker = true }) => {
     
     // Если поисковая строка пуста, возвращаем все данные
     if (!value || value.trim() === '') {
-      onSearch(data?.products || data); // Возвращаем все данные
+      onSearch(data?.products  || data); // Возвращаем все данные
       return;
     }
     

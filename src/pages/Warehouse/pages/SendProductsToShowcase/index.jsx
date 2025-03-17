@@ -4,18 +4,12 @@ import SearchForm from "@/components/SearchForm/SearchForm";
 import useFetch from "@/hooks/useFetch";
 import useUserStore from "@/store/useUser";
 import { Spin } from "antd";
-const products = [
-  { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
-  { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
-  { id: 3, name: "Namangan", description: "Описание Namangan" },
-  { id: 4, name: "Samarqand", description: "Описание Samarqand" },
-  { id: 5, name: "Mirzo Ulug'bek", description: "Описание Mirzo Ulug'bek" },
-  { id: 6, name: "Navoiy", description: "Описание Navoiy" },
-];
+
 
 export default function WarehouseProducts() {
   const [visibleDistricts, setVisibleDistricts] = useState(12);
   const [filteredData, setFilteredData] = useState([]);
+  const [filteredBySearch, setFilteredBySearch] = useState([]);
   const loadMoreDistricts = () => {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
   };
@@ -24,29 +18,36 @@ export default function WarehouseProducts() {
   console.log(warehouseId)
 
   const { data, isLoading, refetch } = useFetch(
-    warehouseId ? `warehouse/${warehouseId}` : null, // Если id нет, не создаем ключ запроса
-    warehouseId ? `warehouse/${warehouseId}` : null, // Если id нет, не делаем запрос
+    warehouseId ? `warehouse/${warehouseId}` : null, 
+    warehouseId ? `warehouse/${warehouseId}` : null, 
     {},
     {
-      enabled: !! warehouseId, // Запрос будет выполнен только если id существует
+      enabled: !! warehouseId, 
     }
   );
 
   useEffect(() => {
     if (data) {
       console.log("Data from API:", data);
-      setFilteredData(data?.data?.shops);
+      setFilteredData(data?.data?.shops || []);
+      setFilteredBySearch(data?.data?.shops || []);
     }
   }, [data]);
+  
+  const handleSearch = (searchResults) => {
+    setFilteredBySearch(searchResults);
+  };
+
+
   return (
     <div className="DirectorProduct mt-[150px] p-4">
-       <SearchForm data={products} name="" title="Sotuvchilar" showDatePicker={false} onSearch={setFilteredData} />
+       <SearchForm data={filteredData} name="" title="Sotuvchilar" showDatePicker={false} onSearch={handleSearch}  />
        {isLoading ? (
   <div className="flex justify-center items-center h-[300px]">
     <Spin size="large" />
   </div> ) : (
       <div className="grid grid-cols-2 gap-4">
-        {filteredData?.slice(0, visibleDistricts).map((product) => (
+        {filteredBySearch?.slice(0, visibleDistricts).map((product) => (
           <Link
             key={product.id}
             to={`/warehouse/send-to-showcase/${product.name}`}
@@ -59,7 +60,7 @@ export default function WarehouseProducts() {
         ))}
       </div>
     )}
-      {visibleDistricts < filteredData?.length && (
+      {visibleDistricts < filteredBySearch?.length && (
         <div className="flex justify-center mt-4">
           <button
             onClick={loadMoreDistricts}
