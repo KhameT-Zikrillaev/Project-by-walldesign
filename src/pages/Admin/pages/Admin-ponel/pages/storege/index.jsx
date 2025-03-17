@@ -29,7 +29,7 @@ const Statistics = () => {
       toast.success("Ombor muvaffaqiyatli o'chirildi!");
     },
     onError: (error) => {
-      console.log(error);
+      toast.error("Omborni o'chirishda xatolik yuz berdi");
     },
   });
 

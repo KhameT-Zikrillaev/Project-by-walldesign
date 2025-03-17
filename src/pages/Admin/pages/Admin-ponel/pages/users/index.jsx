@@ -8,6 +8,7 @@ import EditUser from "./components/EditUser";
 import { Select } from "antd";
 import useFetch from "@/hooks/useFetch";
 import useApiMutation from "@/hooks/useApiMutation";
+import { toast } from "react-toastify";
 
 const { Option } = Select;
 
@@ -30,9 +31,10 @@ const Statistics = () => {
 
       onSuccess: () => {
         refetch();
+        toast.success("Foydalanuvchi muvaffaqiyatli o'chirildi!");
       },
       onError: (error) => {
-        console.error("Xatolik yuz berdi:", error.message);
+        toast.error("Foydalanuvchini o'chirishda xatolik yuz berdi");
       },
     });
   

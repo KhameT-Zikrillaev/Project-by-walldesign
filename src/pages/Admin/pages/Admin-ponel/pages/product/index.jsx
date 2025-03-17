@@ -13,6 +13,7 @@ import EditProduct from "./components/EditProduct";
 import useFetch from "@/hooks/useFetch";
 import useApiMutation from "@/hooks/useApiMutation";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const { Search } = Input;
 
 const Product = () => {
@@ -35,9 +36,10 @@ const Product = () => {
     method: "DELETE",
     onSuccess: () => {
       refetch();
+      toast.success("Mahsulot muvaffaqiyatli o'chirildi!");
     },
     onError: (error) => {
-      console.error("Xatolik yuz berdi:", error.message);
+      toast.error("Mahsulotni o'chirishda xatolik yuz berdi");
     },
   });
 

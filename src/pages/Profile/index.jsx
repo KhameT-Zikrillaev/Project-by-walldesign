@@ -8,8 +8,11 @@ import { AdminCards } from "./data/AdminCards.js"; // Импортируем д�
 import { SkladCards } from "./data/WarehouseCards.js"; // Импортируем данные
 import { SellerCards } from "./data/SellerCards.js";
 import { DirectorCards } from "./data/DirectorCards.js";
+import  useUserStore  from "@/store/useUser";
+import useRequest from "./components/useRequest.jsx";
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
+  const {user} = useUserStore();
   const location = useLocation();
 
   useEffect(() => {
@@ -19,22 +22,26 @@ export default function Home() {
 
     return () => clearTimeout(timer);
   }, []);
+  console.log(user);
+  
+
+  useRequest(user?.role, user?.warehouse?.id);
 
   // Определяем, какой текст и карточки отображать в зависимости от маршрута
   let userRole = "";
   let cards = [];
 
   if (location.pathname === "/admin") {
-    userRole = "Administrator";
+    userRole = "Admin";
     cards = AdminCards;
   } else if (location.pathname === "/warehouse") {
-    userRole = "Skladchik";
+    userRole = "Omborchi";
     cards = SkladCards;
   } else if (location.pathname === "/seller") {
-    userRole = "Seller";
+    userRole = "Sotuvchi";
     cards = SellerCards;
   } else if (location.pathname === "/director") {
-    userRole = "Director";
+    userRole = "Direktor";
     cards = DirectorCards;
   } else {
     // Если маршрут не /admin и не /sklad, можно ничего не отображать или показать что-то нейтральное

@@ -7,6 +7,7 @@ import AddShop from "./components/AddShop";
 import EditShop from "./components/EditShop";
 import useFetch from "@/hooks/useFetch";
 import useApiMutation from "@/hooks/useApiMutation";
+import { toast } from "react-toastify";
 const { Search } = Input;
 
 
@@ -25,9 +26,10 @@ const Seller = () => {
         method: 'DELETE',
         onSuccess: () => {
           refetch();
+          toast.success("Magazin muvaffaqiyatli o'chirildi!");
         },
         onError: (error) => {
-          console.error('Xatolik yuz berdi:', error.message);
+          toast.error("Magazinni o'chirishda xatolik yuz berdi");
         },
       });
     
