@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Input, Button, Form,  Switch } from "antd";
+import { Input, Button, Form, Switch } from "antd";
 import useApiMutation from "@/hooks/useApiMutation";
+import { toast } from "react-toastify";
 
 const EditStorage = ({ onClose, storageSingleData, refetch }) => {
   const {
@@ -11,28 +12,38 @@ const EditStorage = ({ onClose, storageSingleData, refetch }) => {
     reset,
   } = useForm();
 
-
-
   // storageSingleData bor bo‘lsa, formani shu ma’lumotlar bilan to‘ldiramiz
   useEffect(() => {
     if (storageSingleData) {
       reset({
-        name: storageSingleData.name, 
+        name: storageSingleData.name,
         isMain: storageSingleData.isMain,
-        isTrusted: storageSingleData.isTrusted
+        isTrusted: storageSingleData.isTrusted,
+        priceDifference: storageSingleData.priceDifference,
       });
     }
   }, [storageSingleData, reset]);
 
-  const { mutate, isLoading} = useApiMutation({
+  const { mutate, isLoading } = useApiMutation({
     url: `warehouse/${storageSingleData?.id}`,
-    method: 'PATCH',
+    method: "PATCH",
     onSuccess: () => {
       onClose();
       refetch();
+      toast.success("Ombor muvaffaqiyatli yangilandi!");
     },
     onError: (error) => {
-      console.error('Xatolik yuz berdi:', error.message);
+
+      if (
+        error?.response?.data?.message ===
+        "Warehouse with this name already exists"
+      ) {
+        toast.error("Bunday ombor nomi mavjud");
+      } else if (error?.response?.data?.message === "Main warehouse already exists!") {
+        toast.error("Asosiy ombor mavjud");
+      } else {
+        toast.error("Omborni yangilashda xatolik yuz berdi");
+      }
     },
   });
 
@@ -58,6 +69,27 @@ const EditStorage = ({ onClose, storageSingleData, refetch }) => {
             render={({ field }) => (
               <Input
                 placeholder="Ombor nomini kiriting"
+                className="custom-input"
+                {...field}
+              />
+            )}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label={
+            <span className="text-gray-100 font-semibold">Narx farqi</span>
+          }
+          validateStatus={errors.priceDifference ? "error" : ""}
+          help={errors.priceDifference?.message}
+        >
+          <Controller
+            name="priceDifference"
+            control={control}
+            rules={{ required: "Narx farqi majburiy" }}
+            render={({ field }) => (
+              <Input
+                placeholder="Narx farqini kiriting"
                 className="custom-input"
                 {...field}
               />

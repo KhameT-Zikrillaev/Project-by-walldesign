@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import api from "@/services/api";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "@/store/useUser";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const {setUser} = useUserStore();
@@ -32,6 +34,7 @@ function App() {
   return (
     <>
      <RouteRoutes/>
+     <ToastContainer />
     </>
   );
 }

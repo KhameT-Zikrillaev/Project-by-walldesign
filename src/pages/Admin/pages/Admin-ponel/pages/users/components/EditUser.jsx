@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Input, Button, Form, Select} from "antd";
 import useFetch from "@/hooks/useFetch";
 import useApiMutation from "@/hooks/useApiMutation";
+import { toast } from "react-toastify";
 
 const { Option } = Select;
 
@@ -11,8 +12,7 @@ const EditUser = ({ onClose, storageSingleData,refetch }) => {
     handleSubmit,
     control,
     formState: { errors },
-    reset,
-    watch
+    reset
   } = useForm();
 
   const { data: warehouses } = useFetch('warehouse', 'warehouse');
@@ -23,8 +23,8 @@ const EditUser = ({ onClose, storageSingleData,refetch }) => {
     if (storageSingleData) {
       reset({
         name: storageSingleData.name,
-        warehouse_id: storageSingleData.warehouse_id,
-        shop_id: storageSingleData.shop_id,
+        warehouse_id: storageSingleData.warehouse?.id,
+        shop_id: storageSingleData.shop?.id,
         phone: storageSingleData.phone,
         password: "",
       });
@@ -37,9 +37,11 @@ const EditUser = ({ onClose, storageSingleData,refetch }) => {
       onClose();
       refetch();
       reset()
+      toast.success("Foydalanuvchi muvaffaqiyatli yangilandi!");
     },
     onError: (error) => {
-      console.error("Xatolik yuz berdi:", error.message);
+      console.log(error);
+      
     },
   });
 

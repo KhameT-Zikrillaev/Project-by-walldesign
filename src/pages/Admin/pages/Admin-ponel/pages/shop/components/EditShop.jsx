@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Input, Button, Form, Select  } from "antd";
+import { Input, Button, Form, Select } from "antd";
 import useApiMutation from "@/hooks/useApiMutation";
+import useFetch from "@/hooks/useFetch";
+import { toast } from "react-toastify";
 
 const { Option } = Select;
 const EditSeller = ({ onClose, sellerSingleData, refetch }) => {
@@ -12,27 +14,37 @@ const EditSeller = ({ onClose, sellerSingleData, refetch }) => {
     reset,
   } = useForm();
 
+  const { data: warehouses } = useFetch("warehouse", "warehouse");
+
   // storageSingleData bor bo‘lsa, formani shu ma’lumotlar bilan to‘ldiramiz
   useEffect(() => {
     if (sellerSingleData) {
       reset({
         name: sellerSingleData.name,
-        warehouse_id: sellerSingleData.warehouse_id
+        warehouse_id: sellerSingleData.warehouse_id,
       });
     }
   }, [sellerSingleData, reset]);
 
-  const { mutate, isLoading} = useApiMutation({
-      url: `shop/${sellerSingleData?.id}`,
-      method: 'PATCH',
-      onSuccess: () => {
-        onClose();
-        refetch();
-      },
-      onError: (error) => {
-        console.error('Xatolik yuz berdi:', error.message);
-      },
-    });
+  const { mutate, isLoading } = useApiMutation({
+    url: `shop/${sellerSingleData?.id}`,
+    method: "PATCH",
+    onSuccess: () => {
+      onClose();
+      refetch();
+      toast.success("Magazin muvaffaqiyatli yangilandi!");
+    },
+    onError: (error) => {
+      console.log(error);
+      if(
+        error?.response?.data?.message === "Shop with this name already exists"
+      ){
+        toast.error("Bunday magazin nomi mavjud");
+      }else {
+        toast.error("Magazini yangilashda xatolik yuz berdi");
+      }
+    },
+  });
 
   const onSubmit = (data) => {
     mutate(data);
@@ -43,7 +55,9 @@ const EditSeller = ({ onClose, sellerSingleData, refetch }) => {
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
         {/* Ombor nomi */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Magazin nomi</span>}
+          label={
+            <span className="text-gray-100 font-semibold">Magazin nomi</span>
+          }
           validateStatus={errors.name ? "error" : ""}
           help={errors.name?.message}
         >
@@ -52,7 +66,11 @@ const EditSeller = ({ onClose, sellerSingleData, refetch }) => {
             control={control}
             rules={{ required: "Magazin nomi majburiy" }}
             render={({ field }) => (
-              <Input placeholder="Magazin nomini kiriting" className="custom-input" {...field} />
+              <Input
+                placeholder="Magazin nomini kiriting"
+                className="custom-input"
+                {...field}
+              />
             )}
           />
         </Form.Item>
@@ -74,9 +92,11 @@ const EditSeller = ({ onClose, sellerSingleData, refetch }) => {
                 onChange={(value) => field.onChange(value)}
                 dropdownClassName="custom-dropdown"
               >
-                <Option value="electronics">Elektronika</Option>
-                <Option value="clothing">Kiyim-kechak</Option>
-                <Option value="food">Oziq-ovqat</Option>
+                {warehouses?.data?.warehouses?.map((warehouse) => (
+                  <Option key={warehouse?.id} value={warehouse?.id}>
+                    {warehouse?.name}
+                  </Option>
+                ))}
               </Select>
             )}
           />

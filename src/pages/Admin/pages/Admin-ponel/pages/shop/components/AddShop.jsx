@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Input, Button, Form, Select } from "antd";
 import useApiMutation from "@/hooks/useApiMutation";
 import useFetch from "@/hooks/useFetch";
+import { toast } from "react-toastify";
 
 const { Option } = Select;
 
@@ -14,21 +15,26 @@ const AddSeller = ({ onClose, refetch }) => {
     reset,
   } = useForm();
 
-  const { data: warehouses } = useFetch('warehouse', 'warehouse');
+  const { data: warehouses } = useFetch("warehouse", "warehouse");
 
   const { mutate, isLoading } = useApiMutation({
-      url: "shop",
-      method: "POST",
-      onSuccess: () => {
-        reset(); // Formani tozalash
-        onClose();
-        refetch();
-      },
-      onError: (error) => {
-        console.error("Error creating user:", error);
-        alert("Xatolik yuz berdi!");
-      },
-    });
+    url: "shop",
+    method: "POST",
+    onSuccess: () => {
+      reset(); // Formani tozalash
+      onClose();
+      refetch();
+      toast.success("Magazin muvaffaqiyatli qo‘shildi!");
+    },
+    onError: (error) => {
+      console.log(error);
+      if (
+        error?.response?.data?.message === "Shop with this name already exists"
+      ) {
+        toast.error("Bunday magazin nomi mavjud");
+      }
+    },
+  });
 
   const onSubmit = (data) => {
     mutate(data);
@@ -39,7 +45,9 @@ const AddSeller = ({ onClose, refetch }) => {
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
         {/* Sotuvchi nomi */}
         <Form.Item
-          label={<span className="text-gray-100 font-semibold">Magazin nomi</span>}
+          label={
+            <span className="text-gray-100 font-semibold">Magazin nomi</span>
+          }
           validateStatus={errors.name ? "error" : ""}
           help={errors.name?.message}
         >
@@ -48,7 +56,11 @@ const AddSeller = ({ onClose, refetch }) => {
             control={control}
             rules={{ required: "Magazin nomi majburiy" }}
             render={({ field }) => (
-              <Input placeholder="Magazin nomini kiriting" className="custom-input" {...field} />
+              <Input
+                placeholder="Magazin nomini kiriting"
+                className="custom-input"
+                {...field}
+              />
             )}
           />
         </Form.Item>
@@ -71,13 +83,11 @@ const AddSeller = ({ onClose, refetch }) => {
                 onChange={(value) => field.onChange(value)}
                 dropdownClassName="custom-dropdown"
               >
-                {
-                  warehouses?.data?.warehouses?.map((warehouse) => (
-                    <Option key={warehouse?.id} value={warehouse?.id}>
-                      {warehouse?.name}
-                    </Option>
-                  ))
-                }
+                {warehouses?.data?.warehouses?.map((warehouse) => (
+                  <Option key={warehouse?.id} value={warehouse?.id}>
+                    {warehouse?.name}
+                  </Option>
+                ))}
               </Select>
             )}
           />

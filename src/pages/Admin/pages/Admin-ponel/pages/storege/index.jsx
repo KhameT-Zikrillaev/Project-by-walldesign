@@ -7,6 +7,7 @@ import AddStorage from "./components/AddStorage";
 import EditStorage from "./components/EditStorage";
 import useFetch from "@/hooks/useFetch";
 import useApiMutation from "@/hooks/useApiMutation";
+import { toast } from "react-toastify";
 
 const { Search } = Input;
 
@@ -24,11 +25,11 @@ const Statistics = () => {
     url: 'warehouse', // Asosiy API endpoint
     method: 'DELETE',
     onSuccess: () => {
-      console.log('Mahsulot muvaffaqiyatli o‘chirildi');
       refetch();
+      toast.success("Ombor muvaffaqiyatli o'chirildi!");
     },
     onError: (error) => {
-      console.error('Xatolik yuz berdi:', error.message);
+      console.log(error);
     },
   });
 

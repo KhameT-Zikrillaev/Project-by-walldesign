@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Input, Button, Form, Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import useApiMutation from "@/hooks/useApiMutation";
+import { toast } from "react-toastify";
 
 const { TextArea } = Input;
 
@@ -18,9 +19,6 @@ const EditProduct = ({ onClose, productSingleData, refetch }) => {
   const imageFile = watch("image");
   const [previewImage, setPreviewImage] = useState(null);
 
-  // storageSingleData bor bo‘lsa, formani shu ma’lumotlar bilan to‘ldiramiz
-  console.log(productSingleData);
-  
   useEffect(() => {
     if (productSingleData) {
       reset({
@@ -34,11 +32,27 @@ const EditProduct = ({ onClose, productSingleData, refetch }) => {
     }
   }, [productSingleData, reset]);
 
+  const { mutate, isLoading } = useApiMutation({
+    url: `product/${productSingleData?.id}`,
+    method: "PATCH",
+    isFormData: true,
+    onSuccess: () => {
+      reset(); // Formani tozalash
+      onClose();
+      refetch();
+      toast.success("Mahsulot muvaffaqiyatli yangilandi!");
+    },
+    onError: (error) => {
+      if (error?.response?.data?.message === "This product already exists") {
+        toast.error("Bunday partiyali mahsulot mavjud");
+      } else {
+        toast.error("Mahsulotni yangilashda xatolik yuz berdi");
+      }
+    },
+  });
+
   const onSubmit = (data) => {
-    console.log("Forma ma'lumotlari:", data);
-    message.success("Mahsulot muvaffaqiyatli yangilandi!");
-    reset(); // Formani tozalash
-    onClose();
+    mutate(data);
   };
 
   const beforeUpload = (file) => {
@@ -180,11 +194,11 @@ const EditProduct = ({ onClose, productSingleData, refetch }) => {
         </Form.Item>
         <Form.Item
           label={<span className="text-gray-100 font-semibold">Izoh</span>}
-          validateStatus={errors.comment ? "error" : ""}
-          help={errors.comment?.message}
+          validateStatus={errors.description ? "error" : ""}
+          help={errors.description?.message}
         >
           <Controller
-            name="comment"
+            name="description"
             control={control}
             rules={{ required: "Izoh majburiy" }}
             render={({ field }) => (
@@ -203,6 +217,7 @@ const EditProduct = ({ onClose, productSingleData, refetch }) => {
           <Button
             type="primary"
             htmlType="submit"
+            loading={isLoading}
             style={{
               backgroundColor: "#364153",
               color: "#f3f4f6",

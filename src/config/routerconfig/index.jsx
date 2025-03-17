@@ -18,6 +18,7 @@ import AdminProduct from '@/pages/Admin/pages/Admin-ponel/pages/product';
 import AdminUsers from '@/pages/Admin/pages/Admin-ponel/pages/users';
 import AdminReport from '@/pages/Admin/pages/Report';
 import AdminReportDetails from '@/pages/Admin/pages/Report/components/ReportProductDetails';
+import AdminProductHistory from '@/pages/Admin/pages/Admin-ponel/pages/product/components/productEditHistory/ProductHistory';
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Warehouse~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import Warehouse from '@/pages/Warehouse';
 import WarehouseProducts from '@/pages/Warehouse/pages/Product';
@@ -50,6 +51,7 @@ import DirectorSeller from '@/pages/Director/pages/Seller';
 import DirectorReport from '@/pages/Director/pages/Report';
 import ProductDetails from '@/pages/Director/pages/Product/components/ProductDetalies';
 import DirectorReportDetails from '@/pages/Director/pages/Report/components/ReportDetalies';
+
 export default function RouterConfig() {
   return (
     <Routes>
@@ -65,6 +67,7 @@ export default function RouterConfig() {
           <Route path='products' element={<AdminProduct/>}/>
           {/* <Route path='seller2' element={<AdminSeller2/>}/> */}
           <Route path='users' element={<AdminUsers/>}/>
+          <Route path="product-edit-history" element={<AdminProductHistory />} />
         </Route>
         <Route path="report" element={<AdminReport />} />
         <Route path="report/:name" element={<AdminReportDetails />} />

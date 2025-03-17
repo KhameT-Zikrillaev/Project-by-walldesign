@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Input, Button, Form, Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import useApiMutation from "@/hooks/useApiMutation";
+import { toast } from "react-toastify";
 
 const AddProduct = ({ onClose, refetch }) => {
   const {
@@ -20,12 +21,20 @@ const AddProduct = ({ onClose, refetch }) => {
     url: 'product',
     method: 'POST', 
     isFormData: true, 
-    onSuccess: (data) => {
+    onSuccess: () => {
       reset(); // Formani tozalash
       onClose();
       refetch();
+      toast.success("Mahsulot muvaffaqiyatli qo‘shildi!");
     },
-    onError: (error) => console.error('Xatolik:', error),
+    onError: (error) => {
+      if(
+        error?.response?.data?.message === "This product already exists"){
+          toast.error("Bunday partiyali mahsulot mavjud");
+        }else{
+          toast.error("Mahsulot qo'shishda xatolik yuz berdi");
+        }
+    },
   });
 
   const onSubmit = (data) => {

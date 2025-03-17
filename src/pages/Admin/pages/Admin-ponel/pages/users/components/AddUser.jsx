@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Input, Button, Form, Select } from "antd";
 import useFetch from "@/hooks/useFetch";
 import useApiMutation from "@/hooks/useApiMutation";
+import { toast } from "react-toastify";
 
 const { Option } = Select;
 
@@ -25,10 +26,11 @@ const AddUser = ({ onClose, refetch }) => {
           reset(); // Formani tozalash
           onClose();
           refetch();
+          toast.success("Foydalanuvchi muvaffaqiyatli qo'shildi!");
         },
         onError: (error) => {
-          console.error("Error creating user:", error);
-          alert("Xatolik yuz berdi!");
+          console.log(error);
+          
         },
       });
 

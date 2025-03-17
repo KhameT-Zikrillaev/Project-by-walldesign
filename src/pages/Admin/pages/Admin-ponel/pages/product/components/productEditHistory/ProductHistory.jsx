@@ -1,24 +1,16 @@
 import React, { useState } from "react";
-import { Table, Button, Space, Popconfirm, Pagination } from "antd";
+import { Table, Pagination } from "antd";
 import {
-  EditOutlined,
-  DeleteOutlined,
   RightOutlined,
   LeftOutlined,
 } from "@ant-design/icons";
 import { Input } from "antd";
-import ModalComponent from "@/components/modal/Modal";
-import AddProduct from "./components/AddProduct";
-import EditProduct from "./components/EditProduct";
 import useFetch from "@/hooks/useFetch";
-import useApiMutation from "@/hooks/useApiMutation";
+import { GrFormPreviousLink } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 const { Search } = Input;
 
-const Product = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [productSingleData, setProductSingleData] = useState(null);
-  const [formType, setFormType] = useState(null);
+const ProductHistory = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const limit = 10;
@@ -29,36 +21,6 @@ const Product = () => {
     page,
     article: searchQuery,
   });
-
-  const { mutate: deleteProduct } = useApiMutation({
-    url: "product", // Asosiy API endpoint
-    method: "DELETE",
-    onSuccess: () => {
-      refetch();
-    },
-    onError: (error) => {
-      console.error("Xatolik yuz berdi:", error.message);
-    },
-  });
-
-  const handleDelete = (id) => {
-    deleteProduct({ id });
-  };
-
-  const showModal = (type) => {
-    setFormType(type);
-    setIsModalOpen(true);
-  };
-
-  const onClose = () => {
-    setIsModalOpen(false);
-    setProductSingleData(null);
-  };
-
-  const handleEdit = (record) => {
-    setProductSingleData(record);
-    showModal("edit");
-  };
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -150,38 +112,20 @@ const Product = () => {
       ),
     },
     {
-      title: "Actions",
-      key: "actions",
-      render: (_, record) => (
-        <Space size="middle">
-          <Button
-            type="primary"
-            icon={<EditOutlined />}
-            className="edit-btn"
-            onClick={() => handleEdit(record)}
-          />
-          <Popconfirm
-            title="O‘chirishni tasdiqlaysizmi?"
-            onConfirm={() => handleDelete(record?.id)}
-            okText="Ha"
-            cancelText="Yo‘q"
-          >
-            <Button
-              type="primary"
-              danger
-              icon={<DeleteOutlined />}
-              className="edit-btn"
-            />
-          </Popconfirm>
-        </Space>
-      ),
-    },
+        title: "Izoh",
+        dataIndex: "description",
+        key: "description",
+        render: (text) => (
+            <span className="text-gray-100 font-semibold">{text}</span>
+        ),
+      },
   ];
 
   return (
     <div className="p-5">
+      <div onClick={() => navigate(-1)} className="flex text-gray-100 mb-5 text-[20px] cursor-pointer font-semibold"><GrFormPreviousLink  className="text-[25px]"/> Orqaga </div>
       <div className="flex justify-between items-center mb-5">
-        <div className="text-3xl font-bold  text-gray-100">Mahsulotlar</div>
+        <div className="text-3xl font-bold  text-gray-100">Tahrirlangan mahsulotlar</div>
         <div className="flex gap-3 items-center">
           <Search
             placeholder="Qidirish"
@@ -189,36 +133,6 @@ const Product = () => {
             enterButton
             className="custom-search"
           />
-          <Button
-            type="primary"
-            style={{
-              backgroundColor: "#364153",
-              color: "#f3f4f6",
-              fontWeight: "500",
-              padding: "17px 20px",
-              borderRadius: "8px",
-              fontSize: "20px",
-            }}
-            className="hover:bg-[#0056b3] hover:border-[#004494] focus:bg-[#004494] "
-            onClick={() => showModal("add")}
-          >
-            Qo'shish
-          </Button>
-          <Button
-            type="primary"
-            style={{
-              backgroundColor: "#364153",
-              color: "#f3f4f6",
-              fontWeight: "500",
-              padding: "17px 20px",
-              borderRadius: "8px",
-              fontSize: "20px",
-            }}
-            className="hover:bg-[#0056b3] hover:border-[#004494] focus:bg-[#004494] "
-            onClick={() => navigate("/admin/admin-panel/product-edit-history")}
-          >
-            O'zgartirilgan mahsulotlar tarixi
-          </Button>
         </div>
       </div>
       <div className="text-gray-100">
@@ -242,25 +156,8 @@ const Product = () => {
           />
         </div>
       </div>
-      <ModalComponent
-        isOpen={isModalOpen}
-        onClose={onClose}
-        title={
-          formType === "add" ? "Mahsulot qo'shish" : "Mahsulotni tahrirlash"
-        }
-      >
-        {formType === "add" ? (
-          <AddProduct onClose={onClose} refetch={refetch} />
-        ) : (
-          <EditProduct
-            refetch={refetch}
-            onClose={onClose}
-            productSingleData={productSingleData}
-          />
-        )}
-      </ModalComponent>
     </div>
   );
 };
 
-export default Product;
+export default ProductHistory;

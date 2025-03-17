@@ -2,6 +2,7 @@ import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input, Button, Form, Switch } from "antd";
 import useApiMutation from "@/hooks/useApiMutation";
+import { toast } from "react-toastify";
 
 const AddStorage = ({ onClose, refetch }) => {
   const {
@@ -18,10 +19,16 @@ const AddStorage = ({ onClose, refetch }) => {
       reset(); // Formani tozalash
       onClose();
       refetch();
+      toast.success("Ombor muvaffaqiyatli qo‘shildi!");
     },
     onError: (error) => {
-      console.error("Error creating user:", error);
-      alert("Xatolik yuz berdi!");
+      if (error?.response?.data?.message === "Warehouse with this name already exists") {
+        toast.error("Bunday ombor nomi mavjud");
+      }else if(error?.response?.data?.message === "Main warehouse already exists!"){
+        toast.error("Asosiy ombor mavjud");
+      }else{
+        toast.error("Ombor qo'shishda xatolik yuz berdi");
+      }
     },
   });
 
@@ -29,7 +36,8 @@ const AddStorage = ({ onClose, refetch }) => {
     mutate({
       name: data.name,
       isMain: data.isMain ? true : false,
-      isTrusted: data.isTrusted ? true : false
+      isTrusted: data.isTrusted ? true : false,
+      priceDifference: data.priceDifference
     });
   };
 
@@ -51,6 +59,27 @@ const AddStorage = ({ onClose, refetch }) => {
             render={({ field }) => (
               <Input
                 placeholder="Ombor nomini kiriting"
+                className="custom-input"
+                {...field}
+              />
+            )}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label={
+            <span className="text-gray-100 font-semibold">Narx farqi</span>
+          }
+          validateStatus={errors.priceDifference ? "error" : ""}
+          help={errors.priceDifference?.message}
+        >
+          <Controller
+            name="priceDifference"
+            control={control}
+            rules={{ required: "Narx farqi majburiy" }}
+            render={({ field }) => (
+              <Input
+                placeholder="Narx farqini kiriting"
                 className="custom-input"
                 {...field}
               />
