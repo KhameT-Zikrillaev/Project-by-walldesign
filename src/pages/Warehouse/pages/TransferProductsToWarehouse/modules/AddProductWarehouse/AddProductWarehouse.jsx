@@ -1,16 +1,39 @@
 import React, { useState, useEffect } from "react";
-import { Button, List, Image, InputNumber } from "antd";
+import { Button, List, Image, InputNumber, message } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
+import userStore from "@/store/useUser";
+import useApiMutation from "@/hooks/useApiMutation";
 
-const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess }) => {
+const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId }) => {
   const [selectedItems, setSelectedItems] = useState([]);
+  const { user } = userStore();
+
+  // Используем useApiMutation для PATCH запроса
+  const { mutate, isLoading: isSending } = useApiMutation({
+    url: 'warehouse-products',
+    method: 'PATCH',
+    onSuccess: (data) => {
+      message.success('Продукты успешно отправлены!');
+      if (onSuccess) onSuccess();
+      onClose();
+    },
+    onError: (error) => {
+      message.error(`Ошибка: ${error.message || 'Не удалось отправить продукты'}`);
+      console.error('Error sending products:', error);
+    }
+  });
+
+  console.log(user.warehouse?.id)              // ГЛАВНАЯ АЙДИ СКЛАДА ОТПРАВИТЕЛЬ
+  console.log(selectedProducts)     //ТОВАРЫ
+  console.log(warehouseId)          // СКЛАД ПОКУПАТЕЛЬ
+  
 
   // Преобразуем выбранные товары в нужный формат с уникальным ключом
   useEffect(() => {
     if (selectedProducts) {
       const preselectedItems = selectedProducts.map((item, index) => ({
         ...item,
-        key: `${item.product_id}-${index}`,
+        key: `${item.id}-${index}`,
         quantity: item.quantity || 1,
       }));
       setSelectedItems(preselectedItems);
@@ -22,7 +45,7 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess }) => {
     setSelectedItems((prev) => {
       const updatedItems = prev.filter((item) => item.key !== key);
       if (updatedItems.length === 0) {
-        onSuccess(); // Закрываем, если все товары удалены
+        if (onSuccess) onSuccess(); // Закрываем, если все товары удалены
         onClose();
       }
       return updatedItems;
@@ -41,13 +64,24 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess }) => {
   // Отправка данных
   const onSubmit = () => {
     if (selectedItems.length === 0) {
-      onSuccess();
-      onClose();
+      message.warning('Нет выбранных товаров для отправки');
       return;
     }
-    console.log("Отправленные товары:", selectedItems);
-    onSuccess();
-    onClose();
+    
+    // Формируем данные для отправки на бэкенд
+    const requestData = {
+      fromWarehouseId: user.warehouse?.id, // ID склада-отправителя
+      toWarehouseId: warehouseId, // ID склада-получателя
+      products: selectedItems.map(item => ({
+        productId: item.id, // ID продукта
+        quantity: item.quantity // Количество
+      }))
+    };
+    
+    console.log('Отправляем данные:', requestData);
+    
+    // Отправляем данные на бэкенд
+    mutate(requestData);
   };
 
   return (
@@ -74,7 +108,7 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess }) => {
                     style={{ marginRight: "10px" }}
                   />
                   <div className="ml-2">
-                    <div className="text-white font-bold">{product.name}</div>
+                    <div className="text-white font-bold">{product.article}</div>
                     <div className="text-white">{product.code}</div>
                   </div>
                 </div>
@@ -136,9 +170,11 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess }) => {
         <Button
           type="primary"
           onClick={onSubmit}
+          loading={isSending}
+          disabled={isSending || selectedItems.length === 0}
           style={{ marginTop: 20, width: "100%" }}
         >
-          Yuborish
+          {isSending ? 'Отправка...' : 'Yuborish'}
         </Button>
       </div>
     </div>

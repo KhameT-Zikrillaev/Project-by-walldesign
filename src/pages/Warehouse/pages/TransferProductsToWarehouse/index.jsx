@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SearchForm from "@/components/SearchForm/SearchForm";
-import useUserStore from "@/store/useUser";
 import useFetch from "@/hooks/useFetch";
 import { Spin } from "antd";
-const products = [
-  { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
-  { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
-  { id: 3, name: "Namangan", description: "Описание Namangan" },
-  { id: 4, name: "Samarqand", description: "Описание Samarqand" },
-  { id: 5, name: "Mirzo Ulug'bek", description: "Описание Mirzo Ulug'bek" },
-  { id: 6, name: "Navoiy", description: "Описание Navoiy" },
-];
 
 export default function WarehouseTransferProducts() {
   const [visibleDistricts, setVisibleDistricts] = useState(12);
@@ -19,13 +10,14 @@ export default function WarehouseTransferProducts() {
   const loadMoreDistricts = () => {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
   };
- const { user, isLoggedIn } = useUserStore();
+
 
  const { data, isLoading, refetch } = useFetch('warehouse', 'warehouse', {});
 
 
 useEffect(() => {
   setFilteredData(data?.data?.warehouses)
+  console.log(data?.data?.warehouses)
 }, [data])
 
   // Если пользователь не авторизован, показываем сообщение

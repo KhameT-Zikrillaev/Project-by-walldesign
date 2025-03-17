@@ -30,8 +30,8 @@ const SearchForm = ({ data, onSearch, name, title, showDatePicker = true }) => {
 
   const handleSearch = (value) => {
     setSearchTerm(value);
-    const filteredData = data.filter(item =>
-      item.name.toLowerCase().includes(value.toLowerCase())
+    const filteredData = data?.products?.filter(item =>
+      item.article.toLowerCase().includes(value.toLowerCase())
     );
     onSearch(filteredData); // Передаем отфильтрованные данные в родительский компонент
   };
