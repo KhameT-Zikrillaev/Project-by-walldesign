@@ -13,10 +13,7 @@ export default function Warehouse() {
   const [selectedImage, setSelectedImage] = useState(null);
   const { user } = useUserStore();
 
-
-
   // Fetch data from API
-
   const id = user?.warehouse?.id;
   const { data, isLoading  } = useFetch(
     id ? `warehouse-products/${id}` : null, // Если id нет, не создаем ключ запроса
