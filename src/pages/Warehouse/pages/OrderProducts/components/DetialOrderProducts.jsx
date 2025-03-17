@@ -1,151 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Card, Pagination, Tag, Button } from "antd";
 import "antd/dist/reset.css";
-import bg from "@/assets/images/bg-login.jpg";
+// import bg from "@/assets/images/bg-login.jpg";
 import ModalComponent from "@/components/modal/Modal";
 import ImageModal from "@/components/modal/ImageModal";
 import  bgsklad  from '@/assets/images/bg-sklad.png';
 import SearchForm from "../modules/searchForm";
 import AddProduct from './../modules/addProducts/index';
-import { useLocation } from "react-router-dom";
 import useFetch from "@/hooks/useFetch";
-const dataSource = [
-  {
-    key: "1",
-    code: "OB001",
-    name: 'Обои "Синий океан"',
-    price: 1000,
-    stock: 10,
-    photo: bg,
-  },
-  {
-    key: "2",
-    code: "OB002",
-    name: 'Обои "Зеленый лес"',
-    price: 1200,
-    stock: 5,
-    photo: bg,
-  },
-  {
-    key: "3",
-    code: "OB003",
-    name: 'Обои "Красный закат"',
-    price: 1100,
-    stock: 8,
-    photo: bg,
-  },
-  {
-    key: "4",
-    code: "OB004",
-    name: 'Обои "Желтый песок"',
-    price: 900,
-    stock: 15,
-    photo: bg,
-  },
-  {
-    key: "5",
-    code: "OB005",
-    name: 'Обои "Фиолетовый туман"',
-    price: 1300,
-    stock: 3,
-    photo: bg,
-  },
-  {
-    key: "6",
-    code: "OB006",
-    name: 'Обои "Голубое небо"',
-    price: 950,
-    stock: 7,
-    photo: bg,
-  },
-  {
-    key: "7",
-    code: "OB007",
-    name: 'Обои "Розовый рассвет"',
-    price: 1050,
-    stock: 12,
-    photo: bg,
-  },
-  {
-    key: "8",
-    code: "OB008",
-    name: 'Обои "Серый камень"',
-    price: 800,
-    stock: 20,
-    photo: bg,
-  },
-  {
-    key: "9",
-    code: "OB009",
-    name: 'Обои "Белый снег"',
-    price: 1000,
-    stock: 0,
-    photo: bg,
-  },
-  {
-    key: "10",
-    code: "OB010",
-    name: 'Обои "Черная ночь"',
-    price: 1400,
-    stock: 6,
-    photo: bg,
-  },
-  {
-    key: "11",
-    code: "OB011",
-    name: 'Обои "Оранжевый закат"',
-    price: 1150,
-    stock: 9,
-    photo: bg,
-  },
-  {
-    key: "12",
-    code: "OB012",
-    name: 'Обои "Коричневый дуб"',
-    price: 1250,
-    stock: 4,
-    photo: bg,
-  },
-  {
-    key: "13",
-    code: "OB013",
-    name: 'Обои "Бирюзовый океан"',
-    price: 1350,
-    stock: 15,
-    photo: bg,
-  },
-  {
-    key: "14",
-    code: "OB014",
-    name: 'Обои "Лавандовый туман"',
-    price: 950,
-    stock: 12,
-    photo: bg,
-  },
-  {
-    key: "15",
-    code: "OB015",
-    name: 'Обои "Мятный бриз"',
-    price: 1100,
-    stock: 7,
-    photo: bg,
-  },
-];
+import { useParams } from "react-router-dom";
 
 export default function WarehouseDetailProductsLists() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~modal
+  const [filteredData, setFilteredData] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const location = useLocation()
-  const {data} = useFetch("warehouse-products", `warehouse-products/${location.pathname.split('/')[3]}`)
-  const [filteredData, setFilteredData] = useState(data?.products)
-
-  console.log(data.products);
+  const {id} = useParams()
   
-
+  const {data} = useFetch(`warehouse-products/${id}`, `warehouse-products/${id}`)
+  
+   useEffect(() => {
+    setFilteredData(data?.products)
+   }, [data])
+  
   const showModal = (product) => {
     setSelectedProduct(product); // Устанавливаем выбранный товар
     setIsModalOpen(true);
@@ -166,7 +45,7 @@ export default function WarehouseDetailProductsLists() {
     return () => window.removeEventListener("resize", updateItemsPerPage);
   }, []);
 
-  const currentData = filteredData.slice(
+  const currentData = filteredData?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -179,10 +58,9 @@ export default function WarehouseDetailProductsLists() {
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
 
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-        <SearchForm data={dataSource} onSearch={setFilteredData} />
-        
+        <SearchForm data={data?.products} onSearch={setFilteredData} />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
-          {currentData.map((item) => (
+          {currentData?.map((item) => (
             <Card
               key={item.key}
               className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
@@ -240,7 +118,7 @@ export default function WarehouseDetailProductsLists() {
         <div className="my-2 mb-12 md:mb-0 flex justify-center">
           <Pagination
             current={currentPage}
-            total={filteredData.length}
+            total={filteredData?.length}
             pageSize={itemsPerPage}
             onChange={(page) => setCurrentPage(page)}
             showSizeChanger={false}

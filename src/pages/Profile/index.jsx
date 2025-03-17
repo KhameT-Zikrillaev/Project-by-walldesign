@@ -22,8 +22,6 @@ export default function Home() {
 
     return () => clearTimeout(timer);
   }, []);
-  console.log(user);
-  
 
   useRequest(user?.role, user?.warehouse?.id);
 

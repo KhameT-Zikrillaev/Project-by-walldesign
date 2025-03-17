@@ -115,7 +115,7 @@ export default function RouterConfig() {
         />{" "}
         {/* /warehouse/order-products */}
         <Route
-          path="order-products/:name"
+          path="order-products/:id"
           element={<WarehouseDetailProductsLists />}
         />{" "}
         {/* /warehouse/order-products */}

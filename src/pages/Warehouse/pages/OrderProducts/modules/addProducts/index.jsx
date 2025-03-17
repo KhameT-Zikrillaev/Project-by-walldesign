@@ -1,6 +1,10 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input, Button, Form, message } from "antd";
+import useUserStore from "@/store/useUser"
+import { useLocation } from "react-router-dom";
+import useApiMutation from "@/hooks/useApiMutation"
+import { toast } from "react-toastify";
 
 const AddProduct = ({ onClose, product }) => {
   const {
@@ -11,38 +15,56 @@ const AddProduct = ({ onClose, product }) => {
     setValue,
     watch,
   } = useForm();
-
-  const stock = watch("stock"); // Следим за значением количества
-
-  console.log(product);
+  const {user} = useUserStore()
+  const location = useLocation()
   
+  const quantity = watch("stock"); // Следим за значением количества
+
+  const { mutate, isLoading } = useApiMutation({
+      url: 'warehouse-requests/send-request',
+      method: 'POST', 
+      onSuccess: () => {
+        reset(); // Formani tozalash
+        onClose();
+        toast.success("Buyurtma berildi")
+      },
+      onError: () => {
+        toast.error("Buyutma berishda xatolik!")
+      },
+    });
 
   const onSubmit = (data) => {
-    if (data.stock > product.stock) {
-      message.error(`Max ${product.stock} ta.`);
+    if (data.quantity > product.quantity) {
+      message.error(`Max ${product.quantity} ta.`);
       return;
     }
-    console.log("Forma ma'lumotlari:", data);
-    message.success(
-      `Заказ на ${product.name} в количестве ${data.stock} ta оформлен!`
-    );
-    reset(); // Formani tozalash
-    onClose();
+    const newData = {
+        sourceWarehouseId: location.pathname.split('/')[3],
+        destinationWarehouseId: user?.warehouse?.id,
+        items: [
+          {
+            productId: product?.id,
+            quantity: data.quantity
+          }
+        ]
+      
+    }
+    mutate(newData) 
   };
 
   // Функция для ограничения ввода только цифрами от 1 до product.stock
   const handlestockChange = (e) => {
     const value = e.target.value.replace(/\D/g, ""); // Удаляем все символы, кроме цифр
-    const maxValue = product.stock; // Максимальное значение равно product.stock
+    const maxValue = product.quantity; // Максимальное значение равно product.stock
     const parsedValue = parseInt(value, 10);
 
     // Если значение больше максимального, устанавливаем максимальное значение
     if (parsedValue > maxValue) {
-      setValue("stock", maxValue.toString());
+      setValue("quantity", maxValue.toString());
     } else if (value === "") {
-      setValue("stock", ""); // Позволяем очистить поле
+      setValue("quantity", ""); // Позволяем очистить поле
     } else {
-      setValue("stock", value); // Устанавливаем значение в форму
+      setValue("quantity", value); // Устанавливаем значение в форму
     }
   };
 
@@ -62,7 +84,7 @@ const AddProduct = ({ onClose, product }) => {
               Part: <span className="text-red-500">{product?.batch_number}</span>
             </p>
             <p className="text-gray-100 font-semibold">
-              Jami narxi: { (stock || product?.quantity) * product?.price} so'm
+              Jami narxi: { (quantity || product?.quantity) * product?.price} so'm
             </p>
             <span className="text-gray-100 font-semibold">
               {product?.quantity} dona bor omborda
@@ -76,7 +98,7 @@ const AddProduct = ({ onClose, product }) => {
           validateStatus={errors.quantity ? "error" : ""}
           help={
             errors.quantity?.message ||
-            (stock > product?.quantity && `Max ${product?.quantity} ta`)
+            (quantity > product?.quantity && `Max ${product?.quantity} ta`)
           }
         >
           <Controller
@@ -112,7 +134,8 @@ const AddProduct = ({ onClose, product }) => {
           <Button
             type="primary"
             htmlType="submit"
-            disabled={stock > product?.quantity}
+            disabled={quantity > product?.quantity}
+            loading={isLoading}
             style={{
               backgroundColor: "#364153",
               color: "#f3f4f6",

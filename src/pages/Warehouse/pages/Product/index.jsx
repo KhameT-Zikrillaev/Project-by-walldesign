@@ -18,7 +18,7 @@ export default function Warehouse() {
   // Fetch data from API
 
   const id = user?.warehouse?.id;
-  const { data, isLoading, refetch } = useFetch(
+  const { data, isLoading  } = useFetch(
     id ? `warehouse-products/${id}` : null, // Если id нет, не создаем ключ запроса
     id ? `warehouse-products/${id}` : null, // Если id нет, не делаем запрос
     {},
@@ -26,12 +26,10 @@ export default function Warehouse() {
       enabled: !!id, // Запрос будет выполнен только если id существует
     }
   );
-  console.log(data)
   // Update filteredData when data changes
   useEffect(() => {
     if (data) {
-      console.log("Data from API:", data);
-      setFilteredData(data);
+      setFilteredData(data?.products);
     }
   }, [data]);
 
@@ -50,7 +48,7 @@ export default function Warehouse() {
   }, []);
 
   // Логика пагинации
-  const currentData = filteredData.slice(
+  const currentData = filteredData?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -64,7 +62,7 @@ export default function Warehouse() {
 
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
         <SearchForm
-          data={filteredData}
+          data={filteredData || []}
           name=""
           title="Tovarlar"
           showDatePicker={false}
@@ -78,9 +76,9 @@ export default function Warehouse() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full px-4">
-            {currentData.map((item) => (
+            {currentData?.map((item) => (
               <Card
-                key={item.product_id}
+                key={item?.product_id}
                 className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
                 style={{
                   background: "rgba(255, 255, 255, 0.1)",
@@ -89,23 +87,23 @@ export default function Warehouse() {
                 }}
                 cover={
                   <div
-                    onClick={() => setSelectedImage(item.image_url)}
+                    onClick={() => setSelectedImage(item?.image_url)}
                     className="h-48 w-full bg-cover cursor-pointer bg-center rounded-t-lg"
-                    style={{ backgroundImage: `url('${item.image_url}')` }}
+                    style={{ backgroundImage: `url('${item?.image_url}')` }}
                   />
                 }
                 bodyStyle={{ padding: "12px", color: "white" }}
               >
                 <div className="flex flex-col gap-2">
                   <Tag color="blue">
-                    Part: <span className="text-red-500">{item.article}</span>
+                    Part: <span className="text-red-500">{item?.article}</span>
                   </Tag>
                   <h4 className="text-sm font-semibold text-white">
-                    {item.price +" $" || "No price"}
+                    {item?.price +" $" || "No price"}
                   </h4>
                   <div className="flex justify-between">
                     <p className="text-gray-300 text-xs">
-                      Batch: {item.quantity}
+                      Batch: {item?.quantity}
                     </p>
                   </div>
                 </div>
@@ -126,7 +124,7 @@ export default function Warehouse() {
           <div className="my-4 flex justify-center">
             <Pagination
               current={currentPage}
-              total={filteredData.length}
+              total={filteredData?.length}
               pageSize={itemsPerPage}
               onChange={(page) => setCurrentPage(page)}
               showSizeChanger={false}

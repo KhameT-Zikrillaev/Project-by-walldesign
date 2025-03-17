@@ -4,20 +4,16 @@ import { Link } from "react-router-dom";
 import SearchForm from "@/components/SearchForm/SearchForm";
 import useFetch from "@/hooks/useFetch";
 import { Spin } from "antd";
-// const products = [
-//   { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
-//   { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
-//   { id: 3, name: "Qo'yliq", description: "Описание Chilanzar" },
-//   { id: 4, name: "Chinor", description: "Описание Chinor" },
-//   { id: 5, name: "Salar", description: "Описание Salar" },
-//   { id: 6, name: "Olamzor", description: "Описание Olamzor" },
-// ];
+import useUserStore from "@/store/useUser"
 
 export default function WarehouseOrderProducts() {
+  const {user} = useUserStore()
   const [filteredData, setFilteredData] = useState([]);
+  
   const { data, isLoading } = useFetch('warehouse', 'warehouse', {});
   useEffect(() => {
-    setFilteredData(data?.data?.warehouses)
+    let newData = data?.data?.warehouses?.filter(item => item?.id !== user?.warehouse?.id)
+    setFilteredData(newData)
   }, [data])
   return (
     <div className="DirectorProduct mt-[150px] p-4">
@@ -35,7 +31,6 @@ export default function WarehouseOrderProducts() {
             className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
           >
             <h4>{product.name}</h4>
-            {/* <p>{product.description}</p> */}
           </Link>
         ))}
       </div>
