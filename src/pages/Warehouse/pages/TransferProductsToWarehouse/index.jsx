@@ -11,7 +11,6 @@ export default function WarehouseTransferProducts() {
   const { data, isLoading, refetch } = useFetch('warehouse', 'warehouse', {});
   const [filteredData, setFilteredData] = useState([]);
   const [filteredBySearch, setFilteredBySearch] = useState([]);
-  console.log(user)
   const loadMoreDistricts = () => {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
   };
@@ -22,14 +21,14 @@ export default function WarehouseTransferProducts() {
       // Приводим имя пользователя к нижнему регистру для сравнения
       const userName = user.name.toLowerCase();
       
-      const filtered = data.data.warehouses.filter(warehouse => {
+      const filtered = data?.data?.warehouses?.filter(warehouse => {
         // Приводим имя склада к нижнему регистру для сравнения
-        const warehouseName = warehouse.name.toLowerCase().trim();
+        const warehouseName = warehouse?.name?.toLowerCase().trim();
         
         // Проверяем, содержится ли имя пользователя в имени склада
         const isUserWarehouse = userName.includes(warehouseName);
         
-        console.log(`Склад: ${warehouse.name}, Совпадение: ${isUserWarehouse}`);
+        // console.log(`Склад: ${warehouse?.name}, Совпадение: ${isUserWarehouse}`);
         
         return !isUserWarehouse; // Возвращаем true, если имя пользователя НЕ содержится в имени склада
       });
@@ -65,14 +64,15 @@ export default function WarehouseTransferProducts() {
         </div>
       ) : filteredBySearch?.length > 0 ? (
         <div className="grid grid-cols-2 gap-4">
-          {filteredBySearch.slice(0, visibleDistricts).map((product) => (
+          {filteredBySearch?.slice(0, visibleDistricts)?.map((product) => (
             <Link
-              key={product.id}
-              to={`/warehouse/transfer-to-warehouse/${product.name}`}
+              key={product?.id}
+              state={{ shopId: product?.id }} 
+              to={`/warehouse/transfer-to-warehouse/${product?.name}`}
               className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
             >
-              <h4>{product.name}</h4>
-              <p>{product.description}</p>
+              <h4>{product?.name}</h4>
+              <p>{product?.description}</p>
             </Link>
           ))}
         </div>

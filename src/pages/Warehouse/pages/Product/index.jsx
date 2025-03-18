@@ -46,7 +46,6 @@ export default function Warehouse() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
   return (
     <div
       className="min-h-screen bg-cover bg-center p-1 relative"
@@ -56,7 +55,7 @@ export default function Warehouse() {
 
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
         <SearchForm
-          data={filteredData || []}
+          data={data?.products}
           name=""
           title="Tovarlar"
           showDatePicker={false}

@@ -21,6 +21,8 @@ const iconMap = {
   Kassa:TbShoppingCartCheck,
   "Kassa ma'lumotlari":TbShoppingCartCheck,
   'Omboridigi mahsulotlarni yuborish': FaWarehouse,
+  'Hisobotlar omborlar': FaWarehouse,
+  'Hisobotlar sotuvchilar': FaUserTie,
   "Omborlar ro'yxati": FaWarehouse,
 };
 

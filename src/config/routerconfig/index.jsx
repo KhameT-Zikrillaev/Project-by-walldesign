@@ -30,7 +30,8 @@ import WarehouseShop from '@/pages/Warehouse/pages/Shop';
 import WarehouseReturnProducts from '@/pages/Warehouse/pages/Shop/pages/ReturnProducts';
 import WarehouseCashregister from '@/pages/Warehouse/pages/Cashregister';
 import WarehouseCashregisterDetails from '@/pages/Warehouse/pages/Cashregister/components/CashregisterDetailes';
-import WarehouseReport from '@/pages/Warehouse/pages/Report';
+import WarehouseReportWarehouseSend from '@/pages/Warehouse/pages/ReportWarehouseSend';
+import WarehouseReportSellerSend from '@/pages/Warehouse/pages/ReportSellerSend';
 import WarehouseViewDetaliesSendProducts from '@/pages/Warehouse/pages/SendProductsToShowcase/components/ViewDetaliesSendProducts'
 import WarehouseViewDetaliesRemoveProducts from '@/pages/Warehouse/pages/RemoveProductsFromShowcase/components/ViewDetaliesRemoveProducts'
 import WarehouseOrderProducts from "../../pages/Warehouse/pages/OrderProducts";
@@ -124,7 +125,8 @@ export default function RouterConfig() {
         <Route path="cash-register/:name" element={<WarehouseCashregisterDetails />} />{" "}
         {/* /warehouse/cash */}
         <Route path="shop" element={<WarehouseShop />} />
-        <Route path="report" element={<WarehouseReport />}></Route>
+        <Route path="report-warehouse-send" element={<WarehouseReportWarehouseSend />}></Route>
+        <Route path="report-seller-send" element={<WarehouseReportSellerSend />}></Route>
         <Route path="shop">
           <Route path="return-products" element={<WarehouseReturnProducts />} />{" "}
           {/* /warehouse/shop/return-products */}

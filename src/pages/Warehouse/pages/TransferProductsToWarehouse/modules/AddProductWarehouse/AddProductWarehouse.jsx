@@ -3,7 +3,7 @@ import { Button, List, Image, InputNumber, message } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import userStore from "@/store/useUser";
 import useApiMutation from "@/hooks/useApiMutation";
-
+import { toast } from "react-toastify";
 const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const { user } = userStore();
@@ -13,28 +13,24 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
     url: 'warehouse-products',
     method: 'PATCH',
     onSuccess: (data) => {
-      message.success('Продукты успешно отправлены!');
+      toast.success('Продукты успешно отправлены!');
       if (onSuccess) onSuccess();
       onClose();
     },
     onError: (error) => {
-      message.error(`Ошибка: ${error.message || 'Не удалось отправить продукты'}`);
+      toast.error(`Ошибка: ${error.message || 'Не удалось отправить продукты'}`);
       console.error('Error sending products:', error);
     }
   });
 
-  console.log(user.warehouse?.id)              // ГЛАВНАЯ АЙДИ СКЛАДА ОТПРАВИТЕЛЬ
-  console.log(selectedProducts)     //ТОВАРЫ
-  console.log(warehouseId)          // СКЛАД ПОКУПАТЕЛЬ
-  
 
   // Преобразуем выбранные товары в нужный формат с уникальным ключом
   useEffect(() => {
     if (selectedProducts) {
-      const preselectedItems = selectedProducts.map((item, index) => ({
+      const preselectedItems = selectedProducts?.map((item, index) => ({
         ...item,
-        key: `${item.id}-${index}`,
-        quantity: item.quantity || 1,
+        key: `${item?.id}-${index}`,
+        quantity: item?.quantity || 1,
       }));
       setSelectedItems(preselectedItems);
     }
@@ -43,8 +39,8 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
   // Удаляем товар из списка по уникальному ключу
   const handleRemove = (key) => {
     setSelectedItems((prev) => {
-      const updatedItems = prev.filter((item) => item.key !== key);
-      if (updatedItems.length === 0) {
+      const updatedItems = prev?.filter((item) => item?.key !== key);
+      if (updatedItems?.length === 0) {
         if (onSuccess) onSuccess(); // Закрываем, если все товары удалены
         onClose();
       }
@@ -55,15 +51,15 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
   // Изменяем количество товара
   const handleQuantityChange = (key, value) => {
     setSelectedItems((prev) =>
-      prev.map((item) =>
-        item.key === key ? { ...item, quantity: value } : item
+      prev?.map((item) =>
+        item?.key === key ? { ...item, quantity: value } : item
       )
     );
   };
 
   // Отправка данных
   const onSubmit = () => {
-    if (selectedItems.length === 0) {
+    if (selectedItems?.length === 0) {
       message.warning('Нет выбранных товаров для отправки');
       return;
     }
@@ -72,14 +68,11 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
     const requestData = {
       fromWarehouseId: user.warehouse?.id, // ID склада-отправителя
       toWarehouseId: warehouseId, // ID склада-получателя
-      products: selectedItems.map(item => ({
-        productId: item.id, // ID продукта
-        quantity: item.quantity // Количество
+      products: selectedItems?.map(item => ({
+        productId: item?.id, // ID продукта
+        quantity: item?.quantity // Количество
       }))
     };
-    
-    console.log('Отправляем данные:', requestData);
-    
     // Отправляем данные на бэкенд
     mutate(requestData);
   };
@@ -108,16 +101,16 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
                     style={{ marginRight: "10px" }}
                   />
                   <div className="ml-2">
-                    <div className="text-white font-bold">{product.article}</div>
-                    <div className="text-white">{product.code}</div>
+                    <div className="text-white font-bold">{product?.article}</div>
+                    <div className="text-white">{product?.code}</div>
                   </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   {/* ✅ Добавил InputNumber ВНУТРИ renderItem */}
                   <InputNumber
                     min={1}
-                    max={product.stock}
-                    value={product.quantity}
+                    max={product?.stock}
+                    value={product?.quantity}
                     onChange={(value) =>
                       handleQuantityChange(product.key, value)
                     }
@@ -136,7 +129,7 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
                     type="text"
                     size="small"
                     icon={<CloseOutlined />}
-                    onClick={() => handleRemove(product.key)}
+                    onClick={() => handleRemove(product?.key)}
                     style={{
                       color: "#fff",
                       backgroundColor: "#17212b",
@@ -154,14 +147,18 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
                 </div>
               </List.Item>
             )}
-            pagination={{ pageSize: 3 }}
+            pagination={{ 
+              pageSize: 3,
+              className: "custom-pagination",
+              hideOnSinglePage: true // Скрыть пагинацию, если все элементы помещаются на одной странице
+            }}
           />
         </div>
 
         {/* ✅ Количество товаров */}
         <div className="text-center text-white mt-4">
           <span>
-            Количество выбранных товаров:{" "}
+              Tanlangan tovarlar soni:{" "}
             <strong>{selectedItems.length}</strong>
           </span>
         </div>
@@ -171,7 +168,7 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
           type="primary"
           onClick={onSubmit}
           loading={isSending}
-          disabled={isSending || selectedItems.length === 0}
+          disabled={isSending || selectedItems?.length === 0}
           style={{ marginTop: 20, width: "100%" }}
         >
           {isSending ? 'Отправка...' : 'Yuborish'}
