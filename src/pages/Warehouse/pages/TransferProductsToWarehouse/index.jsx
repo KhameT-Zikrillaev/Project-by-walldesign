@@ -11,7 +11,6 @@ export default function WarehouseTransferProducts() {
   const { data, isLoading, refetch } = useFetch('warehouse', 'warehouse', {});
   const [filteredData, setFilteredData] = useState([]);
   const [filteredBySearch, setFilteredBySearch] = useState([]);
-  console.log(user)
   const loadMoreDistricts = () => {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
   };
@@ -29,7 +28,7 @@ export default function WarehouseTransferProducts() {
         // Проверяем, содержится ли имя пользователя в имени склада
         const isUserWarehouse = userName.includes(warehouseName);
         
-        console.log(`Склад: ${warehouse.name}, Совпадение: ${isUserWarehouse}`);
+        // console.log(`Склад: ${warehouse?.name}, Совпадение: ${isUserWarehouse}`);
         
         return !isUserWarehouse; // Возвращаем true, если имя пользователя НЕ содержится в имени склада
       });
