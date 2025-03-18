@@ -111,7 +111,7 @@ export default function ReportWarehouseSend() {
     >
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
 
-      <div className="relative z-10 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
+      <div className="relative z-10 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[110px]">
   
         <SearchForm 
           data={data} 
@@ -134,7 +134,7 @@ export default function ReportWarehouseSend() {
             className="my-12"
           />
         ) : (
-          <div className="grid grid-cols-1 mb-4 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4">
+          <div className="grid grid-cols-1 mb-4 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full px-4">
             {currentData.map((item) => (
               <Card
                 key={item.id}
@@ -146,7 +146,7 @@ export default function ReportWarehouseSend() {
                 }}
                 bodyStyle={{ padding: "16px", color: "white" }}
               >
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2">
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="text-lg font-semibold text-white mb-1 flex items-center">
@@ -204,7 +204,7 @@ export default function ReportWarehouseSend() {
         )}
 
         {filteredData.length > 0 && (
-          <div className="my-2 mb-12 md:mb-2 flex justify-center">
+          <div className="my-0 mb-12 md:mb-2 flex justify-center">
             <Pagination
               current={currentPage}
               total={filteredData.length}
