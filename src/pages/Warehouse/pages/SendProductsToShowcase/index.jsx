@@ -15,7 +15,6 @@ export default function WarehouseProducts() {
   };
   const { user } = useUserStore();
   const warehouseId = user?.warehouse?.id;
-  console.log(warehouseId)
 
   const { data, isLoading, refetch } = useFetch(
     warehouseId ? `warehouse/${warehouseId}` : null, 
@@ -38,7 +37,6 @@ export default function WarehouseProducts() {
     setFilteredBySearch(searchResults);
   };
 
-
   return (
     <div className="DirectorProduct mt-[150px] p-4">
        <SearchForm data={filteredData} name="" title="Sotuvchilar" showDatePicker={false} onSearch={handleSearch}  />
@@ -47,15 +45,15 @@ export default function WarehouseProducts() {
     <Spin size="large" />
   </div> ) : (
       <div className="grid grid-cols-2 gap-4">
-        {filteredBySearch?.slice(0, visibleDistricts).map((product) => (
+        {filteredBySearch?.slice(0, visibleDistricts)?.map((product) => (
           <Link
-            key={product.id}
-            state={{ shopId: product.id }}
-            to={`/warehouse/send-to-showcase/${product.name}`}
+            key={product?.id}
+            state={{ shopId: product?.id }}
+            to={`/warehouse/send-to-showcase/${product?.name}`}
             className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
           >
-            <h4>{product.name}</h4>
-            <p>{product.description}</p>
+            <h4>{product?.name}</h4>
+            <p>{product?.description}</p>
           </Link>
         ))}
       </div>

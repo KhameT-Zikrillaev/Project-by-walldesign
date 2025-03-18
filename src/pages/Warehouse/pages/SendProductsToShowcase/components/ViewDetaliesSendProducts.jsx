@@ -39,20 +39,20 @@ export default function ViewDetaliesSendProducts() {
       const foundWarehouse = warehousesData.data.warehouses.find(warehouse => warehouse.name === name);
       if (foundWarehouse) {
         setWarehouseId(foundWarehouse.id);
-        console.log("Найден склад с ID:", foundWarehouse.id);
+
       } else {
         // Если не нашли склад по имени, используем ID склада пользователя
         if (user?.warehouse?.id) {
           setWarehouseId(user.warehouse.id);
-          console.log("Используем ID склада пользователя:", user.warehouse.id);
+   
         } else {
-          console.error("Не удалось найти ID склада ни по имени, ни из данных пользователя");
+   
         }
       }
     } else if (user?.warehouse?.id) {
       // Если нет данных о складах или имени, используем ID склада пользователя
       setWarehouseId(user.warehouse.id);
-      console.log("Используем ID склада пользователя (запасной вариант):", user.warehouse.id);
+  
     }
   }, [warehousesData, name, user]);
 
@@ -70,7 +70,7 @@ const { data: productsData, isLoading: productsLoading, refetch: refetchProducts
 
 //~~~~~~~~~~~~~~~~~~~~ логика шопах из апи~~~~~~~~~~~~~~~~~~~~~~~~~~
 const userWarehouseId = user?.warehouse?.id;
-console.log("ID склада пользователя:", userWarehouseId);
+// console.log("ID склада пользователя:", userWarehouseId);
 
 // const { data: shopsData, isLoading: shopsLoading, refetch: refetchShops } = useFetch(
 //   userWarehouseId ? `warehouse/${userWarehouseId}` : null, // Если id нет, не создаем ключ запроса
@@ -81,12 +81,10 @@ console.log("ID склада пользователя:", userWarehouseId);
 //   }
 // );
 
-
-
 // Update filteredData when products data changes
 useEffect(() => {
   if (productsData) {
-    console.log("Products Data from API:", productsData);
+  
     setFilteredData(productsData?.products?.map(item => ({
       ...item,
       key: item.id // используем id как key
@@ -170,8 +168,6 @@ useEffect(() => {
            style={{ marginBottom: '10px',backgroundColor: '#17212b',color: '#fff' }}
             onClick={() => setIsWareHouseOpen(true)}
             >Ombordigi mahsulotni ko'rish</Button>
-
-
              {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~select all~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <Button
           type=""
@@ -188,27 +184,27 @@ useEffect(() => {
   </div>
       ):(
        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
-  {currentData.map((item) => (
+  {currentData?.map((item) => (
     <Card
       key={item.key}
       className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
       style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
       cover={
         <div
-          onClick={() => setSelectedImage(item.photo)}
+          onClick={() => setSelectedImage(item?.photo)}
           className="h-28 bg-cover bg-center rounded-t-lg"
-          style={{ backgroundImage: `url(${item.photo})` }}
+          style={{ backgroundImage: `url(${item?.photo})` }}
         />
       }
       bodyStyle={{ padding: '12px', color: 'white' }}
     >
       <div className="flex flex-col gap-2">
-        <h3 className="text-lg font-semibold text-white">{item.article}</h3>
-        <Tag color="blue">Part: <span className="text-red-500">{item.batch_number}</span></Tag>
-        <h4 className="text-sm font-semibold text-white">{item.price + " $"}</h4>
+        <h3 className="text-lg font-semibold text-white">{item?.article}</h3>
+        <Tag color="blue">Part: <span className="text-red-500">{item?.batch_number}</span></Tag>
+        <h4 className="text-sm font-semibold text-white">{item?.price + " $"}</h4>
         <div className='mt-[15px]'>
           <CustomCheckbox
-            checked={selectedProducts.some((product) => product.id === item.id)}
+            checked={selectedProducts?.some((product) => product?.id === item?.id)}
             onChange={() => handleCheckboxChange(item)}
             label="Tanlash"
           />
@@ -218,7 +214,7 @@ useEffect(() => {
   ))}
 </div>
       )}
-        {filteredData.length > 0 && (
+        {filteredData?.length > 0 && (
           <div className="my-2 mb-12 md:mb-0 flex justify-center">
             <Pagination
               current={currentPage}
@@ -230,7 +226,7 @@ useEffect(() => {
             />
           </div>
         )}
-        {filteredData.length > 0 && (
+        {filteredData?.length > 0 && (
           <div className="w-full flex flex-col md:flex-row mt-2 mb-12 gap-2 justify-center items-center">
             <span className='bg-gray-700 py-[7px] max-w-[300px] w-full text-center h-[40px] text-white text-[18px] rounded-lg shadow-lg'>
               Tanlangan: {selectedProducts.length}
@@ -239,20 +235,20 @@ useEffect(() => {
   type="primary"
   className='max-w-[300px] w-full'
   onClick={showModal}
-  disabled={selectedProducts.length === 0} // Отключаем кнопку, если нет выбранных товаров
+  disabled={selectedProducts?.length === 0} // Отключаем кнопку, если нет выбранных товаров
   style={{
-    backgroundColor: selectedProducts.length === 0 ? '#888' : '#364153',
+    backgroundColor: selectedProducts?.length === 0 ? '#888' : '#364153',
     borderColor: '#364153',
     fontSize: '18px',
     height: '40px',
-    cursor: selectedProducts.length === 0 ? 'not-allowed' : 'pointer',
-    opacity: selectedProducts.length === 0 ? 0.6 : 1,
+    cursor: selectedProducts?.length === 0 ? 'not-allowed' : 'pointer',
+    opacity: selectedProducts?.length === 0 ? 0.6 : 1,
   }}
   onMouseEnter={(e) => {
-    if (selectedProducts.length > 0) e.currentTarget.style.backgroundColor = "#2b3445";
+    if (selectedProducts?.length > 0) e.currentTarget.style.backgroundColor = "#2b3445";
   }}
   onMouseLeave={(e) => {
-    if (selectedProducts.length > 0) e.currentTarget.style.backgroundColor = "#364153";
+    if (selectedProducts?.length > 0) e.currentTarget.style.backgroundColor = "#364153";
   }}
 >
   Yuborish

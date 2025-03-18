@@ -9,15 +9,6 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
   const [selectedItems, setSelectedItems] = useState([]);
   const { user } = userStore();
 
-  // Подробная отладочная информация о параметрах
-  console.log("Параметры компонента:", { 
-    warehouseId, 
-    warehouseName,
-    shopId, // Добавляем вывод shopId
-    selectedProductsCount: selectedProducts?.length,
-    userWarehouseId: user?.warehouse?.id
-  });
-
   // Используем useApiMutation для POST запроса
   const { mutate, isLoading: isSending } = useApiMutation({
     url: 'Storefront-product',
@@ -36,9 +27,9 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
   // Преобразуем выбранные товары в нужный формат с уникальным ключом
   useEffect(() => {
     if (selectedProducts) {
-      const preselectedItems = selectedProducts.map((item, index) => ({
+      const preselectedItems = selectedProducts?.map((item, index) => ({
         ...item,
-        key: `${item.id}-${index}`,
+        key: `${item?.id}-${index}`,
         quantity: 1, // Устанавливаем количество по умолчанию
       }));
       setSelectedItems(preselectedItems);
@@ -48,8 +39,8 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
   // Удаляем товар из списка по уникальному ключу
   const handleRemove = (key) => {
     setSelectedItems((prev) => {
-      const updatedItems = prev.filter((item) => item.key !== key);
-      if (updatedItems.length === 0) {
+      const updatedItems = prev?.filter((item) => item?.key !== key);
+      if (updatedItems?.length === 0) {
         if (onSuccess) onSuccess(); // Закрываем, если все товары удалены
         onClose();
       }
@@ -59,7 +50,7 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
 
   // Отправка данных
   const onSubmit = () => {
-    if (selectedItems.length === 0) {
+    if (selectedItems?.length === 0) {
       message.warning('Tanlangan tovar yoq');
       return;
     }
@@ -73,7 +64,7 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
     
     // Формируем данные для отправки на бэкенд
     const requestData = {
-      productIds: selectedItems.map(item => item.id), // Массив ID продуктов
+      productIds: selectedItems?.map(item => item.id), // Массив ID продуктов
       shopId: shopId // Используем shopId вместо warehouseId
     };
     
@@ -101,7 +92,7 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
             dataSource={selectedItems}
             renderItem={(product) => (
               <List.Item
-                key={product.key}
+                key={product?.key}
                 style={{
                   borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
                   padding: "10px 0",
@@ -109,15 +100,15 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
               >
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <Image
-                    src={product.photo}
-                    alt={product.article}
+                    src={product?.photo}
+                    alt={product?.article}
                     width={50}
                     height={50}
                     style={{ marginRight: "10px" }}
                   />
                   <div className="ml-2">
-                    <div className="text-white font-bold">{product.article}</div>
-                    <div className="text-white">{product.code}</div>
+                    <div className="text-white font-bold">{product?.article}</div>
+                    <div className="text-white">{product?.batch_number}</div>
                   </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center" }}>
@@ -125,7 +116,7 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
                     type="text"
                     size="small"
                     icon={<CloseOutlined />}
-                    onClick={() => handleRemove(product.key)}
+                    onClick={() => handleRemove(product?.key)}
                     style={{
                       color: "#fff",
                       backgroundColor: "#17212b",
@@ -155,7 +146,7 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
         <div className="text-center text-white mt-4">
           <span>
            Tanlangan tovarlar soni:{" "}
-            <span className="font-bold">{selectedItems.length}</span>
+            <span className="font-bold">{selectedItems?.length}</span>
           </span>
         </div>
 
@@ -164,7 +155,7 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
           type="primary"
           onClick={onSubmit}
           loading={isSending}
-          disabled={isSending || selectedItems.length === 0 || !shopId}
+          disabled={isSending || selectedItems?.length === 0 || !shopId}
           style={{ marginTop: 20, width: "100%" }}
         >
           {isSending ? 'Отправка...' : 'Yuborish'}

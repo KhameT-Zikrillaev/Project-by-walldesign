@@ -26,8 +26,6 @@ export default function ViewDetaliesSendProducts() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [warehouseId, setWarehouseId] = useState(""); // Для хранения ID склада
   const { user } = useUserStore();
-   console.log(shopId)
-
 // ~~~~~~~~~~~~~~~~~~~~~~логика товаров из апи~~~~~~~~~~~~~~~~~~~~~~~~~~
 // const id = user?.warehouse?.id;
 const { data: productsData, isLoading: productsLoading, refetch: refetchProducts } = useFetch(
@@ -40,8 +38,6 @@ const { data: productsData, isLoading: productsLoading, refetch: refetchProducts
 );
 //~~~~~~~~~~~~~~~~~~~~ логика шопах из апи~~~~~~~~~~~~~~~~~~~~~~~~~~
 const userWarehouseId = user?.warehouse?.id;
-console.log("ID склада пользователя:", userWarehouseId);
-
 // Update filteredData when products data changes
 useEffect(() => {
   if (productsData) {
@@ -77,9 +73,9 @@ useEffect(() => {
   // Обработчик выбора товара
   const handleCheckboxChange = (item) => {
     setSelectedProducts((prev) => {
-      const isSelected = prev.some((product) => product.id === item.id);
+      const isSelected = prev?.some((product) => product?.id === item?.id);
       if (isSelected) {
-        return prev.filter((product) => product.id !== item.id);
+        return prev.filter((product) => product?.id !== item?.id);
       } else {
         return [...prev, item]; // Добавляем весь объект товара
       }
@@ -91,15 +87,13 @@ useEffect(() => {
   };
   // Функция для выбора всех товаров
   const handleSelectAll = () => {
-    if (selectedProducts.length === filteredData.length) {
+    if (selectedProducts?.length === filteredData?.length) {
       setSelectedProducts([]);
     } else {
       setSelectedProducts(filteredData); // Передаём массив объектов
     }
   };
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
   // Обработчик успешной отправки товаров
   const handleSuccessSubmit = () => {
     resetSelection(); // Сбрасываем выбранные товары
@@ -119,13 +113,6 @@ useEffect(() => {
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
         <SearchForm data={productsData} onSearch={setFilteredData} name={name +''} title="vitrinasini o'chirish" showDatePicker={false} />
         <div className='w-full flex justify-end'>
-
-
-          {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~view products~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-        {/* <Button
-           style={{ marginBottom: '10px',backgroundColor: '#17212b',color: '#fff' }}
-            onClick={() => setIsWareHouseOpen(true)}
-            >Ombordigi mahsulotni ko'rish</Button> */}
              {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~select all~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <Button
           type=""
@@ -149,20 +136,20 @@ useEffect(() => {
       style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
       cover={
         <div
-          onClick={() => setSelectedImage(item.photo)}
+          onClick={() => setSelectedImage(item?.photo)}
           className="h-28 bg-cover bg-center rounded-t-lg"
-          style={{ backgroundImage: `url(${item.photo})` }}
+          style={{ backgroundImage: `url(${item?.photo})` }}
         />
       }
       bodyStyle={{ padding: '12px', color: 'white' }}
     >
       <div className="flex flex-col gap-2">
-        <h3 className="text-lg font-semibold text-white">{item.article}</h3>
-        <Tag color="blue">Part: <span className="text-red-500">{item.batch_number}</span></Tag>
-        <h4 className="text-sm font-semibold text-white">{item.price + " $"}</h4>
+        <h3 className="text-lg font-semibold text-white">{item?.article}</h3>
+        <Tag color="blue">Part: <span className="text-red-500">{item?.batch_number}</span></Tag>
+        <h4 className="text-sm font-semibold text-white">{item?.price + " $"}</h4>
         <div className='mt-[15px]'>
           <CustomCheckbox
-            checked={selectedProducts.some((product) => product.id === item.id)}
+            checked={selectedProducts?.some((product) => product?.id === item?.id)}
             onChange={() => handleCheckboxChange(item)}
             label="Tanlash"
           />
@@ -187,7 +174,7 @@ useEffect(() => {
         {filteredData?.length > 0 && (
           <div className="w-full flex flex-col md:flex-row mt-2 mb-12 gap-2 justify-center items-center">
             <span className='bg-gray-700 py-[7px] max-w-[300px] w-full text-center h-[40px] text-white text-[18px] rounded-lg shadow-lg'>
-              Tanlangan: {selectedProducts.length}
+              Tanlangan: {selectedProducts?.length}
             </span>
             <Button
   type="primary"
