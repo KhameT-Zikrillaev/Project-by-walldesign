@@ -3,141 +3,34 @@ import { Card, Pagination, Tag, Button } from "antd";
 import "antd/dist/reset.css";
 import bgsklad from "../../../../assets/images/bg-sklad.png";
 import SearchForm from "@/components/SearchForm/SearchForm";
-import bg from "../../../../assets/images/bg-login.jpg";
+// import bg from "../../../../assets/images/bg-login.jpg";
 import ModalComponent from "@/components/modal/Modal";
 import AddProduct from "./modules/AddProduct/AddProduct";
 import ImageModal from "@/components/modal/ImageModal";
-const dataSource = [
-  {
-    key: "1",
-    code: "OB001",
-    name: 'Обои "Синий океан"',
-    price: 1000,
-    stock: 10,
-    photo: bg,
-  },
-  {
-    key: "2",
-    code: "OB002",
-    name: 'Обои "Зеленый лес"',
-    price: 1200,
-    stock: 5,
-    photo: bg,
-  },
-  {
-    key: "3",
-    code: "OB003",
-    name: 'Обои "Красный закат"',
-    price: 1100,
-    stock: 8,
-    photo: bg,
-  },
-  {
-    key: "4",
-    code: "OB004",
-    name: 'Обои "Желтый песок"',
-    price: 900,
-    stock: 15,
-    photo: bg,
-  },
-  {
-    key: "5",
-    code: "OB005",
-    name: 'Обои "Фиолетовый туман"',
-    price: 1300,
-    stock: 3,
-    photo: bg,
-  },
-  {
-    key: "6",
-    code: "OB006",
-    name: 'Обои "Голубое небо"',
-    price: 950,
-    stock: 7,
-    photo: bg,
-  },
-  {
-    key: "7",
-    code: "OB007",
-    name: 'Обои "Розовый рассвет"',
-    price: 1050,
-    stock: 12,
-    photo: bg,
-  },
-  {
-    key: "8",
-    code: "OB008",
-    name: 'Обои "Серый камень"',
-    price: 800,
-    stock: 20,
-    photo: bg,
-  },
-  {
-    key: "9",
-    code: "OB009",
-    name: 'Обои "Белый снег"',
-    price: 1000,
-    stock: 0,
-    photo: bg,
-  },
-  {
-    key: "10",
-    code: "OB010",
-    name: 'Обои "Черная ночь"',
-    price: 1400,
-    stock: 6,
-    photo: bg,
-  },
-  {
-    key: "11",
-    code: "OB011",
-    name: 'Обои "Оранжевый закат"',
-    price: 1150,
-    stock: 9,
-    photo: bg,
-  },
-  {
-    key: "12",
-    code: "OB012",
-    name: 'Обои "Коричневый дуб"',
-    price: 1250,
-    stock: 4,
-    photo: bg,
-  },
-  {
-    key: "13",
-    code: "OB013",
-    name: 'Обои "Бирюзовый океан"',
-    price: 1350,
-    stock: 15,
-    photo: bg,
-  },
-  {
-    key: "14",
-    code: "OB014",
-    name: 'Обои "Лавандовый туман"',
-    price: 950,
-    stock: 12,
-    photo: bg,
-  },
-  {
-    key: "15",
-    code: "OB015",
-    name: 'Обои "Мятный бриз"',
-    price: 1100,
-    stock: 7,
-    photo: bg,
-  },
-];
+import useFetch from "@/hooks/useFetch";
+import useUserStore from "@/store/useUser";
+
 
 export default function Warehouse() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
-  const [filteredData, setFilteredData] = useState(dataSource);
+  const [filteredData, setFilteredData] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~modal
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const {user} = useUserStore()
+
+  const {data, isLoading} = useFetch(`warehouse-products/${user?.shop?.warehouse_id}`, `warehouse-products/${user?.shop?.warehouse_id}`, );
+
+  console.log(data);
+
+  useEffect(() => {
+    if(data){
+      setFilteredData(data?.products)
+    }
+  }, [data])
+  
 
   const showModal = (product) => {
     setSelectedProduct(product); // Устанавливаем выбранный товар
@@ -159,7 +52,7 @@ export default function Warehouse() {
     return () => window.removeEventListener("resize", updateItemsPerPage);
   }, []);
 
-  const currentData = filteredData.slice(
+  const currentData = filteredData?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -173,7 +66,7 @@ export default function Warehouse() {
 
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
         <SearchForm
-          data={dataSource}
+          data={data}
           name=""
           title="Omborxona"
           showDatePicker={false}
@@ -181,9 +74,9 @@ export default function Warehouse() {
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
-          {currentData.map((item) => (
+          {currentData?.map((item) => (
             <Card
-              key={item.key}
+              key={item?.id}
               className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
               style={{
                 background: "rgba(255, 255, 255, 0.1)",
@@ -192,26 +85,26 @@ export default function Warehouse() {
               }}
               cover={
                 <div
-                onClick={() => setSelectedImage(item.photo)}
+                onClick={() => setSelectedImage(item?.image_url)}
                   className="h-28 bg-cover bg-center rounded-t-lg"
-                  style={{ backgroundImage: `url(${item.photo})` }}
+                  style={{ backgroundImage: `url(${item?.image_url})` }}
                 />
               }
               bodyStyle={{ padding: "12px", color: "white" }}
             >
               <div className="flex flex-col gap-2">
                 <Tag color="blue">
-                  Part: <span className="text-red-500">{item.code}</span>
+                  Part: <span className="text-red-500">{item?.batch_number}</span>
                 </Tag>
                 <h4 className="text-sm font-semibold text-white">
-                  {item.name}
+                  {item?.article}
                 </h4>
                 <div className="flex justify-between">
                   <p className="text-gray-300 text-xs">
-                    Narxi: {item.price} so'm
+                    Narxi: {item?.price} so'm
                   </p>
                   <p className="text-gray-300 text-xs">
-                    Soni bor: {item.stock} dona.
+                    Soni bor: {item?.quantity} dona.
                   </p>
                 </div>
                 <Button
@@ -251,7 +144,7 @@ export default function Warehouse() {
               pageSize={itemsPerPage}
               onChange={(page) => setCurrentPage(page)}
               showSizeChanger={false}
-              className="text-white"
+              className="custom-pagination"
             />
           </div>
         )}

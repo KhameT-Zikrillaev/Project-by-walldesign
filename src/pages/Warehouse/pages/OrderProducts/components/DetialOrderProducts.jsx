@@ -8,7 +8,7 @@ import  bgsklad  from '@/assets/images/bg-sklad.png';
 import SearchForm from "../modules/searchForm";
 import AddProduct from './../modules/addProducts/index';
 import useFetch from "@/hooks/useFetch";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 export default function WarehouseDetailProductsLists() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,9 +17,11 @@ export default function WarehouseDetailProductsLists() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [filteredData, setFilteredData] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {id} = useParams()
+  // const {id} = useParams()
+  const location = useLocation()
+  const warehouseId = location?.state?.id
   
-  const {data} = useFetch(`warehouse-products/${id}`, `warehouse-products/${id}`)
+  const {data} = useFetch(`warehouse-products/${warehouseId}`, `warehouse-products/${warehouseId}`)
   
    useEffect(() => {
     setFilteredData(data?.products)

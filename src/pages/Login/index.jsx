@@ -42,6 +42,8 @@ export default function Login() {
             navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
           }else if(response?.data?.role === "staff"){
             navigate("/warehouse");
+          }else if(response?.data?.role === "seller"){
+            navigate("/seller");
           }
 
           // navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
@@ -53,7 +55,7 @@ export default function Login() {
         }
       }
     },
-    onError: (error) => {
+    onError: () => {
       navigate("/");
     },
   });
@@ -74,9 +76,6 @@ export default function Login() {
     // if (username === "sklad" && password === "sklad123") {
     //   navigate("/warehouse"); // Перенаправление на домашнюю страницу
     // }
-    if (username === "seller" && password === "seller123") {
-      navigate("/seller"); // Перенаправление на домашнюю страницу
-    } 
     if (username === "director" && password === "director123") {
       navigate("/director"); // Перенаправление на домашнюю страницу
     } else {

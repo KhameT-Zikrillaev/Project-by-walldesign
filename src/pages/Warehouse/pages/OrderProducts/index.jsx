@@ -27,7 +27,8 @@ export default function WarehouseOrderProducts() {
         {filteredData?.map((product) => (
           <Link
             key={product.id}
-            to={`/warehouse/order-products/${product.id}`}
+            state = {{id: product.id}}
+            to={`/warehouse/order-products/${product.name}`}
             className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
           >
             <h4>{product.name}</h4>
