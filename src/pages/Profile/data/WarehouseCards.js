@@ -46,14 +46,6 @@ import {
       link: "/warehouse/transfer-to-warehouse",
     },
     {
-      icon: React.createElement(FaChartLine, {
-        className: "text-4xl text-white mb-4",
-      }),
-      title: "Hisobotlar",
-      description: "Tarix va arxiv",
-      link: "/warehouse/report",
-    },
-    {
       icon: React.createElement(FaCashRegister, {
         className: "text-4xl text-white mb-4",
       }),
@@ -85,4 +77,20 @@ import {
       description: "Yangi mahsulotlar zakaz qilish",
       link: "/warehouse/order-products",
     },
+    {
+      icon: React.createElement(FaChartLine, {
+        className: "text-4xl text-white mb-4",
+      }),
+      title: "Hisobotlar omborlarniki",
+      description: "Tarix va arxiv",
+      link: "/warehouse/report-warehouse-send",
+    },
+    {
+      icon: React.createElement(FaChartLine, {
+        className: "text-4xl text-white mb-4",
+      }),
+      title: "Hisobotlar sotuvchilarniki",
+      description: "Tarix va arxiv",
+      link: "/warehouse/report-seller-send",
+    }
   ];
