@@ -23,12 +23,24 @@ export default function Warehouse() {
       enabled: !!id, // Запрос будет выполнен только если id существует
     }
   );
+
+
+
+
+  
   // Update filteredData when data changes
   useEffect(() => {
     if (data) {
       setFilteredData(data?.products);
     }
   }, [data]);
+
+
+
+
+
+
+
 
   // Адаптивность экран разрешение кароточек
   useEffect(() => {
