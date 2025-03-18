@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Pagination, Tag } from "antd";
 import "antd/dist/reset.css";
 import bgsklad from "@/assets/images/bg-sklad.png";
