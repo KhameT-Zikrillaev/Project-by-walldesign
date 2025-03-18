@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Card, Pagination, Tag, Button, Spin} from 'antd';
 import 'antd/dist/reset.css';
@@ -7,14 +7,17 @@ import bgsklad from '@/assets/images/bg-sklad.png';
 import SearchForm from '@/components/SearchForm/SearchForm';
 import ModalComponent from "@/components/modal/Modal";
 import DeleteProductVitrina from "../modules/DeleteProductVitrina/DeleteProductVitrina";
+// import ViewWareHoustProducts from "../modules/ViewWareHouseProducts/ViewWareHoustProducts";
 import ImageModal from "@/components/modal/ImageModal";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import useFetch from "@/hooks/useFetch";
 import useUserStore from "@/store/useUser";
 
 
-export default function ViewDetaliesRemoveProducts() {
-  const { name, shopId } = useParams(); // Получаем параметр name и shopId из URL
+export default function ViewDetaliesSendProducts() {
+  const { name } = useParams(); // Получаем параметр name и shopId из URL
+  const location = useLocation();
+  const shopId = location.state?.shopId; // Получаем shopId из state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [filteredData, setFilteredData] = useState([]);
@@ -22,111 +25,33 @@ export default function ViewDetaliesRemoveProducts() {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [warehouseId, setWarehouseId] = useState(""); // Для хранения ID склада
-  const [shopIdState, setShopId] = useState(shopId); // Для хранения ID магазина
   const { user } = useUserStore();
-  const [isWareHouseOpen, setIsWareHouseOpen] = useState(false);
-   console.log(shopIdState)
-  ///// ~~~~~~~~~~~~~~~ вот ~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  // Запрос на получение списка складов
-  const { data: warehousesData, isLoading: warehousesLoading } = useFetch('warehouse', 'warehouse', {});
-
-  // Находим ID склада по имени
-  useEffect(() => {
-    if (warehousesData?.data?.warehouses && name) {
-      const foundWarehouse = warehousesData.data.warehouses.find(warehouse => warehouse.name === name);
-      if (foundWarehouse) {
-        setWarehouseId(foundWarehouse.id);
-        console.log("Найден склад с ID:", foundWarehouse.id);
-      } else {
-        // Если не нашли склад по имени, используем ID склада пользователя
-        if (user?.warehouse?.id) {
-          setWarehouseId(user.warehouse.id);
-          console.log("Используем ID склада пользователя:", user.warehouse.id);
-        } else {
-          console.error("Не удалось найти ID склада ни по имени, ни из данных пользователя");
-        }
-      }
-    } else if (user?.warehouse?.id) {
-      // Если нет данных о складах или имени, используем ID склада пользователя
-      setWarehouseId(user.warehouse.id);
-      console.log("Используем ID склада пользователя (запасной вариант):", user.warehouse.id);
-    }
-  }, [warehousesData, name, user]);
+   console.log(shopId)
 
 // ~~~~~~~~~~~~~~~~~~~~~~логика товаров из апи~~~~~~~~~~~~~~~~~~~~~~~~~~
-const id = user?.warehouse?.id;
+// const id = user?.warehouse?.id;
 const { data: productsData, isLoading: productsLoading, refetch: refetchProducts } = useFetch(
-  id ? `warehouse-products/${id}` : null, // Если id нет, не создаем ключ запроса
-  id ? `warehouse-products/${id}` : null, // Если id нет, не делаем запрос
+  shopId ? `Storefront-product/${shopId}` : null, // Если id нет, не создаем ключ запроса
+  shopId ? `Storefront-product/${shopId}` : null, // Если id нет, не делаем запрос
   {},
   {
-    enabled: !! id, // Запрос будет выполнен только если id существует
+    enabled: !! shopId, // Запрос будет выполнен только если id существует
   }
 );
-
 //~~~~~~~~~~~~~~~~~~~~ логика шопах из апи~~~~~~~~~~~~~~~~~~~~~~~~~~
 const userWarehouseId = user?.warehouse?.id;
 console.log("ID склада пользователя:", userWarehouseId);
 
-const { data: shopsData, isLoading: shopsLoading, refetch: refetchShops } = useFetch(
-  userWarehouseId ? `warehouse/${userWarehouseId}` : null, // Если id нет, не создаем ключ запроса
-  userWarehouseId ? `warehouse/${userWarehouseId}` : null, // Если id нет, не делаем запрос
-  {},
-  {
-    enabled: !!userWarehouseId, // Запрос будет выполнен только если id существует
-  }
-);
-
-// Выводим в консоль данные о магазинах (shops) и находим нужный shopId по имени
+// Update filteredData when products data changes
 useEffect(() => {
-  if (shopsData) {
-    console.log("Shops Data from API:", shopsData);
-    console.log("Shops:", shopsData?.data?.shops);
-    
-    // Ищем магазин по имени из URL-параметров
-    if (shopsData?.data?.shops && shopsData.data.shops.length > 0 && name) {
-      const foundShop = shopsData.data.shops.find(shop => shop.name === name);
-      if (foundShop) {
-        setShopId(foundShop.id);
-        console.log("Найден магазин с именем", name, "и ID:", foundShop.id);
-      } else {
-        // Если не нашли магазин по имени, берем первый из списка (запасной вариант)
-        if (shopsData.data.shops[0]) {
-          setShopId(shopsData.data.shops[0].id);
-          console.log("Не найден магазин с именем", name, ", используем первый из списка с ID:", shopsData.data.shops[0].id);
-        } else {
-          console.error("Не найдены магазины");
-        }
-      }
-      
-      // Выводим ID всех магазинов для отладки
-      console.log("Shops IDs:", shopsData.data.shops.map(shop => shop.id));
-      console.log("Shops Names:", shopsData.data.shops.map(shop => shop.name));
-    }
-  }
-}, [shopsData, name]);
-
-// Новый запрос для получения продуктов витрины по ID магазина
-const { data: showcaseProductsData, isLoading: showcaseProductsLoading, refetch: refetchShowcaseProducts } = useFetch(
-  shopIdState ? `Storefront-product/${shopIdState}` : null,
-  shopIdState ? `Storefront-product/${shopIdState}` : null,
-  {},
-  {
-    enabled: !!shopIdState, // Запрос будет выполнен только если shopIdState существует
-  }
-);
-
-// Update filteredData when showcase products data changes
-useEffect(() => {
-  if (showcaseProductsData) {
-    console.log("Showcase Products Data from API:", showcaseProductsData);
-    setFilteredData(showcaseProductsData?.data?.map(item => ({
+  if (productsData) {
+    console.log("Products Data from API:", productsData);
+    setFilteredData(productsData?.map(item => ({
       ...item,
       key: item.id // используем id как key
-    })) || []);
+    })));
   }
-}, [showcaseProductsData]);
+}, [productsData]);
 
   // Открытие модального окна
   const showModal = () => {
@@ -136,10 +61,9 @@ useEffect(() => {
   // Закрытие модального окна
   const onClose = () => {
     setIsModalOpen(false);
-    setIsWareHouseOpen(false);
   };
 
-  // Изменение количества товаров на странице
+  // Изменение количества товаров на странице  АДАПТИВНОСТЬ
   const updateItemsPerPage = () => {
     setItemsPerPage(window.innerWidth < 768 ? 4 : 10);
   };
@@ -165,7 +89,6 @@ useEffect(() => {
   const resetSelection = () => {
     setSelectedProducts([]); // Сбрасываем все выбранные элементы
   };
-  
   // Функция для выбора всех товаров
   const handleSelectAll = () => {
     if (selectedProducts.length === filteredData.length) {
@@ -174,15 +97,17 @@ useEffect(() => {
       setSelectedProducts(filteredData); // Передаём массив объектов
     }
   };
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
   // Обработчик успешной отправки товаров
   const handleSuccessSubmit = () => {
     resetSelection(); // Сбрасываем выбранные товары
-    refetchShowcaseProducts(); // Обновляем данные с сервера
+    refetchProducts(); // Обновляем данные с сервера
   };
 
   // Текущие данные для отображения
-  const currentData = filteredData.slice(
+  const currentData = filteredData?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -192,33 +117,32 @@ useEffect(() => {
     <div className="min-h-screen bg-cover bg-center p-1 relative" style={{ backgroundImage: `url(${bgsklad})` }}>
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-        <SearchForm data={showcaseProductsData} onSearch={setFilteredData} name={name +'iga'} title="Omboridigi mahsulotlarni yuborish" showDatePicker={false} />
-        <div className='w-full flex justify-between'>
+        <SearchForm data={productsData} onSearch={setFilteredData} name={name +''} title="vitrinasini o'chirish" showDatePicker={false} />
+        <div className='w-full flex justify-end'>
 
 
           {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~view products~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-        <Button
+        {/* <Button
            style={{ marginBottom: '10px',backgroundColor: '#17212b',color: '#fff' }}
             onClick={() => setIsWareHouseOpen(true)}
-            >Ombordigi mahsulotni ko'rish</Button>
-
-
+            >Ombordigi mahsulotni ko'rish</Button> */}
              {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~select all~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <Button
           type=""
           onClick={handleSelectAll}
+        
           style={{ marginBottom: '10px',backgroundColor: '#17212b',color: '#fff' }}
         >
-          {selectedProducts.length === filteredData.length ? 'Hammasini yechish' : 'Hammasini tanlash'}
+          {selectedProducts?.length === filteredData?.length ? 'Hammasini yechish' : 'Hammasini tanlash'}
         </Button>
         </div>
-        {showcaseProductsLoading ? (
+        {productsLoading ? (
   <div className="flex justify-center items-center h-[300px]">
     <Spin size="large" />
   </div>
       ):(
        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
-  {currentData.map((item) => (
+  {currentData?.map((item) => (
     <Card
       key={item.key}
       className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
@@ -248,44 +172,45 @@ useEffect(() => {
   ))}
 </div>
       )}
-        {filteredData.length > 0 && (
+        {filteredData?.length > 0 && (
           <div className="my-2 mb-12 md:mb-0 flex justify-center">
             <Pagination
               current={currentPage}
-              total={filteredData.length}
+              total={filteredData?.length}
               pageSize={itemsPerPage}
               onChange={(page) => setCurrentPage(page)}
               showSizeChanger={false}
-              className="text-white"
+              className="custom-pagination text-white"
             />
           </div>
         )}
-        {filteredData.length > 0 && (
+        {filteredData?.length > 0 && (
           <div className="w-full flex flex-col md:flex-row mt-2 mb-12 gap-2 justify-center items-center">
             <span className='bg-gray-700 py-[7px] max-w-[300px] w-full text-center h-[40px] text-white text-[18px] rounded-lg shadow-lg'>
               Tanlangan: {selectedProducts.length}
             </span>
             <Button
   type="primary"
+  
   className='max-w-[300px] w-full'
   onClick={showModal}
-  disabled={selectedProducts.length === 0} // Отключаем кнопку, если нет выбранных товаров
+  disabled={selectedProducts?.length === 0} // Отключаем кнопку, если нет выбранных товаров
   style={{
-    backgroundColor: selectedProducts.length === 0 ? '#888' : '#364153',
+    backgroundColor: selectedProducts?.length === 0 ? '#888' : '#364153',
     borderColor: '#364153',
     fontSize: '18px',
     height: '40px',
-    cursor: selectedProducts.length === 0 ? 'not-allowed' : 'pointer',
-    opacity: selectedProducts.length === 0 ? 0.6 : 1,
+    cursor: selectedProducts?.length === 0 ? 'not-allowed' : 'pointer',
+    opacity: selectedProducts?.length === 0 ? 0.6 : 1,
   }}
   onMouseEnter={(e) => {
-    if (selectedProducts.length > 0) e.currentTarget.style.backgroundColor = "#2b3445";
+    if (selectedProducts?.length > 0) e.currentTarget.style.backgroundColor = "#2b3445";
   }}
   onMouseLeave={(e) => {
-    if (selectedProducts.length > 0) e.currentTarget.style.backgroundColor = "#364153";
+    if (selectedProducts?.length > 0) e.currentTarget.style.backgroundColor = "#364153";
   }}
 >
-  Yuborish
+  O'chirish
 </Button>
           </div>
         )}
@@ -299,15 +224,14 @@ useEffect(() => {
         <ModalComponent
           isOpen={isModalOpen}
           onClose={onClose}
-          title={name + " " +"Vitrinasiga yuborish"}
+          title={name + " " +"Vitrinasidan o'chirish"}
         >
           <DeleteProductVitrina 
             onClose={onClose} 
             selectedProducts={selectedProducts} 
             onSuccess={handleSuccessSubmit} 
             warehouseName={name}
-            warehouseId={warehouseId} // Передаем найденный ID склада
-            shopId={shopIdState} // Передаем найденный ID магазина
+            shopId={shopId} // Передаем найденный ID магазина
           />
         </ModalComponent>
       </div>

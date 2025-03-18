@@ -4,35 +4,21 @@ import { CloseOutlined } from "@ant-design/icons";
 import userStore from "@/store/useUser";
 import useApiMutation from "@/hooks/useApiMutation";
 import { toast } from "react-toastify";
+import api from '@/services/api'; // Импортируем API на прямую
 
-const DeleteProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, warehouseName, shopId }) => {
+const DeleteProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseName, shopId }) => {
   const [selectedItems, setSelectedItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // Добавляем состояние загрузки
   const { user } = userStore();
 
   // Подробная отладочная информация о параметрах
   console.log("Параметры компонента:", { 
-    warehouseId, 
     warehouseName,
     shopId, // Добавляем вывод shopId
     selectedProductsCount: selectedProducts?.length,
     userWarehouseId: user?.warehouse?.id
   });
 
-  // Используем useApiMutation для POST запроса
-  const { mutate, isLoading: isSending } = useApiMutation({
-    url: `Storefront-product/${shopId}`,
-    method: 'DELETE',
-    onSuccess: (data) => {
-      toast.success('Продукты успешно удалены!');
-      if (onSuccess) onSuccess();
-      onClose();
-    },
-    onError: (error) => {
-      message.error(`Ошибка: ${error.message || 'Не удалось отправить продукты'}`);
-      console.error('Error sending products to storefront:', error);
-    }
-  });
-  
   // Преобразуем выбранные товары в нужный формат с уникальным ключом
   useEffect(() => {
     if (selectedProducts) {
@@ -57,8 +43,8 @@ const DeleteProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseI
     });
   };
 
-  // Отправка данных
-  const onSubmit = () => {
+  // Отправка данных - используем прямой API
+  const onSubmit = async () => {
     if (selectedItems.length === 0) {
       message.warning('Нет выбранных товаров для отправки');
       return;
@@ -67,30 +53,45 @@ const DeleteProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseI
     // Проверяем наличие ID магазина
     if (!shopId) {
       message.error('ID магазина (shopId) не указан. Невозможно отправить товары.');
-      console.error('shopId is undefined or empty', { shopId, warehouseId, warehouseName });
+      console.error('shopId is undefined or empty', { shopId, warehouseName });
       return;
     }
     
-    // Формируем данные для отправки на бэкенд
+    // Формируем данные для отправки на бэкенд - только productIds, без shopId
     const requestData = {
-      productIds: selectedItems.map(item => item.id), // Массив ID продуктов
-      shopId: shopId // Используем shopId вместо warehouseId
+      productIds: selectedItems.map(item => item.id) // Массив ID продуктов
     };
     
+    console.log('URL запроса:', `Storefront-product/${shopId}`);
     console.log('Отправляем данные:', requestData);
     
-    // Отправляем данные на бэкенд
-    mutate(requestData);
+    try {
+      setIsLoading(true); // Начинаем загрузку
+      
+      // Отправляем DELETE запрос на прямую через API
+      const response = await api({
+        url: `Storefront-product/${shopId}`,
+        method: 'DELETE',
+        data: requestData
+      });
+      
+      console.log('Ответ от сервера:', response);
+      
+      // Успешное завершение
+      toast.success('Продукты успешно удалены!');
+      if (onSuccess) onSuccess();
+      onClose();
+    } catch (error) {
+      console.error('Ошибка при удалении продуктов:', error);
+      message.error(`Ошибка: ${error.message || 'Не удалось отправить продукты'}`);
+    } finally {
+      setIsLoading(false); // Завершаем загрузку
+    }
   };
 
   return (
     <div className="flex flex-col h-full">
       <div className="flex-grow overflow-auto p-4">
-        {/* Отображаем информацию о магазине */}
-        <div className="mb-4 text-white">
-          <p>Магазин: <strong>{warehouseName || 'Не указан'}</strong></p>
-          <p>ID магазина: <strong>{shopId || 'Не указан'}</strong></p>
-        </div>
         
         <div
           className="mb-4"
@@ -148,14 +149,18 @@ const DeleteProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseI
                 </div>
               </List.Item>
             )}
-            pagination={{ pageSize: 3 }}
+            pagination={{ 
+              pageSize: 3,
+              className: "custom-pagination",
+              hideOnSinglePage: true // Скрыть пагинацию, если все элементы помещаются на одной странице
+            }}
           />
         </div>
 
         {/* Количество товаров */}
         <div className="text-center text-white mt-4">
           <span>
-            Количество выбранных товаров:{" "}
+            Tanlangan tovarlar soni:{" "}
             <span className="font-bold">{selectedItems.length}</span>
           </span>
         </div>
@@ -163,12 +168,13 @@ const DeleteProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseI
         {/* Кнопка отправки */}
         <Button
           type="primary"
+          danger
           onClick={onSubmit}
-          loading={isSending}
-          disabled={isSending || selectedItems.length === 0 || !shopId}
+          loading={isLoading}
+          disabled={isLoading || selectedItems.length === 0 || !shopId}
           style={{ marginTop: 20, width: "100%" }}
         >
-          {isSending ? 'Отправка...' : 'Yuborish'}
+          {isLoading ? 'O\'chirish...' : 'O\'chirish'}
         </Button>
       </div>
     </div>

@@ -50,6 +50,7 @@ export default function WarehouseProducts() {
         {filteredBySearch?.slice(0, visibleDistricts).map((product) => (
           <Link
             key={product.id}
+            state={{ shopId: product.id }}
             to={`/warehouse/remove-from-showcase/${product.name}`}
             className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
           >

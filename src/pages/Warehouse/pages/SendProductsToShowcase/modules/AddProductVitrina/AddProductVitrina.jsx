@@ -143,7 +143,11 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
                 </div>
               </List.Item>
             )}
-            pagination={{ pageSize: 3 }}
+            pagination={{ 
+              pageSize: 3,
+              className: "custom-pagination",
+              hideOnSinglePage: true // Скрыть пагинацию, если все элементы помещаются на одной странице
+            }}
           />
         </div>
 

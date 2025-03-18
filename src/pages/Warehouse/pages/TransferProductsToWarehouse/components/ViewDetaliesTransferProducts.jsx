@@ -207,7 +207,7 @@ useEffect(() => {
               pageSize={itemsPerPage}
               onChange={(page) => setCurrentPage(page)}
               showSizeChanger={false}
-              className="text-white"
+              className="custom-pagination text-white"
             />
           </div>
         )}
