@@ -5,7 +5,7 @@ import useFetch from "@/hooks/useFetch";
 import useUserStore from "@/store/useUser";
 import { Spin } from "antd";
 
-
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ТОВАР ВИТРИНАГА ЖОНАТИШ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 export default function WarehouseProducts() {
   const [visibleDistricts, setVisibleDistricts] = useState(12);
   const [filteredData, setFilteredData] = useState([]);
@@ -50,6 +50,7 @@ export default function WarehouseProducts() {
         {filteredBySearch?.slice(0, visibleDistricts).map((product) => (
           <Link
             key={product.id}
+            state={{ shopId: product.id }}
             to={`/warehouse/send-to-showcase/${product.name}`}
             className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
           >

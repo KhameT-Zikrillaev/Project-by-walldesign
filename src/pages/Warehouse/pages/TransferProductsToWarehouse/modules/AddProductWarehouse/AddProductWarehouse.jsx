@@ -161,7 +161,7 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
         {/* ✅ Количество товаров */}
         <div className="text-center text-white mt-4">
           <span>
-            Количество выбранных товаров:{" "}
+              Tanlangan tovarlar soni:{" "}
             <strong>{selectedItems.length}</strong>
           </span>
         </div>

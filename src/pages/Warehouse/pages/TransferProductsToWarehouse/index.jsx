@@ -68,6 +68,7 @@ export default function WarehouseTransferProducts() {
           {filteredBySearch.slice(0, visibleDistricts).map((product) => (
             <Link
               key={product.id}
+              state={{ shopId: product.id }} 
               to={`/warehouse/transfer-to-warehouse/${product.name}`}
               className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
             >

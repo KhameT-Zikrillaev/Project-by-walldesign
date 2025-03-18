@@ -23,12 +23,12 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
     url: 'Storefront-product',
     method: 'POST',
     onSuccess: (data) => {
-      toast.success('Продукты успешно отправлены!');
+      toast.success('Tovar muvaffaqiyatli qo`shildi!');
       if (onSuccess) onSuccess();
       onClose();
     },
     onError: (error) => {
-      message.error(`Ошибка: ${error.message || 'Не удалось отправить продукты'}`);
+      message.error(`Error: ${error.message || 'Failed to send products'}`);
       console.error('Error sending products to storefront:', error);
     }
   });
@@ -60,7 +60,7 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
   // Отправка данных
   const onSubmit = () => {
     if (selectedItems.length === 0) {
-      message.warning('Нет выбранных товаров для отправки');
+      message.warning('Tanlangan tovar yoq');
       return;
     }
     
@@ -87,11 +87,6 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
     <div className="flex flex-col h-full">
       <div className="flex-grow overflow-auto p-4">
         {/* Отображаем информацию о магазине */}
-        <div className="mb-4 text-white">
-          <p>Магазин: <strong>{warehouseName || 'Не указан'}</strong></p>
-          <p>ID магазина: <strong>{shopId || 'Не указан'}</strong></p>
-        </div>
-        
         <div
           className="mb-4"
           style={{
@@ -155,7 +150,7 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
         {/* Количество товаров */}
         <div className="text-center text-white mt-4">
           <span>
-            Количество выбранных товаров:{" "}
+           Tanlangan tovarlar soni:{" "}
             <span className="font-bold">{selectedItems.length}</span>
           </span>
         </div>

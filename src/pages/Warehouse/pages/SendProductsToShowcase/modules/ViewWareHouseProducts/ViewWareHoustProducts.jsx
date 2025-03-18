@@ -13,16 +13,17 @@ export default function ViewWareHoustProducts({ idwarehouse }) {
 
   // Исправляем параметры useFetch
   const { data, isLoading, refetch } = useFetch(
-    `warehouse-products-${idwarehouse}`, // Уникальный ключ для кеширования
-    `warehouse-products/${idwarehouse}`, // URL запроса
+    `Storefront-product-${idwarehouse}`, // Уникальный ключ для кеширования
+    `Storefront-product/${idwarehouse}`, // URL запроса
     {}, // Параметры запроса
+    
     {
       enabled: !!idwarehouse, // Запрос будет выполнен только если id существует
       staleTime: 0, // Данные всегда считаются устаревшими
       cacheTime: 0, // Не кешируем данные
     }
   );
-
+ console.log("data:", data);
   // Вызываем refetch при изменении idwarehouse
   useEffect(() => {
     if (idwarehouse) {
@@ -36,11 +37,11 @@ export default function ViewWareHoustProducts({ idwarehouse }) {
 
   // Обновляем filteredData при изменении data
   useEffect(() => {
-    if (data?.data?.products) {
-      setFilteredData(data.data.products);
-    } else if (data?.products) {
+    if (data) {
+      setFilteredData(data);
+    } else if (data) {
       // Альтернативная структура данных
-      setFilteredData(data.products);
+      setFilteredData(data);
     } else {
       // Если данных нет, устанавливаем пустой массив
       setFilteredData([]);

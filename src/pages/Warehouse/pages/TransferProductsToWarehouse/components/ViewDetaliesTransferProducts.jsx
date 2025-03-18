@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams,useLocation  } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Card, Pagination, Tag, Button, Spin} from 'antd';
 import 'antd/dist/reset.css';
@@ -15,34 +15,44 @@ import useUserStore from "@/store/useUser";
 
 
 export default function ViewDetaliesTransferProducts() {
+  
+
+
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ state idni chaqirvolamiz va use paramsda nameni~~~~~~~~~~~~~~~~~~~~~~~~~~
   const { name } = useParams(); // Получаем параметр name из URL
+  const location = useLocation();
+  const shopId = location.state?.shopId;
+
+
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [warehouseId, setWarehouseId] = useState(""); // Для хранения ID склада
+  // const [warehouseId, setWarehouseId] = useState(productId); // Для хранения ID склада
   const { user } = useUserStore();
   const [isWareHouseOpen, setIsWareHouseOpen] = useState(false);
-
   ///// ~~~~~~~~~~~~~~~ вот ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  // Запрос на получение списка складов
-  const { data: warehousesData, isLoading: warehousesLoading } = useFetch('warehouse', 'warehouse', {});
+  // // Запрос на получение списка складов
+  // const { data: warehousesData, isLoading: warehousesLoading } = useFetch('warehouse', 'warehouse', {});
 
-  // Находим ID склада по имени
-  useEffect(() => {
-    if (warehousesData?.data?.warehouses && name) {
-      const foundWarehouse = warehousesData.data.warehouses.find(warehouse => warehouse.name === name);
-      if (foundWarehouse) {
-        setWarehouseId(foundWarehouse.id);
-        console.log("Найден склад с ID:", foundWarehouse.id);
-      }
-    }
-  }, [warehousesData, name]);
+  // // Находим ID склада по имени
+  // useEffect(() => {
+  //   if (warehousesData?.data?.warehouses && name) {
+  //     const foundWarehouse = warehousesData.data.warehouses.find(warehouse => warehouse.name === name);
+  //     if (foundWarehouse) {
+  //       setWarehouseId(foundWarehouse.id);
+  //       console.log("Найден склад с ID:", foundWarehouse.id);
+  //     }
+  //   }
+  // }, [warehousesData, name]);
 
 // ~~~~~~~~~~~~~~~~~~~~~~логика товаров из апи~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 const id = user?.warehouse?.id;
 const { data, isLoading, refetch } = useFetch(
   id ? `warehouse-products/${id}` : null, // Если id нет, не создаем ключ запроса
@@ -234,7 +244,7 @@ useEffect(() => {
           isOpen={!!selectedImage}
           onClose={() => setSelectedImage(null)}
           imageUrl={selectedImage}
-          idWarehouse={warehouseId}
+          idWarehouse={shopId}
         />
 
         <ModalComponent
@@ -247,7 +257,7 @@ useEffect(() => {
             selectedProducts={selectedProducts} 
             onSuccess={handleSuccessSubmit} 
             warehouseName={name}
-            warehouseId={warehouseId} // Передаем найденный ID склада
+            warehouseId={shopId} // Передаем найденный ID склада
           />
         </ModalComponent>
         <ModalComponent
@@ -255,7 +265,7 @@ useEffect(() => {
           onClose={onClose}
           title={name + " Mahsulotlari"}
         >
-          <ViewWareHoustProducts idwarehouse={warehouseId} />
+          <ViewWareHoustProducts idwarehouse={shopId} />
         </ModalComponent>
       </div>
     </div>

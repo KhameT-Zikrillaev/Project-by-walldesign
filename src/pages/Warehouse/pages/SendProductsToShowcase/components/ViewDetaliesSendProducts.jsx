@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Card, Pagination, Tag, Button, Spin} from 'antd';
 import 'antd/dist/reset.css';
@@ -15,7 +15,9 @@ import useUserStore from "@/store/useUser";
 
 
 export default function ViewDetaliesSendProducts() {
-  const { name, shopId } = useParams(); // Получаем параметр name и shopId из URL
+  const { name } = useParams(); // Получаем параметр name и shopId из URL
+  const location = useLocation();
+  const shopId = location.state?.shopId; // Получаем shopId из state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [filteredData, setFilteredData] = useState([]);
@@ -23,10 +25,9 @@ export default function ViewDetaliesSendProducts() {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [warehouseId, setWarehouseId] = useState(""); // Для хранения ID склада
-  const [shopIdState, setShopId] = useState(shopId); // Для хранения ID магазина
   const { user } = useUserStore();
   const [isWareHouseOpen, setIsWareHouseOpen] = useState(false);
-
+   console.log(shopId)
   ///// ~~~~~~~~~~~~~~~ вот ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   // Запрос на получение списка складов
@@ -55,6 +56,7 @@ export default function ViewDetaliesSendProducts() {
     }
   }, [warehousesData, name, user]);
 
+
 // ~~~~~~~~~~~~~~~~~~~~~~логика товаров из апи~~~~~~~~~~~~~~~~~~~~~~~~~~
 const id = user?.warehouse?.id;
 const { data: productsData, isLoading: productsLoading, refetch: refetchProducts } = useFetch(
@@ -70,43 +72,16 @@ const { data: productsData, isLoading: productsLoading, refetch: refetchProducts
 const userWarehouseId = user?.warehouse?.id;
 console.log("ID склада пользователя:", userWarehouseId);
 
-const { data: shopsData, isLoading: shopsLoading, refetch: refetchShops } = useFetch(
-  userWarehouseId ? `warehouse/${userWarehouseId}` : null, // Если id нет, не создаем ключ запроса
-  userWarehouseId ? `warehouse/${userWarehouseId}` : null, // Если id нет, не делаем запрос
-  {},
-  {
-    enabled: !!userWarehouseId, // Запрос будет выполнен только если id существует
-  }
-);
+// const { data: shopsData, isLoading: shopsLoading, refetch: refetchShops } = useFetch(
+//   userWarehouseId ? `warehouse/${userWarehouseId}` : null, // Если id нет, не создаем ключ запроса
+//   userWarehouseId ? `warehouse/${userWarehouseId}` : null, // Если id нет, не делаем запрос
+//   {},
+//   {
+//     enabled: !!userWarehouseId, // Запрос будет выполнен только если id существует
+//   }
+// );
 
-// Выводим в консоль данные о магазинах (shops) и находим нужный shopId по имени
-useEffect(() => {
-  if (shopsData) {
-    console.log("Shops Data from API:", shopsData);
-    console.log("Shops:", shopsData?.data?.shops);
-    
-    // Ищем магазин по имени из URL-параметров
-    if (shopsData?.data?.shops && shopsData.data.shops.length > 0 && name) {
-      const foundShop = shopsData.data.shops.find(shop => shop.name === name);
-      if (foundShop) {
-        setShopId(foundShop.id);
-        console.log("Найден магазин с именем", name, "и ID:", foundShop.id);
-      } else {
-        // Если не нашли магазин по имени, берем первый из списка (запасной вариант)
-        if (shopsData.data.shops[0]) {
-          setShopId(shopsData.data.shops[0].id);
-          console.log("Не найден магазин с именем", name, ", используем первый из списка с ID:", shopsData.data.shops[0].id);
-        } else {
-          console.error("Не найдены магазины");
-        }
-      }
-      
-      // Выводим ID всех магазинов для отладки
-      console.log("Shops IDs:", shopsData.data.shops.map(shop => shop.id));
-      console.log("Shops Names:", shopsData.data.shops.map(shop => shop.name));
-    }
-  }
-}, [shopsData, name]);
+
 
 // Update filteredData when products data changes
 useEffect(() => {
@@ -132,7 +107,7 @@ useEffect(() => {
     setIsWareHouseOpen(false);
   };
 
-  // Изменение количества товаров на странице
+  // Изменение количества товаров на странице  АДАПТИВНОСТЬ
   const updateItemsPerPage = () => {
     setItemsPerPage(window.innerWidth < 768 ? 4 : 10);
   };
@@ -158,7 +133,6 @@ useEffect(() => {
   const resetSelection = () => {
     setSelectedProducts([]); // Сбрасываем все выбранные элементы
   };
-  
   // Функция для выбора всех товаров
   const handleSelectAll = () => {
     if (selectedProducts.length === filteredData.length) {
@@ -167,6 +141,8 @@ useEffect(() => {
       setSelectedProducts(filteredData); // Передаём массив объектов
     }
   };
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
   // Обработчик успешной отправки товаров
   const handleSuccessSubmit = () => {
@@ -301,7 +277,7 @@ useEffect(() => {
             onSuccess={handleSuccessSubmit} 
             warehouseName={name}
             warehouseId={warehouseId} // Передаем найденный ID склада
-            shopId={shopIdState} // Передаем найденный ID магазина
+            shopId={shopId} // Передаем найденный ID магазина
           />
         </ModalComponent>
         <ModalComponent
@@ -309,7 +285,7 @@ useEffect(() => {
           onClose={onClose}
           title={name + " Mahsulotlari"}
         >
-          <ViewWareHoustProducts idwarehouse={warehouseId} />
+          <ViewWareHoustProducts idwarehouse={shopId} />
         </ModalComponent>
       </div>
     </div>
