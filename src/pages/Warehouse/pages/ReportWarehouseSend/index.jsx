@@ -211,7 +211,7 @@ export default function ReportWarehouseSend() {
               pageSize={itemsPerPage}
               onChange={(page) => setCurrentPage(page)}
               showSizeChanger={false}
-              className="text-white [&_.ant-pagination-item]:bg-transparent [&_.ant-pagination-item]:transition [&_.ant-pagination-item:hover]:bg-white/20 [&_.ant-pagination-item-active]:bg-white [&_.ant-pagination-item-active]:text-black"
+              className="custom-pagination"
             />
           </div>
         )}
