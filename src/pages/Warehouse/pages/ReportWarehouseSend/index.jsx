@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { Card, Pagination, Tag } from "antd";
 import "antd/dist/reset.css";
 import bgsklad from "@/assets/images/bg-sklad.png";
@@ -165,6 +165,7 @@ export default function ReportWarehouseSend() {
   const [filteredData, setFilteredData] = useState(dataSource);
   const [selectedImage, setSelectedImage] = useState(null);
 
+
   useEffect(() => {
     const updateItemsPerPage = () => {
       if (window.innerWidth < 768) {
@@ -180,15 +181,10 @@ export default function ReportWarehouseSend() {
     return () => window.removeEventListener("resize", updateItemsPerPage);
   }, []);
 
-  const currentData = filteredData.slice(
+  const currentData = filteredData?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
-
-
-
-  
   return (
     <div
       className="min-h-screen bg-cover bg-center p-1 relative"
@@ -199,7 +195,7 @@ export default function ReportWarehouseSend() {
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
         <SearchForm data={dataSource} name="" title="Hisobotlar omborlar" showDatePicker={true}  onSearch={setFilteredData} />
         <div className="grid grid-cols-1 mb-4 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full px-4">
-          {currentData.map((item) => (
+          {currentData?.map((item) => (
             <Card
               key={item.key}
               className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
@@ -257,7 +253,7 @@ export default function ReportWarehouseSend() {
               pageSize={itemsPerPage}
               onChange={(page) => setCurrentPage(page)}
               showSizeChanger={false}
-              className="text-white [&_.ant-pagination-item]:bg-transparent [&_.ant-pagination-item]:transition [&_.ant-pagination-item:hover]:bg-white [&_.ant-pagination-item-active]:bg-white [&_.ant-pagination-item-active]:text-black"
+              className="custom-pagination"
             />
           </div>
         )}
