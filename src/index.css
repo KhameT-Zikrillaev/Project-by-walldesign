@@ -257,6 +257,30 @@ body {
   .custom-select-filter .ant-select-selector .ant-select-selection-wrap .ant-select-selection-placeholder{
     color: #a0aec0 !important; /* Placeholder rangi */
   }
+
+  /* Skrolbar umumiy o'lchami */
+::-webkit-scrollbar {
+  width: 5px; /* vertikal skrolbar uchun */
+  height: 10px; /* gorizontal skrolbar uchun */
+}
+
+/* Skrolbar foni */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Skrolbarning harakatlanuvchi qismi (thumb) */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Skrolbar ustiga bosilganda */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
   
 
 

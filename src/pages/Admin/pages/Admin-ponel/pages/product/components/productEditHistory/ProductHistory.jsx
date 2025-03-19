@@ -16,7 +16,7 @@ const ProductHistory = () => {
   const limit = 10;
   const navigate = useNavigate();
 
-  const { data, isLoading  } = useFetch("products/history", "products/history");
+  const { data, isLoading  } = useFetch("products/history", "products/history" );
 
   console.log(data);
   
@@ -70,55 +70,53 @@ const ProductHistory = () => {
     },
     {
       title: "Artikul",
-      dataIndex: "article",
-      key: "article",
       render: (text) => (
-        <span className="text-gray-100 font-semibold">{text}</span>
+        <span className="text-gray-100 font-semibold">{text?.action == "DELETE" ? text?.oldData?.article : text?.newData?.article}</span>
       ),
     },
     {
       title: "Partiya",
-      dataIndex: "batch_number",
-      key: "batch_number",
       render: (text) => (
-        <span className="text-gray-100 font-semibold">{text}</span>
+        <span className="text-gray-100 font-semibold">{text?.action == "DELETE" ? text?.oldData?.batch_number : text?.newData?.batch_number}</span>
       ),
     },
     {
       title: "Rulon soni",
-      dataIndex: "quantity",
-      key: "quantity",
       render: (text) => (
-        <span className="text-gray-100 font-semibold">{text}</span>
+        <span className="text-gray-100 font-semibold">{text?.action == "DELETE" ? "-" : text?.newData?.quantity}</span>
       ),
     },
     {
       title: "Narxi",
-      dataIndex: "price",
-      key: "price",
       render: (text) => (
-        <span className="text-gray-100 font-semibold">{text}</span>
+        <span className="text-gray-100 font-semibold">{text?.action == "DELETE" ? text?.oldData?.price : text?.newData?.price}</span>
       ),
     },
     {
       title: "Rasm",
-      dataIndex: "image_url",
-      key: "image_url",
       render: (text) => (
         <span className="h-[80px] w-[80px]">
-          <img className="h-full w-auto" src={text}  />
+          <img className="h-full w-auto" src={`https://walldesign.limsa.uz/uploads/${text?.action == "DELETE" ? text?.oldData?.image_url : text?.newData?.image_url}`}  />
         </span>
       ),
     },
     {
         title: "Izoh",
-        dataIndex: "description",
-        key: "description",
+        render: (text) => (
+            <span className="text-gray-100 font-semibold">{text?.action == "DELETE" ? "Mahsulot o'chirildi" : text?.action == "CREATE" ? "Mahsulot yaratildi" : text?.newData?.comment}</span>
+        ),
+      },
+      {
+        title: "Status",
+        dataIndex: "action",
+        key: "action",
         render: (text) => (
             <span className="text-gray-100 font-semibold">{text}</span>
         ),
       },
   ];
+
+
 
   return (
     <div className="p-5">
@@ -137,7 +135,7 @@ const ProductHistory = () => {
       <div className="text-gray-100">
         <Table
           columns={columns}
-          dataSource={data?.data?.products}
+          dataSource={data?.data}
           pagination={false}
           className="custom-table"
           rowClassName={() => "custom-row"}
@@ -148,7 +146,7 @@ const ProductHistory = () => {
           <Pagination
             className="custom-pagination"
             current={page}
-            total={data?.data?.total}
+            total={data?.data?.length}
             pageSize={limit}
             onChange={handlePageChange}
             itemRender={itemRender}

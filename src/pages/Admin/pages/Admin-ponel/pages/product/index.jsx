@@ -31,8 +31,9 @@ const Product = () => {
     article: searchQuery,
   });
 
+  
   const { mutate: deleteProduct } = useApiMutation({
-    url: "product", // Asosiy API endpoint
+    url: "products", // Asosiy API endpoint
     method: "DELETE",
     onSuccess: () => {
       refetch();
@@ -147,7 +148,7 @@ const Product = () => {
       key: "image_url",
       render: (text) => (
         <span className="h-[80px] w-[80px]">
-          <img className="h-full w-auto" src={text}  />
+          <img className="h-full w-auto" src={`https://walldesign.limsa.uz/uploads/${text}`}  />
         </span>
       ),
     },
