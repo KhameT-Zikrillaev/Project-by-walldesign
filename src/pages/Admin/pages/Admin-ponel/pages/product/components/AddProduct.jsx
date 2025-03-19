@@ -18,7 +18,7 @@ const AddProduct = ({ onClose, refetch }) => {
   const [previewImage, setPreviewImage] = useState(null);
 
   const { mutate, isLoading } = useApiMutation({
-    url: 'product',
+    url: 'products',
     method: 'POST', 
     isFormData: true, 
     onSuccess: () => {
