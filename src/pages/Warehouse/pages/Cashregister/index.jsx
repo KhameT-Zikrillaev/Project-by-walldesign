@@ -3,75 +3,80 @@ import { Link } from "react-router-dom";
 import SearchForm from "@/components/SearchForm/SearchForm";
 import useFetch from "@/hooks/useFetch";
 import { Spin } from "antd";
-
-const districts = [
-  { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
-  { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
-  { id: 3, name: "Mirzo Ulugbek", description: "Описание Mirzo Ulugbek" },
-  { id: 4, name: "Yakkasaray", description: "Описание Yakkasaray" },
-  { id: 5, name: "Shayxontoxur", description: "Описание Shayxontoxur" },
-  { id: 6, name: "Olmazor", description: "Описание Olmazor" },
-  { id: 7, name: "Bektemir", description: "Описание Bektemir" },
-  { id: 8, name: "Yashnobod", description: "Описание Yashnobod" },
-  { id: 9, name: "Mirobod", description: "Описание Mirobod" },
-  { id: 10, name: "Sergeli", description: "Описание Sergeli" },
-  { id: 11, name: "Uchtepa", description: "Описание Uchtepa" },
-  { id: 12, name: "Yangihayot", description: "Описание Yangihayot" },
-  { id: 13, name: "Tashkent District", description: "Описание Tashkent District" },
-  { id: 14, name: "Samarkand", description: "Описание Samarkand" },
-  { id: 15, name: "Bukhara", description: "Описание Bukhara" },
-  { id: 16, name: "Khiva", description: "Описание Khiva" },
-  { id: 17, name: "Fergana", description: "Описание Fergana" },
-  { id: 18, name: "Namangan", description: "Описание Namangan" },
-  { id: 19, name: "Andijan", description: "Описание Andijan" },
-  { id: 20, name: "Nukus", description: "Описание Nukus" },
-  { id: 21, name: "Urgench", description: "Описание Urgench" },
-  { id: 22, name: "Navoi", description: "Описание Navoi" },
-  { id: 23, name: "Jizzakh", description: "Описание Jizzakh" },
-  { id: 24, name: "Termez", description: "Описание Termez" },
-];
+import useUserStore from "@/store/useUser";
 
 export default function CashRegister() {
   const [visibleDistricts, setVisibleDistricts] = useState(12);
-  const [filteredData, setFilteredData] = useState(districts);
+  const [filteredData, setFilteredData] = useState([]);
+  const { user } = useUserStore();
+  const warehouseId = user?.warehouse?.id;
+
   const loadMoreDistricts = () => {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
   };
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ZAPROS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const { data, isLoading, refetch } = useFetch(
+    warehouseId ? `cash-transaction/warehouse/${warehouseId}` : null,
+    warehouseId ? `cash-transaction/warehouse/${warehouseId}` : null,
+    {}
+  );
 
-const { data, isLoading, refetch } = useFetch('shop', 'shop', {});
+  useEffect(() => {
+    if (data?.data?.shops && Array.isArray(data?.data?.shops)) {
+      setFilteredData(data.data.shops);
+    } else {
+      setFilteredData([]);
+    }
+  }, [data]);
 
-// useEffect(() => {
-//   refetch()
-// }, [])
+  const handleSearchResults = (results) => {
+    if (Array.isArray(results)) {
+      setFilteredData(results);
+    } else if (results === null || results === undefined) {
+      if (data?.data?.shops && Array.isArray(data?.data?.shops)) {
+        setFilteredData(data.data.shops);
+      } else {
+        setFilteredData([]);
+      }
+    } else {
+      console.warn('Search results are not an array:', results);
+      setFilteredData([]);
+    }
+  };
 
-useEffect(() => {
-  setFilteredData(data?.data?.shops)
-}, [data])
-
-console.log(data)
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ZAPROS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   return (
     <div className="DirectorProduct pt-[150px] p-4">
-      <SearchForm data={data?.data?.warehouses} name="" title="Omborlar" showDatePicker={false} onSearch={setFilteredData} />
+      <SearchForm 
+        data={data?.data?.shops} 
+        name="" 
+        title="Sotuvchilar" 
+        showDatePicker={false} 
+        onSearch={handleSearchResults} 
+      />
       {isLoading ? (
-  <div className="flex justify-center items-center h-[300px]">
-    <Spin size="large" />
-  </div>
-      ):(
-      <div className="grid grid-cols-2 gap-4">
-        {filteredData?.slice(0, visibleDistricts).map((district) => (
-          <Link
-            key={district.id}
-            to={`/warehouse/cash-register/${district.name}`}
-            className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
-          >
-            <h4>{district.name}</h4>
-            <p>{district.description}</p>
-          </Link>
-        ))}
-      </div>
+        <div className="flex justify-center items-center h-[300px]">
+          <Spin size="large" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-4">
+          {Array.isArray(filteredData) && filteredData.length > 0 ? 
+            filteredData.slice(0, visibleDistricts).map((district) => (
+              <Link
+                key={district.id}
+                to={`/warehouse/cash-register/${district.name}`}
+                state={{ shopId: district.id }}
+                className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
+              >
+                <h4>{district.name}</h4>
+                <p>{district.description}</p>
+              </Link>
+            ))
+          : (
+            <div className="col-span-2 text-center text-gray-500">
+              Нет данных для отображения
+            </div>
+          )}
+        </div>
       )}
       {visibleDistricts < filteredData?.length && (
         <div className="flex justify-center mt-4">

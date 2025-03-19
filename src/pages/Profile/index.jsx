@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen relative bg-cover bg-center p-4"
+      className="min-h-screen relative bg-cover bg-center p-2"
       style={{ backgroundImage: `url(${bgsklad})` }}
     >
       {isLoading && <Loading />}
