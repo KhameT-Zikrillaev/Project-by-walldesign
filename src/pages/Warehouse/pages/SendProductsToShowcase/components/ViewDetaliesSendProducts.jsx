@@ -67,7 +67,7 @@ const { data: productsData, isLoading: productsLoading, refetch: refetchProducts
     enabled: !! id, // Запрос будет выполнен только если id существует
   }
 );
-
+console.log(warehousesData)
 //~~~~~~~~~~~~~~~~~~~~ логика шопах из апи~~~~~~~~~~~~~~~~~~~~~~~~~~
 const userWarehouseId = user?.warehouse?.id;
 // console.log("ID склада пользователя:", userWarehouseId);

@@ -16,7 +16,7 @@ const ProductHistory = () => {
   const limit = 10;
   const navigate = useNavigate();
 
-  const { data, isLoading, refetch } = useFetch("product", "product", {
+  const { data, isLoading, refetch } = useFetch("products", "products", {
     limit,
     page,
     article: searchQuery,
