@@ -14,7 +14,7 @@ import useFetch from "@/hooks/useFetch";
 import useUserStore from "@/store/useUser";
 
 
-export default function ViewDetaliesSendProducts() {
+export default function ViewDetaliesRemoveProducts() {
   const { name } = useParams(); // Получаем параметр name и shopId из URL
   const location = useLocation();
   const shopId = location.state?.shopId; // Получаем shopId из state
