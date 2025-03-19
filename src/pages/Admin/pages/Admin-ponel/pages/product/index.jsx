@@ -25,7 +25,7 @@ const Product = () => {
   const limit = 10;
   const navigate = useNavigate();
 
-  const { data, isLoading, refetch } = useFetch("product", "product", {
+  const { data, isLoading, refetch } = useFetch("products", "products", {
     limit,
     page,
     article: searchQuery,
@@ -38,7 +38,7 @@ const Product = () => {
       refetch();
       toast.success("Mahsulot muvaffaqiyatli o'chirildi!");
     },
-    onError: (error) => {
+    onError: () => {
       toast.error("Mahsulotni o'chirishda xatolik yuz berdi");
     },
   });
@@ -219,7 +219,7 @@ const Product = () => {
             className="hover:bg-[#0056b3] hover:border-[#004494] focus:bg-[#004494] "
             onClick={() => navigate("/admin/admin-panel/product-edit-history")}
           >
-            O'zgartirilgan mahsulotlar tarixi
+            Mahsulotlar tarixi
           </Button>
         </div>
       </div>

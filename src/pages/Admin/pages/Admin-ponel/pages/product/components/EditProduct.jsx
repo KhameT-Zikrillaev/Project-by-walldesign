@@ -33,7 +33,7 @@ const EditProduct = ({ onClose, productSingleData, refetch }) => {
   }, [productSingleData, reset]);
 
   const { mutate, isLoading } = useApiMutation({
-    url: `product/${productSingleData?.id}`,
+    url: `products/${productSingleData?.id}`,
     method: "PATCH",
     isFormData: true,
     onSuccess: () => {
