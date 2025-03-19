@@ -14,7 +14,7 @@ import useFetch from "@/hooks/useFetch";
 import useUserStore from "@/store/useUser";
 
 
-export default function ViewDetaliesSendProducts() {
+export default function ViewDetaliesRemoveProducts() {
   const { name } = useParams(); // Получаем параметр name и shopId из URL
   const location = useLocation();
   const shopId = location.state?.shopId; // Получаем shopId из state
@@ -42,10 +42,18 @@ const userWarehouseId = user?.warehouse?.id;
 useEffect(() => {
   if (productsData) {
     console.log("Products Data from API:", productsData);
-    setFilteredData(productsData?.map(item => ({
-      ...item,
-      key: item.id // используем id как key
-    })));
+    // Проверяем, что productsData является массивом
+    if (Array.isArray(productsData)) {
+      setFilteredData(productsData.map(item => ({
+        ...item,
+        key: item.id // используем id как key
+      })));
+    } else {
+      // Если данные не являются массивом, устанавливаем пустой массив
+      setFilteredData([]);
+    }
+  } else {
+    setFilteredData([]);
   }
 }, [productsData]);
 
@@ -100,18 +108,45 @@ useEffect(() => {
     refetchProducts(); // Обновляем данные с сервера
   };
 
+  // Обработчик результатов поиска
+  const handleSearchResults = (results) => {
+    console.log('Search results:', results);
+    // Проверяем, что результаты поиска являются массивом
+    if (Array.isArray(results)) {
+      setFilteredData(results);
+    } else if (results === null || results === undefined) {
+      // Если результаты поиска null или undefined, возвращаемся к исходным данным
+      if (Array.isArray(productsData)) {
+        setFilteredData(productsData.map(item => ({
+          ...item,
+          key: item.id
+        })));
+      } else {
+        setFilteredData([]);
+      }
+    } else {
+      console.warn('Search results are not an array:', results);
+      setFilteredData([]);
+    }
+  };
+
   // Текущие данные для отображения
-  const currentData = filteredData?.slice(
+  const currentData = Array.isArray(filteredData) ? filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
-  );
-
+  ) : [];
 
   return (
     <div className="min-h-screen bg-cover bg-center p-1 relative" style={{ backgroundImage: `url(${bgsklad})` }}>
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-        <SearchForm data={productsData} onSearch={setFilteredData} name={name +''} title="vitrinasini o'chirish" showDatePicker={false} />
+        <SearchForm 
+          data={productsData} 
+          onSearch={handleSearchResults} 
+          name={name +''} 
+          title="vitrinasini o'chirish" 
+          showDatePicker={false} 
+        />
         <div className='w-full flex justify-end'>
              {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~select all~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <Button
@@ -129,34 +164,38 @@ useEffect(() => {
   </div>
       ):(
        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
-  {currentData?.map((item) => (
-    <Card
-      key={item.key}
-      className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
-      style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
-      cover={
-        <div
-          onClick={() => setSelectedImage(item?.photo)}
-          className="h-28 bg-cover bg-center rounded-t-lg"
-          style={{ backgroundImage: `url(${item?.photo})` }}
-        />
-      }
-      bodyStyle={{ padding: '12px', color: 'white' }}
-    >
-      <div className="flex flex-col gap-2">
-        <h3 className="text-lg font-semibold text-white">{item?.article}</h3>
-        <Tag color="blue">Part: <span className="text-red-500">{item?.batch_number}</span></Tag>
-        <h4 className="text-sm font-semibold text-white">{item?.price + " $"}</h4>
-        <div className='mt-[15px]'>
-          <CustomCheckbox
-            checked={selectedProducts?.some((product) => product?.id === item?.id)}
-            onChange={() => handleCheckboxChange(item)}
-            label="Tanlash"
+  {Array.isArray(currentData) && currentData.length > 0 ? (
+    currentData.map((item) => (
+      <Card
+        key={item.key}
+        className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
+        style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
+        cover={
+          <div
+            onClick={() => setSelectedImage(item?.photo)}
+            className="h-28 bg-cover bg-center rounded-t-lg"
+            style={{ backgroundImage: `url(${item?.photo})` }}
           />
+        }
+        bodyStyle={{ padding: '12px', color: 'white' }}
+      >
+        <div className="flex flex-col gap-2">
+          <h3 className="text-lg font-semibold text-white">{item?.article}</h3>
+          <Tag color="blue">Part: <span className="text-red-500">{item?.batch_number}</span></Tag>
+          <h4 className="text-sm font-semibold text-white">{item?.price + " $"}</h4>
+          <div className='mt-[15px]'>
+            <CustomCheckbox
+              checked={selectedProducts?.some((product) => product?.id === item?.id)}
+              onChange={() => handleCheckboxChange(item)}
+              label="Tanlash"
+            />
+          </div>
         </div>
-      </div>
-    </Card>
-  ))}
+      </Card>
+    ))
+  ) : (
+    <div className="col-span-5 text-center text-white text-xl py-10">Malumot topilmadi</div>
+  )}
 </div>
       )}
         {filteredData?.length > 0 && (

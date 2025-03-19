@@ -7,7 +7,7 @@ import bgsklad from '@/assets/images/bg-sklad.png';
 import SearchForm from '@/components/SearchForm/SearchForm';
 import ModalComponent from "@/components/modal/Modal";
 import AddProductVitrina from "../modules/AddProductVitrina/AddProductVitrina";
-import ViewWareHoustProducts from "../modules/ViewWareHouseProducts/ViewWareHoustProducts";
+import ViewWareHoustProducts from "../modules/ViewVitrinaProducts/ViewVitrinaProducts";
 import ImageModal from "@/components/modal/ImageModal";
 import CustomCheckbox from "@/components/CustomCheckbox";
 import useFetch from "@/hooks/useFetch";
@@ -159,7 +159,7 @@ useEffect(() => {
     <div className="min-h-screen bg-cover bg-center p-1 relative" style={{ backgroundImage: `url(${bgsklad})` }}>
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-        <SearchForm data={productsData} onSearch={setFilteredData} name={name +'iga'} title="Omboridigi mahsulotlarni yuborish" showDatePicker={false} />
+        <SearchForm data={productsData} onSearch={setFilteredData} name={name +'iga'} title="Omboridigi mahsulotlarni vitringa yuborish" showDatePicker={false} />
         <div className='w-full flex justify-between'>
 
 
@@ -167,7 +167,7 @@ useEffect(() => {
         <Button
            style={{ marginBottom: '10px',backgroundColor: '#17212b',color: '#fff' }}
             onClick={() => setIsWareHouseOpen(true)}
-            >Ombordigi mahsulotni ko'rish</Button>
+            >Vitrinani ko'rish</Button>
              {/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~select all~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <Button
           type=""
@@ -279,7 +279,7 @@ useEffect(() => {
         <ModalComponent
           isOpen={isWareHouseOpen}
           onClose={onClose}
-          title={name + " Mahsulotlari"}
+          title={name + " Vitrinasi"}
         >
           <ViewWareHoustProducts idwarehouse={shopId} />
         </ModalComponent>

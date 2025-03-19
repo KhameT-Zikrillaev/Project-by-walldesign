@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useFetch from "@/hooks/useFetch";
 import { Card, Spin, Empty, Tag, Pagination } from "antd";
 
-export default function ViewWareHoustProducts({ idwarehouse }) {
+export default function ViewVitrinaProducts({ idwarehouse }) {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(2);
@@ -94,22 +94,23 @@ export default function ViewWareHoustProducts({ idwarehouse }) {
               <h3 className="text-lg font-semibold text-white">{item?.article || item?.name || 'Без названия'}</h3>
               <Tag color="blue">Код: <span className="text-red-500">{item?.batch_number || 'N/A'}</span></Tag>
               <h4 className="text-sm font-semibold text-white">{(item?.price || 0) + " $"}</h4>
-              <h5 className="text-sm font-semibold text-white">Количество: {item?.quantity || 0}</h5>
             </div>
           </Card>
         ))}
       </div>
 
       {/* Пагинация */}
-      <div className="flex justify-center mt-4">
-        <Pagination
-          current={currentPage}
-          pageSize={pageSize}
-          total={filteredData.length}
-          onChange={handlePageChange}
-          showSizeChanger={false}
-        />
-      </div>
+      {filteredData.length > pageSize && (
+        <div className="flex justify-center mt-4">
+          <Pagination
+            current={currentPage}
+            pageSize={pageSize}
+            total={filteredData.length}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+          />
+        </div>
+      )}
 
       {/* Модальное окно с изображением */}
       {selectedImage && (

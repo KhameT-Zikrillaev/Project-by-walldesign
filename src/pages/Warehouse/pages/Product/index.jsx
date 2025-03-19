@@ -16,16 +16,19 @@ export default function Warehouse() {
   // Fetch data from API
   const id = user?.warehouse?.id;
   const { data, isLoading  } = useFetch(
-    id ? `warehouse-products/${id}` : null, // Если id нет, не создаем ключ запроса
-    id ? `warehouse-products/${id}` : null, // Если id нет, не делаем запрос
+    id ? `warehouse-products/${id}` : null, 
+    id ? `warehouse-products/${id}` : null, 
     {},
     {
-      enabled: !!id, // Запрос будет выполнен только если id существует
+      enabled: !!id, 
     }
   );
 
-
-
+  // Отладочный вывод структуры данных
+  useEffect(() => {
+    console.log('Data structure:', data);
+    console.log('Is data?.products array?', Array.isArray(data?.products));
+  }, [data]);
 
   
   // Update filteredData when data changes
@@ -58,6 +61,13 @@ export default function Warehouse() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  // Функция для обработки результатов поиска
+  const handleSearchResults = (results) => {
+    console.log('Search results:', results);
+    setFilteredData(results);
+  };
+
   return (
     <div
       className="min-h-screen bg-cover bg-center p-1 relative"
@@ -71,7 +81,7 @@ export default function Warehouse() {
           name=""
           title="Tovarlar"
           showDatePicker={false}
-          onSearch={setFilteredData}
+          onSearch={handleSearchResults}
         />
         
         {/* Loader while data is loading */}
@@ -100,8 +110,9 @@ export default function Warehouse() {
                 bodyStyle={{ padding: "12px", color: "white" }}
               >
                 <div className="flex flex-col gap-2">
+                  <h3 className="text-lg font-semibold text-white">{item?.article}</h3>
                   <Tag color="blue">
-                    Part: <span className="text-red-500">{item?.article}</span>
+                    Part: <span className="text-red-500">{item?.batch_number}</span>
                   </Tag>
                   <h4 className="text-sm font-semibold text-white">
                     {item?.price +" $" || "No price"}
@@ -125,7 +136,7 @@ export default function Warehouse() {
         />
 
         {/* Pagination */}
-        {filteredData.length > 0 && !isLoading && (
+        {filteredData?.length > 0 && !isLoading && (
           <div className="my-4 flex justify-center">
             <Pagination
               current={currentPage}
