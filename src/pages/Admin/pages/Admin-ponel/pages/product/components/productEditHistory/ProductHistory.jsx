@@ -16,18 +16,10 @@ const ProductHistory = () => {
   const limit = 10;
   const navigate = useNavigate();
 
-<<<<<<< HEAD
-  const { data, isLoading, refetch } = useFetch("products", "products", {
-    limit,
-    page,
-    article: searchQuery,
-  });
-=======
   const { data, isLoading  } = useFetch("products/history", "products/history" );
 
   console.log(data);
   
->>>>>>> a350f722aeb7ba041651873779d66f1406b01613
 
   const handlePageChange = (page) => {
     setPage(page);

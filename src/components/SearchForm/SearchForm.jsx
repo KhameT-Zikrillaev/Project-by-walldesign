@@ -26,6 +26,7 @@ const iconMap = {
   'Hisobotlar omborlar': FaWarehouse,
   'Hisobotlar sotuvchilar': FaUserTie,
   "Omborlar ro'yxati": FaWarehouse,
+  "zakaz berish": FaWarehouse,
 };
 
 const SearchForm = ({ data, onSearch, name, title, showDatePicker = true }) => {

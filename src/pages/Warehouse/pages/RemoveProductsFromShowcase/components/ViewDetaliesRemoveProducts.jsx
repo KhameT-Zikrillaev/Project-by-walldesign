@@ -171,14 +171,11 @@ useEffect(() => {
         className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
         style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
         cover={
-          <div
-            onClick={() => setSelectedImage(item?.photo)}
-            className="h-28 bg-cover bg-center rounded-t-lg"
-            style={{ backgroundImage: `url(${item?.photo})` }}
-          />
+          <div/>
         }
         bodyStyle={{ padding: '12px', color: 'white' }}
       >
+         <img  onClick={() => setSelectedImage(item?.image_url)} crossOrigin="anonymous" className="h-48 w-full bg-cover cursor-pointer bg-center rounded-t-lg" src={item?.image_url} alt=""/>
         <div className="flex flex-col gap-2">
           <h3 className="text-lg font-semibold text-white">{item?.article}</h3>
           <Tag color="blue">Part: <span className="text-red-500">{item?.batch_number}</span></Tag>
