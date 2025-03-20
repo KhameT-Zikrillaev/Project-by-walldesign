@@ -9,37 +9,39 @@ import AddProduct from "./modules/AddProduct/AddProduct";
 import ImageModal from "@/components/modal/ImageModal";
 import useFetch from "@/hooks/useFetch";
 import useUserStore from "@/store/useUser";
-
-
+import { Spin } from "antd";
 export default function Warehouse() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {user} = useUserStore()
 
   const {data, isLoading} = useFetch(`warehouse-products/${user?.shop?.warehouse_id}`, `warehouse-products/${user?.shop?.warehouse_id}`, );
 
-  console.log(data);
 
   useEffect(() => {
     if(data){
       setFilteredData(data?.products)
     }
   }, [data])
-  
+
+  useEffect(() => {
+    if (data?.products) {
+      setFilteredData(data?.products);
+    }
+  }, [data]);
 
   const showModal = (product) => {
-    setSelectedProduct(product); // Устанавливаем выбранный товар
+    setSelectedProduct(product);
     setIsModalOpen(true);
   };
 
   const onClose = () => {
     setIsModalOpen(false);
-    setSelectedProduct(null); // Сбрасываем выбранный товар при закрытии модального окна
+    setSelectedProduct(null);
   };
 
   const updateItemsPerPage = () => {
@@ -56,6 +58,10 @@ export default function Warehouse() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  const handleSearchResults = (results) => {
+    console.log("Search results:", results);
+    setFilteredData(results);
+  };
 
   return (
     <div
@@ -63,14 +69,13 @@ export default function Warehouse() {
       style={{ backgroundImage: `url(${bgsklad})` }}
     >
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
-
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
         <SearchForm
-          data={data}
+          data={data?.products}
           name=""
           title="Omborxona"
           showDatePicker={false}
-          onSearch={setFilteredData}
+          onSearch={handleSearchResults}
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
@@ -84,21 +89,19 @@ export default function Warehouse() {
                 border: "1px solid rgba(255, 255, 255, 0.2)",
               }}
               cover={
-                <div
-                onClick={() => setSelectedImage(item?.image_url)}
-                  className="h-28 bg-cover bg-center rounded-t-lg"
-                  style={{ backgroundImage: `url(${item?.image_url})` }}
-                />
+                <div/>
               }
               bodyStyle={{ padding: "12px", color: "white" }}
             >
+              <img  onClick={() => setSelectedImage(item?.image_url)} crossOrigin="anonymous" className="h-48 w-full bg-cover cursor-pointer bg-center rounded-t-lg" src={item?.image_url} alt=""/>
               <div className="flex flex-col gap-2">
+              <h4 className="text-sm font-semibold text-white">
+                  {item?.article}
+                </h4>
                 <Tag color="blue">
                   Part: <span className="text-red-500">{item?.batch_number}</span>
                 </Tag>
-                <h4 className="text-sm font-semibold text-white">
-                  {item?.article}
-                </h4>
+               
                 <div className="flex justify-between">
                   <p className="text-gray-300 text-xs">
                     Narxi: {item?.price} so'm
@@ -121,9 +124,9 @@ export default function Warehouse() {
                   Buyurtma berish
                 </Button>
               </div>
-            </Card>
-          ))}
+            </Card>))}
         </div>
+
         <ImageModal
           isOpen={!!selectedImage}
           onClose={() => setSelectedImage(null)}
@@ -150,5 +153,5 @@ export default function Warehouse() {
         )}
       </div>
     </div>
-  );
+  )
 }

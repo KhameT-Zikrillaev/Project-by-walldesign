@@ -86,11 +86,7 @@ export default function ViewWareHoustProducts({ idwarehouse }) {
             className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
             style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
             cover={
-              <div
-                onClick={() => setSelectedImage(item?.photo)}
-                className="h-28 bg-cover bg-center rounded-t-lg"
-                style={{ backgroundImage: `url(${item?.photo || 'https://via.placeholder.com/150'})` }}
-              />
+              <img  onClick={() => setSelectedImage(item?.image_url)} crossOrigin='anonymous' className="h-28 w-full bg-cover cursor-pointer bg-center rounded-t-lg"  src={item?.image_url} alt=""/>
             }
             bodyStyle={{ padding: '12px', color: 'white' }}
           >
@@ -119,9 +115,9 @@ export default function ViewWareHoustProducts({ idwarehouse }) {
       {selectedImage && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setSelectedImage(null)}>
           <div className="relative max-w-[450px] max-h-[80vh] overflow-auto bg-white rounded-lg shadow-xl">
-            <img src={selectedImage} alt="Увеличенное изображение" className="max-w-full max-h-full object-contain" />
+            <img src={selectedImage} crossOrigin='anonymous' alt="Увеличенное изображение" className="max-w-full max-h-full object-contain" />
             <button 
-              className="absolute top-2 right-2 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center"
+              className="absolute top-0 right-2  bg-white/50 cursor-pointer text-white w-8 h-8 rounded-full flex items-center justify-center"
               onClick={(e) => {
                 e.stopPropagation();
                 setSelectedImage(null);

@@ -66,10 +66,8 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
     const requestData = {
       productIds: selectedItems?.map(item => item.id), // Массив ID продуктов
       shopId: shopId // Используем shopId вместо warehouseId
-    };
-    
+    }; 
     console.log('Отправляем данные:', requestData);
-    
     // Отправляем данные на бэкенд
     mutate(requestData);
   };
@@ -100,10 +98,12 @@ const AddProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseId, 
               >
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <Image
-                    src={product?.photo}
+                    src={product?.image_url}
                     alt={product?.article}
                     width={50}
                     height={50}
+                    crossOrigin="anonymous"
+                    className="object-cover"
                     style={{ marginRight: "10px" }}
                   />
                   <div className="ml-2">

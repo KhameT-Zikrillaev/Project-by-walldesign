@@ -107,10 +107,12 @@ const DeleteProductVitrina = ({ onClose, selectedProducts, onSuccess, warehouseN
               >
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <Image
-                    src={product?.photo}
+                    src={product?.image_url}
                     alt={product?.article}
                     width={50}
                     height={50}
+                    crossOrigin="anonymous"
+                    className="object-cover"
                     style={{ marginRight: "10px" }}
                   />
                   <div className="ml-2">

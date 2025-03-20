@@ -26,6 +26,7 @@ const iconMap = {
   'Hisobotlar omborlar': FaWarehouse,
   'Hisobotlar sotuvchilar': FaUserTie,
   "Omborlar ro'yxati": FaWarehouse,
+  "zakaz berish": FaWarehouse,
 };
 
 const SearchForm = ({ data, onSearch, name, title, showDatePicker = true }) => {
@@ -50,11 +51,10 @@ const SearchForm = ({ data, onSearch, name, title, showDatePicker = true }) => {
           console.warn('No data to filter or data is not an array');
           return;
         }
-        
         const filteredData = dataToFilter.filter(item => {
-          const articleMatch = item.article && item.article.toLowerCase().includes(value.toLowerCase());
-          const nameMatch = item.name && item.name.toLowerCase().includes(value.toLowerCase());
-          const descriptionMatch = item.description && item.description.toLowerCase().includes(value.toLowerCase());
+          const articleMatch = item?.article && item?.article.toLowerCase().includes(value.toLowerCase());
+          const nameMatch = item?.name && item?.name.toLowerCase().includes(value.toLowerCase());
+          const descriptionMatch = item?.description && item?.description.toLowerCase().includes(value.toLowerCase());
           return articleMatch || nameMatch || descriptionMatch;
         });
         

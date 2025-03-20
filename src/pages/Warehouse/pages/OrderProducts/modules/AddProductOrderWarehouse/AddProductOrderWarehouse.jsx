@@ -4,30 +4,27 @@ import { CloseOutlined } from "@ant-design/icons";
 import userStore from "@/store/useUser";
 import useApiMutation from "@/hooks/useApiMutation";
 import { toast } from "react-toastify";
-const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId }) => {
+
+const AddProductOrderWarehouse = ({ onClose, selectedProducts, onSuccess, idWarehouse}) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const { user } = userStore();
-
-  // Используем useApiMutation для PATCH запроса
-  const { mutate, isLoading: isSending } = useApiMutation({
-    url: 'warehouse-products',
-    method: 'PATCH',
-    onSuccess: (data) => {
-      toast.success('Продукты успешно отправлены!');
-      if (onSuccess) onSuccess();
+ console.log(idWarehouse)
+  const { mutate, isLoading } = useApiMutation({
+    url: 'warehouse-requests/send-request',
+    method: 'POST',
+    onSuccess: () => {
       onClose();
+      toast.success("Buyurtma berildi");
+      if (onSuccess) onSuccess();
     },
-    onError: (error) => {
-      toast.error(`Ошибка: ${error.message || 'Не удалось отправить продукты'}`);
-      console.error('Error sending products:', error);
-    }
+    onError: () => {
+      toast.error("Buyutma berishda xatolik!");
+    },
   });
 
-
-  // Преобразуем выбранные товары в нужный формат с уникальным ключом
   useEffect(() => {
     if (selectedProducts) {
-      const preselectedItems = selectedProducts?.map((item, index) => ({
+      const preselectedItems = selectedProducts.map((item, index) => ({
         ...item,
         key: `${item?.id}-${index}`,
         quantity: item?.quantity || 1,
@@ -36,19 +33,17 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
     }
   }, [selectedProducts]);
 
-  // Удаляем товар из списка по уникальному ключу
   const handleRemove = (key) => {
     setSelectedItems((prev) => {
-      const updatedItems = prev?.filter((item) => item?.key !== key);
-      if (updatedItems?.length === 0) {
-        if (onSuccess) onSuccess(); // Закрываем, если все товары удалены
+      const updatedItems = prev.filter((item) => item.key !== key);
+      if (updatedItems.length === 0) {
+        if (onSuccess) onSuccess();
         onClose();
       }
       return updatedItems;
     });
   };
 
-  // Изменяем количество товара
   const handleQuantityChange = (key, value) => {
     setSelectedItems((prev) =>
       prev?.map((item) =>
@@ -57,26 +52,29 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
     );
   };
 
-  // Отправка данных
   const onSubmit = () => {
-    if (selectedItems?.length === 0) {
-      message.warning('Нет выбранных товаров для отправки');
+    if (!user?.warehouse?.id) {
+      message.error("Ombor ma'lumotlari topilmadi!");
       return;
     }
-    
-    // Формируем данные для отправки на бэкенд
+  
+    if (selectedItems.length === 0) {
+      message.warning("Нет выбранных товаров для отправки");
+      return;
+    }
+  
     const requestData = {
-      fromWarehouseId: user.warehouse?.id, // ID склада-отправителя
-      toWarehouseId: warehouseId, // ID склада-получателя
-      products: selectedItems?.map(item => ({
-        productId: item?.id, // ID продукта
-        quantity: item?.quantity // Количество
-      }))
+      sourceWarehouseId: idWarehouse,
+      destinationWarehouseId: user.warehouse?.id,
+      items: selectedItems.map((item) => ({
+        productId: item?.id,
+        quantity: item?.quantity,
+      })),
     };
-    // Отправляем данные на бэкенд
+  
     mutate(requestData);
   };
-
+  
   return (
     <div className="flex min-h-[400px] min-w-[400px] flex-col md:flex-row w-full justify-between gap-3 mb-4 p-4 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 hover:bg-white/20 transition-all duration-300">
       <div className="w-full">
@@ -95,32 +93,29 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
               >
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <Image
-                    src={product.image_url}
+                    src={product?.image_url}
                     width={50}
                     height={50}
-                    style={{ marginRight: "10px" }}
                     className="object-cover"
+                    style={{ marginRight: "10px", borderRadius: "4px" }}
                     crossOrigin="anonymous"
                   />
                   <div className="ml-2">
                     <div className="text-white font-bold">{product?.article}</div>
-                    <div className="text-white">{product?.code}</div>
+                    <div className="text-gray-400">{product?.code}</div>
                   </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  {/* ✅ Добавил InputNumber ВНУТРИ renderItem */}
-                  <InputNumber
+                   <InputNumber
                     min={1}
-                    max={product?.stock}
+                    max={product?.quantity}
                     value={product?.quantity}
                     onChange={(value) =>
                       handleQuantityChange(product.key, value)
                     }
                     style={{ width: 60, marginRight: 10 }}
                     controls={true}
-                    step={1}
-                    parser={(value) => value.replace(/[^\d]/g, "")}
-                    formatter={(value) => `${value}`.replace(/[^\d]/g, "")}
+                    step={1}      
                     onKeyPress={(e) => {
                       if (!/[0-9]/.test(e.key)) {
                         e.preventDefault();
@@ -131,7 +126,7 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
                     type="text"
                     size="small"
                     icon={<CloseOutlined />}
-                    onClick={() => handleRemove(product?.key)}
+                    onClick={() => handleRemove(product.key)}
                     style={{
                       color: "#fff",
                       backgroundColor: "#17212b",
@@ -149,35 +144,32 @@ const AddProductWarehouse = ({ onClose, selectedProducts, onSuccess, warehouseId
                 </div>
               </List.Item>
             )}
-            pagination={{ 
+            pagination={{
               pageSize: 3,
-              className: "custom-pagination",
-              hideOnSinglePage: true // Скрыть пагинацию, если все элементы помещаются на одной странице
+              hideOnSinglePage: true,
             }}
           />
         </div>
 
-        {/* ✅ Количество товаров */}
         <div className="text-center text-white mt-4">
           <span>
-              Tanlangan tovarlar soni:{" "}
+            Tanlangan tovarlar soni:{" "}
             <strong>{selectedItems.length}</strong>
           </span>
         </div>
 
-        {/* ✅ Кнопка отправки */}
         <Button
           type="primary"
           onClick={onSubmit}
-          loading={isSending}
-          disabled={isSending || selectedItems?.length === 0}
+          loading={isLoading}
+          disabled={isLoading || selectedItems.length === 0}
           style={{ marginTop: 20, width: "100%" }}
         >
-          {isSending ? 'Отправка...' : 'Yuborish'}
+          {isLoading ? "Отправка..." : "Yuborish"}
         </Button>
       </div>
     </div>
   );
 };
 
-export default AddProductWarehouse;
+export default AddProductOrderWarehouse;

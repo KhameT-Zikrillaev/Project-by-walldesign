@@ -16,6 +16,10 @@ const AddProduct = ({ onClose, product }) => {
   } = useForm();
   const { user } = useUserStore();
   const quantity = watch("quantity"); // Следим за значением количества
+  const idWarehouse = user?.shop?.warehouse_id; // warehouseId
+  const idShop = user?.shop?.id; // shopID
+
+ 
 
   const { mutate, isLoading } = useApiMutation({
     url: "shop-request/send-request",
@@ -35,46 +39,49 @@ const AddProduct = ({ onClose, product }) => {
       message.error(`Max ${product?.quantity} ta.`);
       return;
     }
-    console.log("Forma ma'lumotlari:", data);
-    const newData = {
-      shopId: user?.shop?.id,
-      warehouseId: user?.shop?.warehouse_id,
+  
+    const requestBody = {
+      shopId: idShop,
+      warehouseId: idWarehouse,
       items: [
         {
-          productId: product?.id,
-          quantity: data?.quantity,
-        },
-      ],
+          productId: product.id, // Предполагаем, что product.id это идентификатор продукта
+          quantity: data.quantity,
+          remarks: data.remarks || "" // Добавляем remarks, если они есть
+        }
+      ]
     };
-    mutate(newData);
+  
+    mutate(requestBody); // Отправляем запрос на бекенд
+  
+    console.log("Forma ma'lumotlari:", data);
   };
+  
 
-  // Функция для ограничения ввода только цифрами от 1 до product.stock
   const handleQuantityChange = (e) => {
     const value = e.target.value.replace(/\D/g, ""); // Удаляем все символы, кроме цифр
     const maxValue = product?.quantity; // Максимальное значение равно product.stock
     const parsedValue = parseInt(value, 10);
 
-    // Если значение больше максимального, устанавливаем максимальное значение
     if (parsedValue > maxValue) {
       setValue("quantity", maxValue.toString());
     } else if (value === "") {
-      setValue("quantity", ""); // Позволяем очистить поле
+      setValue("quantity", "");
     } else {
-      setValue("quantity", value); // Устанавливаем значение в форму
+      setValue("quantity", value);
     }
   };
 
   return (
     <div className="">
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
-        {/* Отображение названия товара */}
         {product && (
           <Form.Item
             label={
               <span className="text-gray-100 font-semibold">Tovar nomi</span>
             }
           >
+            <img  crossOrigin="anonymous" className="h-48 w-full bg-cover cursor-pointer bg-center rounded-t-lg" src={product?.image_url} alt=""/>
             <h3 className="text-gray-100 font-semibold">{product?.article}</h3>
             <p className="text-gray-100 font-semibold">
               {" "}
@@ -87,7 +94,6 @@ const AddProduct = ({ onClose, product }) => {
           </Form.Item>
         )}
 
-        {/* Поле для ввода количества */}
         <Form.Item
           label={<span className="text-gray-100 font-semibold">Soni</span>}
           validateStatus={errors.quantity ? "error" : ""}
@@ -123,7 +129,6 @@ const AddProduct = ({ onClose, product }) => {
           />
         </Form.Item>
 
-        {/* Кнопка "Заказать" */}
         <Form.Item>
           <Button
             type="primary"

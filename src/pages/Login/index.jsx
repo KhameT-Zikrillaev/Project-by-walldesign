@@ -24,19 +24,19 @@ export default function Login() {
     return () => clearTimeout(timer); // Очистка таймера при размонтировании компонента
   }, []);
 
-  const { mutate, isLoading, error } = useApiMutation({
-    url: "auth/login",
-    method: "POST",
-    onSuccess: async (data) => {
-      if (data?.accessToken) {
-        localStorage.setItem("tokenWall", data.accessToken); // Tokenni saqlaymiz
-        try {
-          setLoadingUser(true); // Yangi so'rov boshlanishidan oldin yuklanishni ko'rsatamiz
-          const response = await api.get("auth/profile", {
-            headers: { Authorization: `Bearer ${data.accessToken}` }
-          });
+ const { mutate, isLoading, error } = useApiMutation({
+  url: "auth/login",
+  method: "POST",
+  onSuccess: async (data) => {
+    if (data?.accessToken) {
+      localStorage.setItem("tokenWall", data.accessToken); // Сохраняем токен
+      try {
+        setLoadingUser(true); // Показываем загрузку
+        const response = await api.get("auth/profile", {
+          headers: { Authorization: `Bearer ${data.accessToken}` },
+        });
 
-          setUser(response?.data);
+        setUser(response?.data); // Сохраняем данные пользователя
 
           if(response?.data?.role === "admin"){
             navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz

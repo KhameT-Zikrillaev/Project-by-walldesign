@@ -39,12 +39,6 @@ export default function Warehouse() {
   }, [data]);
 
 
-
-
-
-
-
-
   // Адаптивность экран разрешение кароточек
   useEffect(() => {
     const updateItemsPerPage = () => {
@@ -90,6 +84,12 @@ export default function Warehouse() {
             <Spin size="large" />
           </div>
         ) : (
+          <>
+              {filteredData?.length === 0 ? (
+              <div className="text-white text-lg">
+                Tovar topilmadi
+              </div>
+            ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full px-4">
             {currentData?.map((item) => (
               <Card
@@ -101,16 +101,15 @@ export default function Warehouse() {
                   border: "1px solid rgba(255, 255, 255, 0.2)",
                 }}
                 cover={
-                  <div
-                    onClick={() => setSelectedImage(item?.image_url)}
-                    className="h-48 w-full bg-cover cursor-pointer bg-center rounded-t-lg"
-                    style={{ backgroundImage: `url('${item?.image_url}')` }}
-                  />
+                  <div/>
                 }
                 bodyStyle={{ padding: "12px", color: "white" }}
               >
+                   <img  onClick={() => setSelectedImage(item?.image_url)} className="h-48 w-full bg-cover cursor-pointer bg-center rounded-t-lg" src={item?.image_url} alt=""
+                  crossOrigin="anonymous" />
                 <div className="flex flex-col gap-2">
                   <h3 className="text-lg font-semibold text-white">{item?.article}</h3>
+               
                   <Tag color="blue">
                     Part: <span className="text-red-500">{item?.batch_number}</span>
                   </Tag>
@@ -126,6 +125,8 @@ export default function Warehouse() {
               </Card>
             ))}
           </div>
+          )}
+          </>
         )}
         
         {/* Image Modal */}
