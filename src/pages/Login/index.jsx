@@ -24,39 +24,46 @@ export default function Login() {
     return () => clearTimeout(timer); // Очистка таймера при размонтировании компонента
   }, []);
 
-  const { mutate, isLoading, error } = useApiMutation({
-    url: "auth/login",
-    method: "POST",
-    onSuccess: async (data) => {
-      if (data?.accessToken) {
-        localStorage.setItem("tokenWall", data.accessToken); // Tokenni saqlaymiz
-        try {
-          setLoadingUser(true); // Yangi so'rov boshlanishidan oldin yuklanishni ko'rsatamiz
-          const response = await api.get("auth/profile", {
-            headers: { Authorization: `Bearer ${data.accessToken}` }
-          });
+ const { mutate, isLoading, error } = useApiMutation({
+  url: "auth/login",
+  method: "POST",
+  onSuccess: async (data) => {
+    if (data?.accessToken) {
+      localStorage.setItem("tokenWall", data.accessToken); // Сохраняем токен
+      try {
+        setLoadingUser(true); // Показываем загрузку
+        const response = await api.get("auth/profile", {
+          headers: { Authorization: `Bearer ${data.accessToken}` },
+        });
 
-          setUser(response?.data);
+        setUser(response?.data); // Сохраняем данные пользователя
 
-          if(response?.data?.role === "admin"){
-            navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
-          }else if(response?.data?.role === "staff"){
-            navigate("/warehouse");
-          }
-
-          // navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
-        } catch (error) {
-          console.error("User data error:", error);
-          alert("Foydalanuvchi ma'lumotlarini olishda xatolik yuz berdi");
-        } finally {
-          setLoadingUser(false);
+        // Перенаправляем в зависимости от роли
+        if (response?.data?.role === "admin") {
+          navigate("/admin");
+        } else if (response?.data?.role === "staff") {
+          navigate("/warehouse");
         }
+        else if (response?.data?.role === "director") {
+          navigate("/director");
+        }
+        else if (response?.data?.role === "seller") {
+          navigate("/seller");
+        }
+      } catch (error) {
+        console.error("User data error:", error);
+        alert("Foydalanuvchi ma'lumotlarini olishda xatolik yuz berdi");
+        navigate("/"); // Перенаправляем на главную страницу при ошибке
+      } finally {
+        setLoadingUser(false); // Выключаем загрузку
       }
-    },
-    onError: (error) => {
-      navigate("/");
-    },
-  });
+    }
+  },
+  onError: (error) => {
+    console.error("Login error:", error);
+    navigate("/"); // Перенаправляем на главную страницу при ошибке
+  },
+});
 
   const handleLogin = (e) => {
     e.preventDefault();

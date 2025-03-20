@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Pagination, Tag, Button } from "antd";
+import { Card, Pagination, Tag, Button, Spin } from "antd";
 import "antd/dist/reset.css";
 // import bg from "@/assets/images/bg-login.jpg";
 import ModalComponent from "@/components/modal/Modal";
@@ -19,7 +19,7 @@ export default function WarehouseDetailProductsLists() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {id} = useParams()
   
-  const {data} = useFetch(`warehouse-products/${id}`, `warehouse-products/${id}`)
+  const {data, isLoading} = useFetch(`warehouse-products/${id}`, `warehouse-products/${id}`)
   
    useEffect(() => {
     setFilteredData(data?.products)
@@ -49,6 +49,11 @@ export default function WarehouseDetailProductsLists() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  const handleSearchResults = (results) => {
+    console.log('Search results:', results);
+    setFilteredData(results);
+  };
+
 
   return (
     <div
@@ -58,7 +63,18 @@ export default function WarehouseDetailProductsLists() {
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
 
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-        <SearchForm data={data?.products} onSearch={setFilteredData} />
+        <SearchForm data={data?.products} onSearch={handleSearchResults} />
+   {isLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <Spin size="large" />
+          </div>
+        ) : (
+          <>
+              {filteredData?.length === 0 ? (
+              <div className="text-white text-lg">
+                Tovar topilmadi
+              </div>
+              ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
           {currentData?.map((item) => (
             <Card
@@ -110,6 +126,11 @@ export default function WarehouseDetailProductsLists() {
             </Card>
           ))}
         </div>
+  )}
+  </>
+)}
+
+
         <ImageModal
           isOpen={!!selectedImage}
           onClose={() => setSelectedImage(null)}

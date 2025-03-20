@@ -7,146 +7,47 @@ import bg from "../../../../assets/images/bg-login.jpg";
 import ModalComponent from "@/components/modal/Modal";
 import AddProduct from "./modules/AddProduct/AddProduct";
 import ImageModal from "@/components/modal/ImageModal";
-const dataSource = [
-  {
-    key: "1",
-    code: "OB001",
-    name: 'Обои "Синий океан"',
-    price: 1000,
-    stock: 10,
-    photo: bg,
-  },
-  {
-    key: "2",
-    code: "OB002",
-    name: 'Обои "Зеленый лес"',
-    price: 1200,
-    stock: 5,
-    photo: bg,
-  },
-  {
-    key: "3",
-    code: "OB003",
-    name: 'Обои "Красный закат"',
-    price: 1100,
-    stock: 8,
-    photo: bg,
-  },
-  {
-    key: "4",
-    code: "OB004",
-    name: 'Обои "Желтый песок"',
-    price: 900,
-    stock: 15,
-    photo: bg,
-  },
-  {
-    key: "5",
-    code: "OB005",
-    name: 'Обои "Фиолетовый туман"',
-    price: 1300,
-    stock: 3,
-    photo: bg,
-  },
-  {
-    key: "6",
-    code: "OB006",
-    name: 'Обои "Голубое небо"',
-    price: 950,
-    stock: 7,
-    photo: bg,
-  },
-  {
-    key: "7",
-    code: "OB007",
-    name: 'Обои "Розовый рассвет"',
-    price: 1050,
-    stock: 12,
-    photo: bg,
-  },
-  {
-    key: "8",
-    code: "OB008",
-    name: 'Обои "Серый камень"',
-    price: 800,
-    stock: 20,
-    photo: bg,
-  },
-  {
-    key: "9",
-    code: "OB009",
-    name: 'Обои "Белый снег"',
-    price: 1000,
-    stock: 0,
-    photo: bg,
-  },
-  {
-    key: "10",
-    code: "OB010",
-    name: 'Обои "Черная ночь"',
-    price: 1400,
-    stock: 6,
-    photo: bg,
-  },
-  {
-    key: "11",
-    code: "OB011",
-    name: 'Обои "Оранжевый закат"',
-    price: 1150,
-    stock: 9,
-    photo: bg,
-  },
-  {
-    key: "12",
-    code: "OB012",
-    name: 'Обои "Коричневый дуб"',
-    price: 1250,
-    stock: 4,
-    photo: bg,
-  },
-  {
-    key: "13",
-    code: "OB013",
-    name: 'Обои "Бирюзовый океан"',
-    price: 1350,
-    stock: 15,
-    photo: bg,
-  },
-  {
-    key: "14",
-    code: "OB014",
-    name: 'Обои "Лавандовый туман"',
-    price: 950,
-    stock: 12,
-    photo: bg,
-  },
-  {
-    key: "15",
-    code: "OB015",
-    name: 'Обои "Мятный бриз"',
-    price: 1100,
-    stock: 7,
-    photo: bg,
-  },
-];
-
+import useFetch from "@/hooks/useFetch";
+import useUserStore from "@/store/useUser";
+import { Spin } from "antd";
 export default function Warehouse() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
-  const [filteredData, setFilteredData] = useState(dataSource);
+  const [filteredData, setFilteredData] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~modal
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const { user } = useUserStore();
+  const id = user?.shop?.warehouse_id;
+  console.log(user);
+  const { data, isLoading } = useFetch(
+    id ? `warehouse-products/${id}` : null,
+    id ? `warehouse-products/${id}` : null,
+    {},
+    {
+      enabled: !!id,
+    }
+  );
+  // useEffect(() => {
+  //   console.log('Data structure:', data);
+  //   console.log('Is data?.products array?', Array.isArray(data?.products));
+  // }, [data]);
+
+  useEffect(() => {
+    if (data?.products) {
+      setFilteredData(data?.products);
+    }
+  }, [data]);
+
   const showModal = (product) => {
-    setSelectedProduct(product); // Устанавливаем выбранный товар
+    setSelectedProduct(product);
     setIsModalOpen(true);
   };
 
   const onClose = () => {
     setIsModalOpen(false);
-    setSelectedProduct(null); // Сбрасываем выбранный товар при закрытии модального окна
+    setSelectedProduct(null);
   };
 
   const updateItemsPerPage = () => {
@@ -163,6 +64,10 @@ export default function Warehouse() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  const handleSearchResults = (results) => {
+    console.log("Search results:", results);
+    setFilteredData(results);
+  };
 
   return (
     <div
@@ -170,67 +75,82 @@ export default function Warehouse() {
       style={{ backgroundImage: `url(${bgsklad})` }}
     >
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
-
       <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
         <SearchForm
-          data={dataSource}
+          data={data?.products}
           name=""
           title="Omborxona"
           showDatePicker={false}
-          onSearch={setFilteredData}
+          onSearch={handleSearchResults}
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
-          {currentData.map((item) => (
-            <Card
-              key={item.key}
-              className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
-              style={{
-                background: "rgba(255, 255, 255, 0.1)",
-                backdropFilter: "blur(10px)",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
-              }}
-              cover={
-                <div
-                onClick={() => setSelectedImage(item.photo)}
-                  className="h-28 bg-cover bg-center rounded-t-lg"
-                  style={{ backgroundImage: `url(${item.photo})` }}
-                />
-              }
-              bodyStyle={{ padding: "12px", color: "white" }}
-            >
-              <div className="flex flex-col gap-2">
-                <Tag color="blue">
-                  Part: <span className="text-red-500">{item.code}</span>
-                </Tag>
-                <h4 className="text-sm font-semibold text-white">
-                  {item.name}
-                </h4>
-                <div className="flex justify-between">
-                  <p className="text-gray-300 text-xs">
-                    Narxi: {item.price} so'm
-                  </p>
-                  <p className="text-gray-300 text-xs">
-                    Soni bor: {item.stock} dona.
-                  </p>
-                </div>
-                <Button
-                  type="primary"
-                  onClick={() => showModal(item)}
-                  style={{ backgroundColor: "#364153", borderColor: "#364153" }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.backgroundColor = "#2b3445")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.backgroundColor = "#364153")
-                  }
-                >
-                  Buyurtma berish
-                </Button>
+        {isLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <Spin size="large" />
+          </div>
+        ) : (
+          <>
+            {filteredData?.length === 0 ? (
+              <div className="text-white text-lg">Tovar topilmadi</div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 w-full px-4">
+                {currentData?.map((item) => (
+                  <Card
+                    key={item?.key}
+                    className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.1)",
+                      backdropFilter: "blur(10px)",
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
+                    }}
+                    cover={
+                      <div/>
+                    }
+                    bodyStyle={{ padding: "12px", color: "white" }}
+                  >
+                   <img  onClick={() => setSelectedImage(item?.image_url)} className="h-48 w-full bg-cover cursor-pointer bg-center rounded-t-lg" src={item?.image_url} alt=""/>
+                    <div className="flex flex-col gap-2">
+                      <Tag color="blue">
+                        Part:{" "}
+                        <span className="text-red-500">
+                          {item?.batch_number}
+                        </span>
+                      </Tag>
+                      <h4 className="text-sm font-semibold text-white">
+                        {item?.article}
+                      </h4>
+                      <div className="flex justify-between">
+                        <p className="text-gray-300 text-xs">
+                          Narxi: {item?.price} so'm
+                        </p>
+                        <p className="text-gray-300 text-xs">
+                          Soni bor: {item?.quantity} dona.
+                        </p>
+                      </div>
+                      <Button
+                        type="primary"
+                        onClick={() => showModal(item)}
+                        style={{
+                          backgroundColor: "#364153",
+                          borderColor: "#364153",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.backgroundColor = "#2b3445")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.backgroundColor = "#364153")
+                        }
+                      >
+                        Buyurtma berish
+                      </Button>
+                    </div>
+                  </Card>
+                ))}
               </div>
-            </Card>
-          ))}
-        </div>
+            )}
+          </>
+        )}
+
         <ImageModal
           isOpen={!!selectedImage}
           onClose={() => setSelectedImage(null)}
