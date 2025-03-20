@@ -111,10 +111,9 @@ export default function Vitrina() {
                 } 
                 bodyStyle={{ padding: "12px", color: "white" }}
               >
-                 <img  onClick={() => setSelectedImage(item?.image_url)} className="h-48 w-full bg-cover cursor-pointer bg-center rounded-t-lg" src={item?.image_url} alt=""/>
+                 <img  onClick={() => setSelectedImage(item?.image_url)} crossOrigin="anonymous" className="h-48 w-full bg-cover cursor-pointer bg-center rounded-t-lg" src={item?.image_url} alt=""/>
                 <div className="flex flex-col gap-2">
                   <h3 className="text-lg font-semibold text-white">{item?.article}</h3>
-                  <h5 className="text-lg font-semibold text-white">{ item?.image_url}</h5>
                   <Tag color="blue">
                     Part: <span className="text-red-500">{item?.batch_number}</span>
                   </Tag>

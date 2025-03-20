@@ -27,13 +27,6 @@ export default function Warehouse() {
       setFilteredData(data?.products)
     }
   }, [data])
-  
-
-  
-  // useEffect(() => {
-  //   console.log('Data structure:', data);
-  //   console.log('Is data?.products array?', Array.isArray(data?.products));
-  // }, [data]);
 
   useEffect(() => {
     if (data?.products) {
@@ -96,21 +89,19 @@ export default function Warehouse() {
                 border: "1px solid rgba(255, 255, 255, 0.2)",
               }}
               cover={
-                <div
-                onClick={() => setSelectedImage(item?.image_url)}
-                  className="h-28 bg-cover bg-center rounded-t-lg"
-                  style={{ backgroundImage: `url(${item?.image_url})` }}
-                />
+                <div/>
               }
               bodyStyle={{ padding: "12px", color: "white" }}
             >
+              <img  onClick={() => setSelectedImage(item?.image_url)} crossOrigin="anonymous" className="h-48 w-full bg-cover cursor-pointer bg-center rounded-t-lg" src={item?.image_url} alt=""/>
               <div className="flex flex-col gap-2">
+              <h4 className="text-sm font-semibold text-white">
+                  {item?.article}
+                </h4>
                 <Tag color="blue">
                   Part: <span className="text-red-500">{item?.batch_number}</span>
                 </Tag>
-                <h4 className="text-sm font-semibold text-white">
-                  {item?.article}
-                </h4>
+               
                 <div className="flex justify-between">
                   <p className="text-gray-300 text-xs">
                     Narxi: {item?.price} so'm

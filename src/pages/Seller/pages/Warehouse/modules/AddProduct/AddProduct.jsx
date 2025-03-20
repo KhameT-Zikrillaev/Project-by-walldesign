@@ -39,7 +39,7 @@ const AddProduct = ({ onClose, product }) => {
       message.error(`Max ${product?.quantity} ta.`);
       return;
     }
-
+  
     const requestBody = {
       shopId: idShop,
       warehouseId: idWarehouse,
@@ -51,22 +51,12 @@ const AddProduct = ({ onClose, product }) => {
         }
       ]
     };
-
+  
     mutate(requestBody); // Отправляем запрос на бекенд
-
+  
     console.log("Forma ma'lumotlari:", data);
-    const newData = {
-      shopId: user?.shop?.id,
-      warehouseId: user?.shop?.warehouse_id,
-      items: [
-        {
-          productId: product?.id,
-          quantity: data?.quantity,
-        },
-      ],
-    };
-    mutate(newData);
   };
+  
 
   const handleQuantityChange = (e) => {
     const value = e.target.value.replace(/\D/g, ""); // Удаляем все символы, кроме цифр
@@ -91,6 +81,7 @@ const AddProduct = ({ onClose, product }) => {
               <span className="text-gray-100 font-semibold">Tovar nomi</span>
             }
           >
+            <img  crossOrigin="anonymous" className="h-48 w-full bg-cover cursor-pointer bg-center rounded-t-lg" src={product?.image_url} alt=""/>
             <h3 className="text-gray-100 font-semibold">{product?.article}</h3>
             <p className="text-gray-100 font-semibold">
               {" "}
