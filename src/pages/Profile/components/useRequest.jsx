@@ -44,25 +44,32 @@ const useRequest = (role, id) => {
 
   const showNextRequest = async (index) => {
     if (index >= requests?.length) return;
-
+  
     const request = requests[index];
-    const quantity = request?.items[0]?.quantity ?? 0;
     const name = request?.destinationWarehouse?.name;
-    const productName = `${request?.items[0]?.product?.article} nomli va ${request?.items[0]?.product?.batch_number} partiyali`;
-
+  
+    // Mahsulotlar ro'yxatini yaratish
+    const productList = request?.items
+      .map(
+        (item) =>
+          `${item?.quantity} ta ${item?.product?.article} nomli va ${item?.product?.batch_number} partiyali`
+      )
+      .join("\n");
+  
     const confirmed = window.confirm(
-      `✅ Mahsulotni berish\n\nSiz ${quantity} ta ${productName} mahsulotni ${name}ga bermoqchimisiz?`
+      `✅ Mahsulotni berish\n\nSiz quyidagi mahsulotlarni ${name}ga bermoqchimisiz?\n\n${productList}`
     );
+  
     if (confirmed) {
       try {
         await api.patch(`warehouse-requests/change-status/${request?.id}`, {
           status: "approved",
         });
-
-        alert(`🎉 ${quantity} ta mahsulot ${name}ga muvaffaqiyatli berildi.`);
+  
+        alert(`🎉 Mahsulotlar ${name}ga muvaffaqiyatli berildi.`);
         notification.success({
           message: "Tasdiqlandi",
-          description: `${quantity} ta mahsulot ${name}ga muvaffaqiyatli berildi.`,
+          description: `Mahsulotlar ${name}ga muvaffaqiyatli berildi.`,
         });
       } catch (error) {
         console.error("Statusni o‘zgartirishda xatolik:", error);
@@ -85,9 +92,10 @@ const useRequest = (role, id) => {
         console.error("Statusni o‘zgartirishda xatolik:", error);
       }
     }
-
+  
     setTimeout(() => setCurrentIndex((prev) => prev + 1), 500); // Keyingi buyurtmani ko‘rsatish
   };
+  
 
   if (loading)
     return <Spin size="large" className="flex justify-center mt-10" />;
