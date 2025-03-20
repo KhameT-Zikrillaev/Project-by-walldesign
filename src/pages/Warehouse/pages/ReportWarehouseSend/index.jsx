@@ -6,12 +6,16 @@ import SearchForm from "@/components/SearchForm/SearchForm";
 import useFetch from "@/hooks/useFetch";
 import { format } from 'date-fns';
 import { ArrowRightOutlined } from '@ant-design/icons';
+import useUserStore from "@/store/useUser";
 
 export default function ReportWarehouseSend() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(9);
   const [filteredData, setFilteredData] = useState([]);
-  const { data, isLoading, refetch } = useFetch('warehouse-transfers', 'warehouse-transfers', {});
+  const {user} = useUserStore()
+  console.log(user);
+  
+  const { data, isLoading, refetch } = useFetch(`warehouse-transfers/${user?.warehouse?.id}`, `warehouse-transfers/${user?.warehouse?.id}`, {});
   
   useEffect(() => {
     if (data && data.length > 0) {

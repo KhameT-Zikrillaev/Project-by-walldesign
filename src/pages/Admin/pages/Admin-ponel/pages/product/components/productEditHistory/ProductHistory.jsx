@@ -18,9 +18,6 @@ const ProductHistory = () => {
 
   const { data, isLoading  } = useFetch("products/history", "products/history" );
 
-  console.log(data);
-  
-
   const handlePageChange = (page) => {
     setPage(page);
     refetch();
@@ -95,9 +92,9 @@ const ProductHistory = () => {
     {
       title: "Rasm",
       render: (text) => (
-        <span className="h-[80px] w-[80px]">
-          <img className="h-full w-auto" src={`https://walldesign.limsa.uz/uploads/${text?.action == "DELETE" ? text?.oldData?.image_url : text?.newData?.image_url}`}  />
-        </span>
+        <div className="max-h-[80px] max-w-[80px]">
+          <img className="h-auto w-full" src={`${text?.action == "DELETE" ? text?.oldData?.image_url : text?.newData?.image}`} crossorigin="anonymous" />
+        </div>
       ),
     },
     {

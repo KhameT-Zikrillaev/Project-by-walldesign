@@ -14,6 +14,7 @@ import useFetch from "@/hooks/useFetch";
 import useApiMutation from "@/hooks/useApiMutation";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import ImageModal from "@/components/modal/ImageModal";
 const { Search } = Input;
 
 const Product = () => {
@@ -24,6 +25,8 @@ const Product = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
   const navigate = useNavigate();
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
 
   const { data, isLoading, refetch } = useFetch("products", "products", {
     limit,
@@ -43,6 +46,17 @@ const Product = () => {
       toast.error("Mahsulotni o'chirishda xatolik yuz berdi");
     },
   });
+
+  const isOpenModal = (imageUrl) => {
+    setImageUrl(imageUrl);
+    setIsImageModalOpen(true);
+  };
+
+  const onCloseModal = () => {
+    setImageUrl(null);
+    setIsImageModalOpen(false);
+   
+  };
 
   const handleDelete = (id) => {
     deleteProduct({ id });
@@ -147,9 +161,10 @@ const Product = () => {
       dataIndex: "image_url",
       key: "image_url",
       render: (text) => (
-        <span className="h-[80px] w-[80px]">
-          <img className="h-full w-auto" src={`https://walldesign.limsa.uz/uploads/${text}`}  />
-        </span>
+        <div className="max-h-[80px] max-w-[80px]" onClick={() => isOpenModal(text)}>
+          
+          <img className="h-auto w-full" src={`${text}`} crossorigin="anonymous"  />
+        </div>
       ),
     },
     {
@@ -183,6 +198,7 @@ const Product = () => {
 
   return (
     <div className="p-5">
+      
       <div className="flex justify-between items-center mb-5">
         <div className="text-3xl font-bold  text-gray-100">Mahsulotlar</div>
         <div className="flex gap-3 items-center">
@@ -225,6 +241,7 @@ const Product = () => {
         </div>
       </div>
       <div className="text-gray-100">
+     
         <Table
           columns={columns}
           dataSource={data?.data?.products}
@@ -245,6 +262,7 @@ const Product = () => {
           />
         </div>
       </div>
+      <ImageModal isOpen={isImageModalOpen} onClose={onCloseModal} imageUrl={imageUrl}/>
       <ModalComponent
         isOpen={isModalOpen}
         onClose={onClose}

@@ -21,6 +21,9 @@ export default function CashRegister() {
     {}
   );
 
+  console.log(data);
+  
+
   useEffect(() => {
     if (data?.data?.shops && Array.isArray(data?.data?.shops)) {
       setFilteredData(data.data.shops);

@@ -12,7 +12,7 @@ export default function ImageModal({ isOpen, onClose, imageUrl }) {
         >
           {/* Close button */}
           <button
-            className="absolute -top-8 flex  cursor-pointer -right-1 md:-right-6 bg-gray-600 text-white rounded-full w-6 h-6 md:w-8 md:h-8 flex items-center justify-center"
+            className="absolute -top-8 cursor-pointer -right-1 md:-right-6 bg-gray-600 text-white rounded-full w-6 h-6 md:w-8 md:h-8 flex items-center justify-center"
             onClick={onClose}
           >
             <span className="text-white text-sm md:text-lg cursor-pointer">✕</span>
@@ -23,6 +23,7 @@ export default function ImageModal({ isOpen, onClose, imageUrl }) {
             src={imageUrl}
             alt="Modal"
             className=" md:max-w-xl md:max-h-[80vh] w-full h-full  rounded"
+            crossOrigin="anonymous"
           />
         </div>
       </div>
