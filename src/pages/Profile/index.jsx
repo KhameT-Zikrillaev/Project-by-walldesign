@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar/Navbar";
 import Loading from "@/components/Loading/Loading";
@@ -10,6 +10,7 @@ import { SellerCards } from "./data/SellerCards.js";
 import { DirectorCards } from "./data/DirectorCards.js";
 import  useUserStore  from "@/store/useUser";
 import useRequest from "./components/useRequest.jsx";
+import useRequestShop from "./components/useRequestShop.jsx";
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const {user} = useUserStore();
@@ -23,7 +24,9 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
+
   useRequest(user?.role, user?.warehouse?.id);
+  useRequestShop(user, user?.warehouse?.id);
 
   // Определяем, какой текст и карточки отображать в зависимости от маршрута
   let userRole = "";

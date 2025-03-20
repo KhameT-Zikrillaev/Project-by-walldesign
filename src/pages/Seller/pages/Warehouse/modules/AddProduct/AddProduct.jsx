@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input, Button, Form, message } from "antd";
-import useUserStore from "@/store/useUser";
 import useApiMutation from "@/hooks/useApiMutation";
 import { toast } from "react-toastify";
+import useUserStore from "@/store/useUser";
 
 const AddProduct = ({ onClose, product }) => {
   const {
@@ -14,28 +14,29 @@ const AddProduct = ({ onClose, product }) => {
     setValue,
     watch,
   } = useForm();
-
-  const quantity = watch("quantity"); // Следим за значением количества
   const { user } = useUserStore();
+  const quantity = watch("quantity"); // Следим за значением количества
   const idWarehouse = user?.shop?.warehouse_id; // warehouseId
   const idShop = user?.shop?.id; // shopID
 
-  const { mutate, isLoading: isSending } = useApiMutation({
-    url: '/shop-request/send-request', // Исправленный URL
-    method: 'POST',
-    onSuccess: (data) => {
-      toast.success('Tovar muvaffaqiyatli zakaz qilindi!');
+ 
+
+  const { mutate, isLoading } = useApiMutation({
+    url: "shop-request/send-request",
+    method: "POST",
+    onSuccess: () => {
+      reset(); // Formani tozalash
       onClose();
+      toast.success("Buyurtma berildi");
     },
-    onError: (error) => {
-      message.error(`Error: ${error.message || 'Failed to send products'}`);
-      console.error('Error sending products to storefront:', error);
-    }
+    onError: () => {
+      toast.error("Buyutma berishda xatolik!");
+    },
   });
 
   const onSubmit = (data) => {
-    if (data.quantity > product.quantity) {
-      message.error(`Max ${product.quantity} ta.`);
+    if (data?.quantity > product?.quantity) {
+      message.error(`Max ${product?.quantity} ta.`);
       return;
     }
 
@@ -54,14 +55,22 @@ const AddProduct = ({ onClose, product }) => {
     mutate(requestBody); // Отправляем запрос на бекенд
 
     console.log("Forma ma'lumotlari:", data);
-    message.success(`Заказ на ${product.article} в количестве ${data.quantity} ta оформлен!`);
-    reset(); // Очищаем форму
-    onClose();
+    const newData = {
+      shopId: user?.shop?.id,
+      warehouseId: user?.shop?.warehouse_id,
+      items: [
+        {
+          productId: product?.id,
+          quantity: data?.quantity,
+        },
+      ],
+    };
+    mutate(newData);
   };
 
   const handleQuantityChange = (e) => {
-    const value = e.target.value.replace(/\D/g, "");
-    const maxValue = product?.quantity;
+    const value = e.target.value.replace(/\D/g, ""); // Удаляем все символы, кроме цифр
+    const maxValue = product?.quantity; // Максимальное значение равно product.stock
     const parsedValue = parseInt(value, 10);
 
     if (parsedValue > maxValue) {
@@ -77,17 +86,30 @@ const AddProduct = ({ onClose, product }) => {
     <div className="">
       <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
         {product && (
-          <Form.Item label={<span className="text-gray-100 font-semibold">Tovar nomi</span>}>
+          <Form.Item
+            label={
+              <span className="text-gray-100 font-semibold">Tovar nomi</span>
+            }
+          >
             <h3 className="text-gray-100 font-semibold">{product?.article}</h3>
-            <p className="text-gray-100 font-semibold"> Part: <span className="text-red-500">{product?.batch_number}</span></p>
-            <span className="text-gray-100 font-semibold">{product?.quantity} dona bor omborda</span>
+            <p className="text-gray-100 font-semibold">
+              {" "}
+              Part:{" "}
+              <span className="text-red-500">{product?.batch_number}</span>
+            </p>
+            <span className="text-gray-100 font-semibold">
+              {product?.quantity} dona bor omborda
+            </span>
           </Form.Item>
         )}
 
         <Form.Item
           label={<span className="text-gray-100 font-semibold">Soni</span>}
           validateStatus={errors.quantity ? "error" : ""}
-          help={errors.quantity?.message || (quantity > product?.quantity && `Max ${product?.quantity} ta`)}
+          help={
+            errors.quantity?.message ||
+            (quantity > product?.quantity && `Max ${product?.quantity} ta`)
+          }
         >
           <Controller
             name="quantity"
@@ -95,7 +117,7 @@ const AddProduct = ({ onClose, product }) => {
             rules={{
               required: "Sonni kiriting",
               max: {
-                value: product?.quantity,
+                value: product?.quantity, // Максимум product.stock
                 message: `Max ${product?.quantity} ta`,
               },
               min: {
@@ -108,9 +130,9 @@ const AddProduct = ({ onClose, product }) => {
                 placeholder="Sonnini kiriting"
                 className="custom-input"
                 {...field}
-                onChange={handleQuantityChange}
-                max={product?.quantity}
-                type="number"
+                onChange={handleQuantityChange} // Обработчик для ограничения ввода
+                max={product?.quantity} // Максимальное значение
+                type="number" // Тип поля для мобильных устройств
               />
             )}
           />
@@ -121,6 +143,7 @@ const AddProduct = ({ onClose, product }) => {
             type="primary"
             htmlType="submit"
             disabled={quantity > product?.quantity}
+            loading={isLoading}
             style={{
               backgroundColor: "#364153",
               color: "#f3f4f6",
@@ -131,8 +154,12 @@ const AddProduct = ({ onClose, product }) => {
               width: "100%",
               transition: "background-color 0.3s ease",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#2b3445")}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#364153")}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.backgroundColor = "#2b3445")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.backgroundColor = "#364153")
+            }
           >
             Buyurtma berish
           </Button>

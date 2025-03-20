@@ -194,11 +194,11 @@ const EditProduct = ({ onClose, productSingleData, refetch }) => {
         </Form.Item>
         <Form.Item
           label={<span className="text-gray-100 font-semibold">Izoh</span>}
-          validateStatus={errors.description ? "error" : ""}
-          help={errors.description?.message}
+          validateStatus={errors.comment ? "error" : ""}
+          help={errors.comment?.message}
         >
           <Controller
-            name="description"
+            name="comment"
             control={control}
             rules={{ required: "Izoh majburiy" }}
             render={({ field }) => (

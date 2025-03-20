@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchForm from "@/components/SearchForm/SearchForm";
+import useFetch from "@/hooks/useFetch";
 const districts = [
   { id: 1, name: "Chilanzar", description: "Описание Chilanzar" },
   { id: 2, name: "Yunsabad", description: "Описание Yunsabad" },
@@ -30,27 +31,34 @@ const districts = [
 
 export default function Report() {
   const [visibleDistricts, setVisibleDistricts] = useState(12);
-  const [filteredData, setFilteredData] = useState(districts);
+  const [filteredData, setFilteredData] = useState([]);
+  const {data, isLoading} = useFetch('warehouse', 'warehouse', {});
+
+  useEffect(() => {
+    if(data?.data?.warehouses){
+      setFilteredData(data?.data?.warehouses)
+    }
+  })
   const loadMoreDistricts = () => {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
   };
 
   return (
     <div className="DirectorReport pt-[150px] p-4">
-      <SearchForm data={districts} onSearch={setFilteredData} name="" title="Omborlar" showDatePicker={false} />
+      <SearchForm data={data} onSearch={setFilteredData} name="" title="Omborlar" showDatePicker={false} />
       <div className="grid grid-cols-2 gap-4">
-        {filteredData.slice(0, visibleDistricts).map((district) => (
+        {filteredData?.slice(0, visibleDistricts).map((district) => (
           <Link
             key={district.id}
             to={`/director/report/${district.name}`}
             className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
           >
             <h4>{district.name}</h4>
-            <p>{district.description}</p>
+            {/* <p>{district.description}</p> */}
           </Link>
         ))}
       </div>
-      {visibleDistricts < filteredData.length && (
+      {visibleDistricts < filteredData?.length && (
         <div className="flex justify-center mt-4">
           <button
             onClick={loadMoreDistricts}

@@ -38,32 +38,29 @@ export default function Login() {
 
         setUser(response?.data); // Сохраняем данные пользователя
 
-        // Перенаправляем в зависимости от роли
-        if (response?.data?.role === "admin") {
-          navigate("/admin");
-        } else if (response?.data?.role === "staff") {
-          navigate("/warehouse");
+          if(response?.data?.role === "admin"){
+            navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
+          }else if(response?.data?.role === "staff"){
+            navigate("/warehouse");
+          }else if(response?.data?.role === "seller"){
+            navigate("/seller");
+          }else if(response?.data?.role === "director"){
+            navigate("/director");
+          }
+
+          // navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
+        } catch (error) {
+          console.error("User data error:", error);
+          alert("Foydalanuvchi ma'lumotlarini olishda xatolik yuz berdi");
+        } finally {
+          setLoadingUser(false);
         }
-        else if (response?.data?.role === "director") {
-          navigate("/director");
-        }
-        else if (response?.data?.role === "seller") {
-          navigate("/seller");
-        }
-      } catch (error) {
-        console.error("User data error:", error);
-        alert("Foydalanuvchi ma'lumotlarini olishda xatolik yuz berdi");
-        navigate("/"); // Перенаправляем на главную страницу при ошибке
-      } finally {
-        setLoadingUser(false); // Выключаем загрузку
       }
-    }
-  },
-  onError: (error) => {
-    console.error("Login error:", error);
-    navigate("/"); // Перенаправляем на главную страницу при ошибке
-  },
-});
+    },
+    onError: () => {
+      navigate("/");
+    },
+  });
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -81,14 +78,11 @@ export default function Login() {
     // if (username === "sklad" && password === "sklad123") {
     //   navigate("/warehouse"); // Перенаправление на домашнюю страницу
     // }
-    if (username === "seller" && password === "seller123") {
-      navigate("/seller"); // Перенаправление на домашнюю страницу
-    } 
-    if (username === "director" && password === "director123") {
-      navigate("/director"); // Перенаправление на домашнюю страницу
-    } else {
-      setError("Неверный логин или пароль");
-    }
+    // if (username === "director" && password === "director123") {
+    //   navigate("/director"); // Перенаправление на домашнюю страницу
+    // } else {
+    //   setError("Неверный логин или пароль");
+    // }
   };
 
   return (

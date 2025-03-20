@@ -142,9 +142,11 @@ export default function Vitrina() {
             <Pagination
               current={currentPage}
               total={filteredData?.length}
+              total={filteredData?.length}
               pageSize={itemsPerPage}
               onChange={(page) => setCurrentPage(page)}
               showSizeChanger={false}
+              className="custom-pagination"
               className="custom-pagination"
             />
           </div>

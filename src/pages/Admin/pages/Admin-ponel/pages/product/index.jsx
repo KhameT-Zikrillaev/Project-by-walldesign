@@ -31,6 +31,7 @@ const Product = () => {
     article: searchQuery,
   });
 
+  
   const { mutate: deleteProduct } = useApiMutation({
     url: "products", // Asosiy API endpoint
     method: "DELETE",
@@ -38,7 +39,7 @@ const Product = () => {
       refetch();
       toast.success("Mahsulot muvaffaqiyatli o'chirildi!");
     },
-    onError: (error) => {
+    onError: () => {
       toast.error("Mahsulotni o'chirishda xatolik yuz berdi");
     },
   });
@@ -147,7 +148,7 @@ console.log(data)
       key: "image_url",
       render: (text) => (
         <span className="h-[80px] w-[80px]">
-          <img className="h-full w-auto" src={text}  />
+          <img className="h-full w-auto" src={`https://walldesign.limsa.uz/uploads/${text}`}  />
         </span>
       ),
     },
@@ -219,7 +220,7 @@ console.log(data)
             className="hover:bg-[#0056b3] hover:border-[#004494] focus:bg-[#004494] "
             onClick={() => navigate("/admin/admin-panel/product-edit-history")}
           >
-            O'zgartirilgan mahsulotlar tarixi
+            Mahsulotlar tarixi
           </Button>
         </div>
       </div>

@@ -19,6 +19,7 @@ export default function ReportWarehouseSend() {
     }
   }, [data]);
 
+
   useEffect(() => {
     const updateItemsPerPage = () => {
       if (window.innerWidth < 768) {
@@ -34,7 +35,7 @@ export default function ReportWarehouseSend() {
     return () => window.removeEventListener("resize", updateItemsPerPage);
   }, []);
 
-  const currentData = filteredData.slice(
+  const currentData = filteredData?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );

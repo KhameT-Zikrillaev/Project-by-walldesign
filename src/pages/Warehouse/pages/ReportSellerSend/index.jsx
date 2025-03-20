@@ -5,6 +5,7 @@ import bgsklad from "@/assets/images/bg-sklad.png";
 import SearchForm from "@/components/SearchForm/SearchForm";
 import ImageModal from "@/components/modal/ImageModal";
 import bg from '@/assets/images/bg-login.jpg';
+import useFetch from "@/hooks/useFetch";
 
 const dataSource = [
   {
@@ -164,6 +165,10 @@ export default function ReportSellerSend() {
   const [itemsPerPage, setItemsPerPage] = useState(9);
   const [filteredData, setFilteredData] = useState(dataSource);
   const [selectedImage, setSelectedImage] = useState(null);
+  const {data, isLoading} = useFetch('warehouse-transfers', 'warehouse-transfers');
+
+  console.log(data);
+  
 
   useEffect(() => {
     const updateItemsPerPage = () => {
@@ -257,7 +262,7 @@ export default function ReportSellerSend() {
               pageSize={itemsPerPage}
               onChange={(page) => setCurrentPage(page)}
               showSizeChanger={false}
-              className="text-white [&_.ant-pagination-item]:bg-transparent [&_.ant-pagination-item]:transition [&_.ant-pagination-item:hover]:bg-white [&_.ant-pagination-item-active]:bg-white [&_.ant-pagination-item-active]:text-black"
+              className="custom-pagination"
             />
           </div>
         )}
