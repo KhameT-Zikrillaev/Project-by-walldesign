@@ -7,15 +7,17 @@ import Loading from "@/components/Loading/Loading";
 import useApiMutation from "@/hooks/useApiMutation";
 import api from "@/services/api";
 import useUserStore from "@/store/useUser";
+
 export default function Login() {
-  const {setUser} = useUserStore();
+  const { setUser } = useUserStore();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [newError, setError] = useState("");
+  const [error, setError] = useState("");
   const [loading, setIsLoading] = useState(true); // Состояние загрузки
   const [showPassword, setShowPassword] = useState(false); // Состояние для отображения пароля
   const [loadingUser, setLoadingUser] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false); // Выключаем лоадер через 3 секунды
@@ -24,41 +26,41 @@ export default function Login() {
     return () => clearTimeout(timer); // Очистка таймера при размонтировании компонента
   }, []);
 
- const { mutate, isLoading, error } = useApiMutation({
-  url: "auth/login",
-  method: "POST",
-  onSuccess: async (data) => {
-    if (data?.accessToken) {
-      localStorage.setItem("tokenWall", data.accessToken); // Сохраняем токен
-      try {
-        setLoadingUser(true); // Показываем загрузку
-        const response = await api.get("auth/profile", {
-          headers: { Authorization: `Bearer ${data.accessToken}` },
-        });
+  const { mutate, isLoading: isMutating } = useApiMutation({
+    url: "auth/login",
+    method: "POST",
+    onSuccess: async (data) => {
+      if (data?.accessToken) {
+        localStorage.setItem("tokenWall", data.accessToken); // Сохраняем токен
+        try {
+          setLoadingUser(true); // Показываем загрузку
+          const response = await api.get("auth/profile", {
+            headers: { Authorization: `Bearer ${data.accessToken}` },
+          });
 
-        setUser(response?.data); // Сохраняем данные пользователя
+          setUser(response?.data); // Сохраняем данные пользователя
 
-          if(response?.data?.role === "admin"){
-            navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
-          }else if(response?.data?.role === "staff"){
+          // Перенаправление в зависимости от роли
+          if (response?.data?.role === "admin") {
+            navigate("/admin");
+          } else if (response?.data?.role === "staff") {
             navigate("/warehouse");
-          }else if(response?.data?.role === "seller"){
+          } else if (response?.data?.role === "seller") {
             navigate("/seller");
-          }else if(response?.data?.role === "director"){
+          } else if (response?.data?.role === "director") {
             navigate("/director");
           }
-
-          // navigate("/admin"); // Agar foydalanuvchi ma'lumotlari olingan bo'lsa, dashboardga yo'naltiramiz
         } catch (error) {
           console.error("User data error:", error);
-          alert("Foydalanuvchi ma'lumotlarini olishda xatolik yuz berdi");
+          setError("Ошибка при загрузке данных пользователя");
         } finally {
           setLoadingUser(false);
         }
       }
     },
-    onError: () => {
-      navigate("/");
+    onError: (error) => {
+      setError("Неверный логин или пароль");
+      console.error("Login error:", error);
     },
   });
 
@@ -66,28 +68,18 @@ export default function Login() {
     e.preventDefault();
     setError(""); // Сбрасываем ошибку перед проверкой
 
-    mutate({ phone: username, password });
-
     // Проверка на пустые поля
     if (!username || !password) {
       setError("Пожалуйста, заполните все поля");
       return;
     }
 
-    // Здесь можно добавить логику проверки логина и пароля
-    // if (username === "sklad" && password === "sklad123") {
-    //   navigate("/warehouse"); // Перенаправление на домашнюю страницу
-    // }
-    // if (username === "director" && password === "director123") {
-    //   navigate("/director"); // Перенаправление на домашнюю страницу
-    // } else {
-    //   setError("Неверный логин или пароль");
-    // }
+    mutate({ phone: username, password }); // Отправляем запрос на сервер
   };
 
   return (
     <div
-      className="min-h-screen  flex flex-col md:flex-row items-center justify-center p-4 relative"
+      className="min-h-screen flex flex-col md:flex-row items-center justify-center p-4 relative"
       style={{
         position: "relative",
         backgroundImage: `url(${bg})`,
@@ -112,13 +104,14 @@ export default function Login() {
       ></div>
       <div className="absolute inset-0 bg-opacity-50"></div>
       {loading && <Loading />}
+
       {/* Левая часть с логотипом */}
-      <div className="w-full md:w-1/2  flex items-center justify-center mb-8 md:mb-0 relative z-10">
-        <div className="">
+      <div className="w-full md:w-1/2 flex items-center justify-center mb-8 md:mb-0 relative z-10">
+        <div>
           <img
-            className=" w-[300px] glowing-image-banner   md:w-[500px]"
+            className="w-[300px] glowing-image-banner md:w-[500px]"
             src={logo}
-            alt=""
+            alt="Логотип"
           />
         </div>
       </div>
@@ -133,9 +126,11 @@ export default function Login() {
           <div className="absolute inset-0 border-2 border-white/10 rounded-2xl pointer-events-none"></div>
           <div className="absolute inset-4 border-2 border-white/10 rounded-xl pointer-events-none"></div>
 
-          <h2 className="text-3xl font-bold mb-8 text-center text-white bg-clip-text ">
+          <h2 className="text-3xl font-bold mb-8 text-center text-white bg-clip-text">
             Вход
           </h2>
+
+          {/* Поле для логина */}
           <div className="mb-6">
             <label
               className="block text-white/80 text-sm font-bold mb-2"
@@ -153,6 +148,8 @@ export default function Login() {
               className="w-full px-4 py-3 border-2 border-white/20 rounded-xl focus:outline-none focus:border-white/40 bg-white/10 text-white placeholder-white/50 transition-all duration-300"
             />
           </div>
+
+          {/* Поле для пароля */}
           <div className="mb-8 relative">
             <label
               className="block text-white/80 text-sm font-bold mb-2"
@@ -167,7 +164,7 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{ color: "white" }}
-              className="w-full px-4  py-3 border-2 border-white/20 rounded-xl focus:outline-none focus:border-white/40 bg-white/10 text-white !important  placeholder-white/50 transition-all duration-300 pr-12" // Добавляем отступ для иконки
+              className="w-full px-4 py-3 border-2 border-white/20 rounded-xl focus:outline-none focus:border-white/40 bg-white/10 text-white placeholder-white/50 transition-all duration-300 pr-12" // Добавляем отступ для иконки
             />
             {/* Иконка "глазика" */}
             <button
@@ -175,22 +172,25 @@ export default function Login() {
               style={{ color: "white" }}
               onClick={() => setShowPassword(!showPassword)} // Переключаем видимость пароля
               className="absolute cursor-pointer inset-y-0 top-[40%] right-0 pr-3 flex items-center text-white/90 hover:text-white/80 transition-all duration-300"
-              // Позиционируем иконку
             >
               {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
             </button>
           </div>
+
+          {/* Отображение ошибки */}
           {error && (
-            <div className="mb-4 p-2 text-center text-red-500  rounded-xl">
+            <div className="mb-4 p-2 text-center text-red-500 rounded-xl">
               {error}
             </div>
           )}
+
+          {/* Кнопка входа */}
           <button
-          disabled={isLoading}
+            disabled={isMutating || loadingUser}
             type="submit"
             className="w-full cursor-pointer py-3 px-6 rounded-xl bg-yellow-400 text-gray-900 font-bold hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:ring-offset-2 focus:ring-offset-yellow-100 transition-all duration-300 border-2 border-yellow-500/30 hover:border-yellow-500/50 shadow-lg hover:shadow-xl active:scale-95"
           >
-            Войти
+            {isMutating || loadingUser ? "Загрузка..." : "Войти"}
           </button>
         </form>
       </div>
