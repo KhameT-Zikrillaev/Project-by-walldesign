@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar/Navbar";
 import Loading from "@/components/Loading/Loading";
@@ -8,12 +8,13 @@ import { AdminCards } from "./data/AdminCards.js"; // Импортируем д�
 import { SkladCards } from "./data/WarehouseCards.js"; // Импортируем данные
 import { SellerCards } from "./data/SellerCards.js";
 import { DirectorCards } from "./data/DirectorCards.js";
-import  useUserStore  from "@/store/useUser";
+import useUserStore from "@/store/useUser";
 import useRequest from "./components/useRequest.jsx";
 import useRequestShop from "./components/useRequestShop.jsx";
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
-  const {user} = useUserStore();
+  const { user } = useUserStore();
   const location = useLocation();
 
   useEffect(() => {
@@ -23,7 +24,6 @@ export default function Home() {
 
     return () => clearTimeout(timer);
   }, []);
-
 
   useRequest(user?.role, user?.warehouse?.id);
   useRequestShop(user, user?.warehouse?.id);
@@ -40,7 +40,8 @@ export default function Home() {
     cards = SkladCards;
   } else if (location.pathname === "/seller") {
     userRole = "Sotuvchi";
-    cards = SellerCards;
+    // Если роль пользователя - user, удаляем последний элемент из SellerCards
+    cards = user?.role === "user" ? SellerCards.slice(0, -1) : SellerCards;
   } else if (location.pathname === "/director") {
     userRole = "Direktor";
     cards = DirectorCards;
