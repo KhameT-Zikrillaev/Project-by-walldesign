@@ -33,8 +33,8 @@ export default function ViewDetaliesOrderProducts() {
 
 const id = user?.warehouse?.id;
 const { data, isLoading, refetch } = useFetch(
-  id ? `warehouse-products/${id}` : null, // Если id нет, не создаем ключ запроса
-  id ? `warehouse-products/${id}` : null, // Если id нет, не делаем запрос
+  id ? `warehouse-products/${idWarehouse}` : null, // Если id нет, не создаем ключ запроса
+  id ? `warehouse-products/${idWarehouse}` : null, // Если id нет, не делаем запрос
   {},
   {
     enabled: !! id, // Запрос будет выполнен только если id существует
@@ -46,10 +46,10 @@ useEffect(() => {
   if (data) {
     console.log("Data from API:", data);
     // Проверяем, что data?.products является массивом
-    if (data?.products && Array.isArray(data.products)) {
-      setFilteredData(data.products.map(item => ({
+    if (data?.products && Array.isArray(data?.products)) {
+      setFilteredData(data?.products?.map(item => ({
         ...item,
-        key: item.id // используем id как key
+        key: item?.id // используем id как key
       })));
     } else {
       // Если products не является массивом, сбрасываем filteredData
@@ -68,10 +68,10 @@ useEffect(() => {
       setFilteredData(results);
     } else if (results === null || results === undefined) {
       // Если результаты поиска равны null или undefined, сбрасываем filteredData
-      if (data?.products && Array.isArray(data.products)) {
-        setFilteredData(data.products.map(item => ({
+      if (data?.products && Array.isArray(data?.products)) {
+        setFilteredData(data?.products?.map(item => ({
           ...item,
-          key: item.id
+          key: item?.id
         })));
       } else {
         setFilteredData([]);

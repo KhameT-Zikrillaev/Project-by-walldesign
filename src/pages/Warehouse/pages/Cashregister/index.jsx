@@ -10,34 +10,39 @@ export default function CashRegister() {
   const [filteredData, setFilteredData] = useState([]);
   const { user } = useUserStore();
   const warehouseId = user?.warehouse?.id;
-
+  console.log(user)
+  console.log(warehouseId);
   const loadMoreDistricts = () => {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
   };
 
-  const { data, isLoading, refetch } = useFetch(
-    warehouseId ? `cash-transaction/warehouse/${warehouseId}` : null,
-    warehouseId ? `cash-transaction/warehouse/${warehouseId}` : null,
-    {}
+
+
+
+  const {data:shops, isLoading} = useFetch(
+    warehouseId ? `warehouse/${warehouseId}` : null,
+    warehouseId ? `warehouse/${warehouseId}` : null,
+    {},
+    {
+      enabled: !!warehouseId
+    }
   );
 
-  console.log(data);
-  
-
+ console.log(shops?.data?.shops)
   useEffect(() => {
-    if (data?.data?.shops && Array.isArray(data?.data?.shops)) {
-      setFilteredData(data.data.shops);
+    if (shops?.data?.shops && Array.isArray(shops?.data?.shops)) {
+      setFilteredData(shops?.data?.shops);
     } else {
       setFilteredData([]);
     }
-  }, [data]);
+  }, [shops]);
 
   const handleSearchResults = (results) => {
     if (Array.isArray(results)) {
       setFilteredData(results);
     } else if (results === null || results === undefined) {
-      if (data?.data?.shops && Array.isArray(data?.data?.shops)) {
-        setFilteredData(data.data.shops);
+      if (shops?.data?.shops && Array.isArray(shops?.data?.shops)) {
+        setFilteredData(shops.data.shops);
       } else {
         setFilteredData([]);
       }
@@ -50,7 +55,7 @@ export default function CashRegister() {
   return (
     <div className="DirectorProduct pt-[150px] p-4">
       <SearchForm 
-        data={data?.data?.shops} 
+        data={shops?.data?.shops} 
         name="" 
         title="Sotuvchilar" 
         showDatePicker={false} 
@@ -67,7 +72,7 @@ export default function CashRegister() {
               <Link
                 key={district.id}
                 to={`/warehouse/cash-register/${district.name}`}
-                state={{ shopId: district.id }}
+                state={{ shopId: district?.id }}
                 className="block bg-gray-800 text-white p-4 rounded-lg hover:bg-gray-700 transition"
               >
                 <h4>{district.name}</h4>
