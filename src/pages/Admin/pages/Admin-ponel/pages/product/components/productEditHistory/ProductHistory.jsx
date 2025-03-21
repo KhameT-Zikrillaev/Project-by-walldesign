@@ -93,7 +93,7 @@ const ProductHistory = () => {
       title: "Rasm",
       render: (text) => (
         <div className="max-h-[80px] max-w-[80px]">
-          <img className="h-auto w-full" src={`${text?.action == "DELETE" ? text?.oldData?.image_url : text?.newData?.image}`} crossorigin="anonymous" />
+          <img className="h-auto w-full" src={`${text?.action == "DELETE" ? text?.oldData?.image_url : text?.newData?.image}`} crossOrigin="anonymous" />
         </div>
       ),
     },

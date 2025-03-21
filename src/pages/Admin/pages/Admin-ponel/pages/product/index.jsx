@@ -163,7 +163,7 @@ const Product = () => {
       render: (text) => (
         <div className="max-h-[80px] max-w-[80px]" onClick={() => isOpenModal(text)}>
           
-          <img className="h-auto w-full" src={`${text}`} crossorigin="anonymous"  />
+          <img className="h-auto w-full" src={`${text}`} crossOrigin="anonymous"  />
         </div>
       ),
     },
