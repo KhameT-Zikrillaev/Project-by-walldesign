@@ -9,8 +9,7 @@ const ReportDetailesSingle = () => {
     const { data, isLoading } = useFetch(`cash-register/date/${date}/shop/${shopId}`, `cash-register/date/${date}/shop/${shopId}`)
     console.log(data);
     
-
-    console.log(shopId, date);
+    console.log(shopId, date, isLoading);
     
   return (
     <div className='mt-[120px]'>ReportDetailesSingle</div>
