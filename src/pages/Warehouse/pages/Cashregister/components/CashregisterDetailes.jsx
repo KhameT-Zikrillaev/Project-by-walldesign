@@ -7,7 +7,7 @@ import ImageModal from '@/components/modal/ImageModal';
 import userStore from '@/store/useUser';
 import { toast } from 'react-toastify';
 import useApiMutation from '@/hooks/useApiMutation';
-import dayjs from 'dayjs'; // Убедитесь, что dayjs установлен
+import dayjs from 'dayjs';
 
 export default function CashregisterDetailes() {
     const { name } = useParams();
@@ -17,13 +17,9 @@ export default function CashregisterDetailes() {
     const shopId = location.state?.shopId;
     const itemsPerPage = 10;
     const user = userStore();
-
     const todayDate = dayjs().format('YYYY-MM-DD');
 
-
-
-    
-    const { data, isLoading, refetch } = useFetch(
+    const { data, isLoading, error, refetch } = useFetch(
         shopId ? `cash-register/date/${todayDate}/shop/${shopId}` : null,
         shopId ? `cash-register/date/${todayDate}/shop/${shopId}` : null,
         {},
@@ -32,24 +28,27 @@ export default function CashregisterDetailes() {
         }
     );
 
+    const { data: cashTransactionData, isLoading: isCashTransactionLoading, refetch: refetchCashTransaction } = useFetch(
+        shopId ? `cash-transaction/shop/${shopId}/date/${todayDate}` : null,
+        shopId ? `cash-transaction/shop/${shopId}/date/${todayDate}` : null,
+        {},
+        {
+            enabled: !!shopId && (data?.data === null || error?.response?.status === 404),
+        }
+    );
 
-     console.log(data?.data)
-
-     const { data: cashTransactionData, isLoading: isCashTransactionLoading, refetch: refetchCashTransaction } = useFetch(
-      shopId ? `cash-transaction/shop/${shopId}/date/${todayDate}` : null,
-      shopId ? `cash-transaction/shop/${shopId}/date/${todayDate}` : null,
-      {},
-      {
-          enabled: !!shopId,
-      }
-  );
+    React.useEffect(() => {
+        if (data?.data === null || error?.response?.status === 404) {
+            refetchCashTransaction();
+        }
+    }, [data, error, refetchCashTransaction]);
 
     const { mutate, isLoading: isSending } = useApiMutation({
         url: 'cash-transaction/daily-report',
         method: 'POST',
         onSuccess: (data) => {
             toast.success('Kassa muvaffaqiyatli yopildi!');
-            refetch(); // Обновите данные после успешного закрытия кассы
+            refetch();
         },
         onError: (error) => {
             toast.error(`Xatolik: ${error.message || 'Kassani yopishda xatolik yuz berdi'}`);
@@ -57,19 +56,18 @@ export default function CashregisterDetailes() {
         }
     });
 
-
     const handleCloseCash = () => {
         const body = {
             shopId: shopId,
-            date: todayDate, // Используем сегодняшнюю дату
-            closedBy: user?.user?.id // Используем ID текущего пользователя
+            date: todayDate,
+            closedBy: user?.user?.id
         };
 
-        mutate(body); // Отправляем запрос на закрытие кассы
+        mutate(body);
     };
 
-    const filteredData = data?.products || [];
-    const currentData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    const filteredData = data?.data === null || error?.response?.status === 404 ? cashTransactionData?.products : data?.products || [];
+    const currentData = filteredData?.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     return (
         <div
@@ -78,17 +76,17 @@ export default function CashregisterDetailes() {
         >
             <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
             <div className="relative z-0 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[120px]">
-                {isLoading ? (
+                {isLoading || isCashTransactionLoading ? (
                     <div className="flex justify-center items-center h-64">
                         <Spin size="large" />
                     </div>
                 ) : (
                     <>
-                        {filteredData.length === 0 ? (
+                        {filteredData?.length === 0 ? (
                             <div className="text-white text-lg">Tovar topilmadi</div>
                         ) : (
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full px-4">
-                                {currentData.map((item) => (
+                                {currentData?.map((item) => (
                                     <Card
                                         key={item?.product_id}
                                         className="shadow-lg hover:shadow-xl transition-shadow rounded-lg"
@@ -132,7 +130,7 @@ export default function CashregisterDetailes() {
                     imageUrl={selectedImage}
                 />
 
-                {filteredData.length > 0 && !isLoading && (
+                {filteredData?.length > 0 && !isLoading && (
                     <div className="my-4 flex justify-center">
                         <Pagination
                             current={currentPage}
@@ -145,17 +143,17 @@ export default function CashregisterDetailes() {
                     </div>
                 )}
 
-                {filteredData.length > 0 && !isLoading && (
+           
                     <Button
                         type="primary"
                         style={{ background: "#17212b" }}
                         onClick={handleCloseCash}
                         loading={isSending}
-                        disabled={isSending} // Убрана проверка на selectedDate
+                        disabled={isSending}
                     >
                         Kassani Yopish
                     </Button>
-                )}
+               
             </div>
         </div>
     );
