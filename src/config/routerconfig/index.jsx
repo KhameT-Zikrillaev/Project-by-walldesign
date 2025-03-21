@@ -29,6 +29,8 @@ import WarehouseTransferProductsToWarehouse from '@/pages/Warehouse/pages/Transf
 import WarehouseShop from '@/pages/Warehouse/pages/Shop';
 import WarehouseReturnProducts from '@/pages/Warehouse/pages/Shop/pages/ReturnProducts';
 import WarehouseCashregister from '@/pages/Warehouse/pages/Cashregister';
+import WarehouseReportDetailes from "@/pages/Warehouse/pages/ReportSellerSend/components/ReportDetailes";
+import WarehouseViewDetailesSingleShop from '@/pages/Warehouse/pages/ReportSellerSend/components/ReportDetailesSingle'
 
 import WarehouseCashregisterDetails from '@/pages/Warehouse/pages/Cashregister/components/CashregisterDetailes';
 import WarehouseReportWarehouseSend from '@/pages/Warehouse/pages/ReportWarehouseSend';
@@ -38,6 +40,7 @@ import WarehouseViewDetaliesRemoveProducts from '@/pages/Warehouse/pages/RemoveP
 import WarehouseOrderProducts from "../../pages/Warehouse/pages/OrderProducts";
 import WarehouseDetailProductsLists from "./../../pages/Warehouse/pages/OrderProducts/components/DetialOrderProducts";
 import WarehouseViewDetaliesTransferProducts from '@/pages/Warehouse/pages/TransferProductsToWarehouse/components/ViewDetaliesTransferProducts'
+
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Seller~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import Seller from '@/pages/Seller';
@@ -128,6 +131,8 @@ export default function RouterConfig() {
         <Route path="shop" element={<WarehouseShop />} />
         <Route path="report-warehouse-send" element={<WarehouseReportWarehouseSend />}></Route>
         <Route path="report-seller-send" element={<WarehouseReportSellerSend />}></Route>
+        <Route path='report-seller-send/:name' element={<WarehouseReportDetailes />}></Route>
+        <Route path='report-seller-send/:name/:date' element={<WarehouseViewDetailesSingleShop />}></Route>
         <Route path="shop">
           <Route path="return-products" element={<WarehouseReturnProducts />} />{" "}
           {/* /warehouse/shop/return-products */}

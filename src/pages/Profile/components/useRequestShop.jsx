@@ -14,8 +14,6 @@ const useRequestShop = (user, id) => {
     const fetchData = async () => {
       try {
         const response = await api.get(`shop-request/pending-requests/${id}`);
-        console.log(response);
-        
         if (Array.isArray(response?.data) && response?.data?.length > 0) {
           setRequests(response.data);
           setCurrentIndex(0);
