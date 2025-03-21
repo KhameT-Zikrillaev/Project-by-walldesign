@@ -29,8 +29,7 @@ import WarehouseTransferProductsToWarehouse from '@/pages/Warehouse/pages/Transf
 import WarehouseShop from '@/pages/Warehouse/pages/Shop';
 import WarehouseReturnProducts from '@/pages/Warehouse/pages/Shop/pages/ReturnProducts';
 import WarehouseCashregister from '@/pages/Warehouse/pages/Cashregister';
-import WarehouseCashregisterDailyReport from '@/pages/Warehouse/pages/Cashregister/components/DailyReport';
-import WarehouseCashregisterGeneralReport from '@/pages/Warehouse/pages/Cashregister/components/GeneralReport';
+
 import WarehouseCashregisterDetails from '@/pages/Warehouse/pages/Cashregister/components/CashregisterDetailes';
 import WarehouseReportWarehouseSend from '@/pages/Warehouse/pages/ReportWarehouseSend';
 import WarehouseReportSellerSend from '@/pages/Warehouse/pages/ReportSellerSend';
@@ -125,8 +124,6 @@ export default function RouterConfig() {
         <Route path="cash-register" element={<WarehouseCashregister />} />{" "}
         {/* /warehouse/cash */}
         <Route path="cash-register/:name" element={<WarehouseCashregisterDetails />} />{" "}
-        <Route path="cash-register/:name/kunlik" element={<WarehouseCashregisterDailyReport />} />{" "}
-        <Route path="cash-register/:name/hammasi" element={<WarehouseCashregisterGeneralReport />} />{" "}
         {/* /warehouse/cash */}
         <Route path="shop" element={<WarehouseShop />} />
         <Route path="report-warehouse-send" element={<WarehouseReportWarehouseSend />}></Route>
