@@ -5,6 +5,8 @@ const useUserStore = create((set) => ({
   isLoggedIn: false,
   setUser: (userData) => set({ user: userData, isLoggedIn: true }),
   logout: () => set({ user: null, isLoggedIn: false }),
+  shopId: null,
+  setShopId: (shopId) => set({ shopId }),
 }));
 
 export default useUserStore;

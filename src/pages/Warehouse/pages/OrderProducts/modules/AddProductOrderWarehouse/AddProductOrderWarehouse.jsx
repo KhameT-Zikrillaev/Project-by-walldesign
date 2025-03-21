@@ -5,10 +5,11 @@ import userStore from "@/store/useUser";
 import useApiMutation from "@/hooks/useApiMutation";
 import { toast } from "react-toastify";
 
-const AddProductOrderWarehouse = ({ onClose, selectedProducts, onSuccess, idWarehouse}) => {
+const AddProductOrderWarehouse = ({ onClose, selectedProducts, onSuccess, idWarehouse }) => {
   const [selectedItems, setSelectedItems] = useState([]);
+  const [inputValues, setInputValues] = useState({});
   const { user } = userStore();
- console.log(idWarehouse)
+
   const { mutate, isLoading } = useApiMutation({
     url: 'warehouse-requests/send-request',
     method: 'POST',
@@ -18,10 +19,11 @@ const AddProductOrderWarehouse = ({ onClose, selectedProducts, onSuccess, idWare
       if (onSuccess) onSuccess();
     },
     onError: () => {
-      toast.error("Buyutma berishda xatolik!");
+      toast.error("Buyurtma berishda xatolik!");
     },
   });
 
+  // Инициализация данных при получении selectedProducts
   useEffect(() => {
     if (selectedProducts) {
       const preselectedItems = selectedProducts.map((item, index) => ({
@@ -30,9 +32,33 @@ const AddProductOrderWarehouse = ({ onClose, selectedProducts, onSuccess, idWare
         quantity: item?.quantity || 1,
       }));
       setSelectedItems(preselectedItems);
+
+      // Устанавливаем значения для InputNumber
+      const initialValues = {};
+      preselectedItems.forEach((item) => {
+        initialValues[item.key] = item.quantity;
+      });
+      setInputValues(initialValues);
     }
   }, [selectedProducts]);
 
+  // Обновление значения количества
+  const handleQuantityChange = (key, value) => {
+    if (value === undefined || value < 1) return;
+
+    setInputValues((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+
+    setSelectedItems((prev) =>
+      prev.map((item) =>
+        item.key === key ? { ...item, quantity: value } : item
+      )
+    );
+  };
+
+  // Удаление товара из списка
   const handleRemove = (key) => {
     setSelectedItems((prev) => {
       const updatedItems = prev.filter((item) => item.key !== key);
@@ -42,42 +68,43 @@ const AddProductOrderWarehouse = ({ onClose, selectedProducts, onSuccess, idWare
       }
       return updatedItems;
     });
+
+    // Удаляем значение из inputValues
+    setInputValues((prev) => {
+      const updatedValues = { ...prev };
+      delete updatedValues[key];
+      return updatedValues;
+    });
   };
 
-  const handleQuantityChange = (key, value) => {
-    setSelectedItems((prev) =>
-      prev?.map((item) =>
-        item?.key === key ? { ...item, quantity: value } : item
-      )
-    );
-  };
-
+  // Отправка данных
   const onSubmit = () => {
     if (!user?.warehouse?.id) {
       message.error("Ombor ma'lumotlari topilmadi!");
       return;
     }
-  
+
     if (selectedItems.length === 0) {
       message.warning("Нет выбранных товаров для отправки");
       return;
     }
-  
+
     const requestData = {
       sourceWarehouseId: idWarehouse,
       destinationWarehouseId: user.warehouse?.id,
       items: selectedItems.map((item) => ({
         productId: item?.id,
-        quantity: item?.quantity,
+        quantity: inputValues[item.key],
       })),
     };
-  
+
     mutate(requestData);
   };
-  
+
   return (
     <div className="flex min-h-[400px] min-w-[400px] flex-col md:flex-row w-full justify-between gap-3 mb-4 p-4 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 hover:bg-white/20 transition-all duration-300">
       <div className="w-full">
+        {/* Список товаров */}
         <div style={{ maxHeight: 300, overflowY: "auto" }}>
           <List
             dataSource={selectedItems}
@@ -91,6 +118,7 @@ const AddProductOrderWarehouse = ({ onClose, selectedProducts, onSuccess, idWare
                   cursor: "pointer",
                 }}
               >
+                {/* Изображение и описание товара */}
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <Image
                     src={product?.image_url}
@@ -105,22 +133,16 @@ const AddProductOrderWarehouse = ({ onClose, selectedProducts, onSuccess, idWare
                     <div className="text-gray-400">{product?.code}</div>
                   </div>
                 </div>
+
+                {/* Управление количеством и кнопка удаления */}
                 <div style={{ display: "flex", alignItems: "center" }}>
-                   <InputNumber
+                  <InputNumber
                     min={1}
-                    max={product?.quantity}
-                    value={product?.quantity}
-                    onChange={(value) =>
-                      handleQuantityChange(product.key, value)
-                    }
+                    value={inputValues[product.key]}
+                    onChange={(value) => handleQuantityChange(product?.key, value)}
                     style={{ width: 60, marginRight: 10 }}
                     controls={true}
-                    step={1}      
-                    onKeyPress={(e) => {
-                      if (!/[0-9]/.test(e.key)) {
-                        e.preventDefault();
-                      }
-                    }}
+                    step={1}
                   />
                   <Button
                     type="text"
@@ -151,6 +173,7 @@ const AddProductOrderWarehouse = ({ onClose, selectedProducts, onSuccess, idWare
           />
         </div>
 
+        {/* Количество выбранных товаров */}
         <div className="text-center text-white mt-4">
           <span>
             Tanlangan tovarlar soni:{" "}
@@ -158,6 +181,7 @@ const AddProductOrderWarehouse = ({ onClose, selectedProducts, onSuccess, idWare
           </span>
         </div>
 
+        {/* Кнопка отправки */}
         <Button
           type="primary"
           onClick={onSubmit}

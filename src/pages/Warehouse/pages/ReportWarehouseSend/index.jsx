@@ -5,7 +5,7 @@ import bgsklad from "@/assets/images/bg-sklad.png";
 import SearchForm from "@/components/SearchForm/SearchForm";
 import useFetch from "@/hooks/useFetch";
 import useUserStore from "@/store/useUser";
-
+import ReportCard from "@/components/reportCard";
 export default function ReportWarehouseSend() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(9);
@@ -20,7 +20,7 @@ export default function ReportWarehouseSend() {
       setFilteredData(data);
     }
   }, [data]);
-
+ console.log(data)
   useEffect(() => {
     const updateItemsPerPage = () => {
       if (window.innerWidth < 768) {
