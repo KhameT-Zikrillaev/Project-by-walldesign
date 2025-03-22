@@ -11,16 +11,14 @@ export default function ReportWarehouseSend() {
   const [itemsPerPage, setItemsPerPage] = useState(9);
   const [filteredData, setFilteredData] = useState([]);
   const {user} = useUserStore()
-  console.log(user);
-  
-  const { data, isLoading, refetch } = useFetch(`warehouse-transfers/${user?.warehouse?.id}`, `warehouse-transfers/${user?.warehouse?.id}`, {});
+
+  const { data, isLoading } = useFetch(`warehouse-transfers/${user?.warehouse?.id}`, `warehouse-transfers/${user?.warehouse?.id}`, {});
   
   useEffect(() => {
     if (data && data.length > 0) {
       setFilteredData(data);
     }
   }, [data]);
- console.log(data)
   useEffect(() => {
     const updateItemsPerPage = () => {
       if (window.innerWidth < 768) {
@@ -89,7 +87,7 @@ export default function ReportWarehouseSend() {
     >
       <div className="absolute inset-0 bg-black/50 backdrop-blur-md z-0"></div>
 
-      <div className="relative z-10 max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[110px]">
+      <div className="relative max-w-[1440px] mx-auto flex flex-col items-center justify-center mt-[110px]">
   
         <SearchForm 
           data={data} 

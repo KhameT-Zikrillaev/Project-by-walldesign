@@ -19,7 +19,7 @@ const Statistics = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
 
-  const { data, isLoading, refetch } = useFetch('warehouse', 'warehouse', { limit, page, name: searchQuery });
+  const { data, isLoading, refetch } = useFetch('warehouse', 'warehouse', { limit, page, name: searchQuery || null });
   
   const { mutate: deleteWarehouse} = useApiMutation({
     url: 'warehouse', // Asosiy API endpoint
@@ -28,7 +28,7 @@ const Statistics = () => {
       refetch();
       toast.success("Ombor muvaffaqiyatli o'chirildi!");
     },
-    onError: (error) => {
+    onError: () => {
       toast.error("Omborni o'chirishda xatolik yuz berdi");
     },
   });
