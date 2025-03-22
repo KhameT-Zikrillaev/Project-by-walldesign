@@ -33,10 +33,11 @@ const Product = () => {
 
   const {data: warehouseData} = useFetch("warehouse", "warehouse", {});
 
-  const { data, isLoading, refetch } = useFetch("products", "products", {
+  const { data, isLoading, refetch } = useFetch("warehouse-products/all-products", "warehouse-products/all-products", {
+    warehouseId: warehouseId || null,
     limit,
     page,
-    article: searchQuery,
+    article: searchQuery || null
   });
 
   
@@ -265,7 +266,7 @@ const Product = () => {
      
         <Table
           columns={columns}
-          dataSource={data?.data?.products}
+          dataSource={data?.data}
           pagination={false}
           className="custom-table"
           rowClassName={() => "custom-row"}
@@ -276,7 +277,7 @@ const Product = () => {
           <Pagination
             className="custom-pagination"
             current={page}
-            total={data?.data?.total}
+            total={data?.total}
             pageSize={limit}
             onChange={handlePageChange}
             itemRender={itemRender}

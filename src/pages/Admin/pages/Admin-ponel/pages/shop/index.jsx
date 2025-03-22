@@ -19,7 +19,7 @@ const Seller = () => {
     const [page, setPage] = useState(1);
     const limit = 10;
 
-    const { data, isLoading, refetch } = useFetch('shop', 'shop', { limit, page, name: searchQuery });
+    const { data, isLoading, refetch } = useFetch('shop', 'shop', { limit, page, name: searchQuery || null });
 
     const { mutate: deleteShop} = useApiMutation({
         url: 'shop', // Asosiy API endpoint

@@ -1,25 +1,67 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom"; // Импортируем Link, useNavigate и useLocation из react-router-dom
 import { FaArrowLeft } from "react-icons/fa"; // Импортируем иконку стрелки назад
 import logo from "@/assets/images/logo.png"; // Укажите правильный путь к вашему логотипу
 import useUserStore from "@/store/useUser";
+import { TbBellRinging2Filled } from "react-icons/tb";
+import { Badge } from "antd";
+import api from "@/services/api";
+import PendingCardWarehouse from "../requestCards/PendingCardWarehouse";
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, isLoggedIn } = useUserStore();
+  const [openNotification, setOpenNotification] = useState(false);
+  const [requests, setRequests] = useState([]);
   const handleGoBack = () => {
     // Переход на родительский маршрут вместо истории браузера
-    const pathParts = location.pathname.split('/');
-    
+    const pathParts = location.pathname.split("/");
+
     // Если мы находимся на глубине больше 2 уровней, вернемся на родительский маршрут
     if (pathParts.length > 2) {
       // Удаляем последний сегмент пути
       pathParts.pop();
-      const parentPath = pathParts.join('/');
+      const parentPath = pathParts.join("/");
       navigate(parentPath);
     } else {
       // Если мы на верхнем уровне, просто идем назад по истории
       navigate(-1);
+    }
+  };
+
+  useEffect(() => {
+    if (user?.role !== "staff") return;
+
+    const fetchData = async () => {
+      try {
+        const response = await api.get(
+          `warehouse-requests/pending-requests/${user?.warehouse?.id}`
+        );
+        console.log(response?.data);
+        
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          setRequests(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+    const intervalId = setInterval(fetchData, 60000);
+
+    return () => clearInterval(intervalId);
+  }, [user?.role, user?.warehouse?.id]);
+
+  
+  
+
+  console.log(requests);
+  
+
+  const handleOutsideClick = (e) => {
+    if (openNotification) {
+      setOpenNotification(false);
     }
   };
 
@@ -30,10 +72,10 @@ const Navbar = () => {
         {/* Кнопка "Назад" с иконкой */}
         <button
           onClick={handleGoBack}
-      
           className="cursor-pointer hover:text-yellow-700 transition-all duration-300 ease-in-out"
         >
-          <FaArrowLeft className=" h-4 w-4 md:h-6 md:w-6 text-yellow-200 " /> {/* Иконка стрелки назад */}
+          <FaArrowLeft className=" h-4 w-4 md:h-6 md:w-6 text-yellow-200 " />{" "}
+          {/* Иконка стрелки назад */}
         </button>
 
         {/* Логотип */}
@@ -48,6 +90,16 @@ const Navbar = () => {
 
       {/* Правая часть: Имя пользователя и кнопка выхода */}
       <div className="right-content flex items-center space-x-4">
+        {(user?.role === "staff" || user?.role === "seller") && (
+          <div className="text-gray-100 text-[30px] mr-5 cursor-pointer" onClick={(e) => {
+            e.stopPropagation(); 
+            setOpenNotification(!openNotification);
+          }}>
+        <Badge count={99} size="small">
+          <TbBellRinging2Filled className="text-gray-100 text-[30px]"/>
+        </Badge> 
+      </div>
+        )}
         <div className="text-right">
           <h2 className="text-sm md:text-lg font-semibold text-white">
             {user?.name} <br />{" "}
@@ -75,6 +127,19 @@ const Navbar = () => {
           </svg>
           Chiqish
         </Link>
+      </div>
+      {openNotification && (
+        <div
+          className="fixed inset-0 bg-transparent w-full h-full z-[1000000]"
+          onClick={handleOutsideClick}
+        ></div>
+      )}
+      <div className={`p-2 absolute h-screen w-[350px] z-[100000000] flex flex-col gap-2 top-0 ${openNotification ? 'right-0' : '-right-full'} bg-[#17212b] overflow-y-auto transition-all duration-300 ease-in-out`}>
+        {
+          requests?.map((request) => (
+            <PendingCardWarehouse key={request.id} item={request}/>
+          ))
+        }
       </div>
     </div>
   );

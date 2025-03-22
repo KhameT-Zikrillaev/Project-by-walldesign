@@ -121,7 +121,7 @@ const getRoutesByRole = (role) => {
 export default function RouterConfig() {
   const { user } = useUserStore();
 
-  if (!user) return <Loading />;
+  // if (!user) return <Loading />;
 
   return (
     <Suspense fallback={<Loading/>}>
