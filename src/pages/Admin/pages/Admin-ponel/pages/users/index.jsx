@@ -44,7 +44,6 @@ const Statistics = () => {
 
   const handleChange = (value) => {
     setUserRole(value);
-    console.log("Tanlangan Ombor ID:", value);
   };
 
   const showModal = (type) => {
@@ -164,6 +163,7 @@ const Statistics = () => {
             <Option value="seller">Sotuvchi</Option>
             <Option value="user">Sotuvchi 2</Option>
             <Option value="admin">Admin</Option>
+            <Option value="director">Direktor</Option>
           </Select>
           <Button
             type="primary"
