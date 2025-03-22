@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input, Button, Form, Upload } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+// import { PlusOutlined } from "@ant-design/icons";
 import useApiMutation from "@/hooks/useApiMutation";
 import { toast } from "react-toastify";
 
@@ -12,12 +12,12 @@ const EditProduct = ({ onClose, productSingleData, refetch }) => {
     handleSubmit,
     control,
     formState: { errors },
-    setValue,
+    // setValue,
     reset,
     watch,
   } = useForm();
-  const imageFile = watch("image");
-  const [previewImage, setPreviewImage] = useState(null);
+  // const imageFile = watch("image");
+  // const [previewImage, setPreviewImage] = useState(null);
 
   useEffect(() => {
     if (productSingleData) {
@@ -25,9 +25,7 @@ const EditProduct = ({ onClose, productSingleData, refetch }) => {
         article: productSingleData.article,
         name: productSingleData.name,
         batch_number: productSingleData.batch_number,
-        quantity: productSingleData.quantity,
-        price: productSingleData.price,
-        image: productSingleData.image_url,
+        price: productSingleData.price
       });
     }
   }, [productSingleData, reset]);
@@ -52,23 +50,36 @@ const EditProduct = ({ onClose, productSingleData, refetch }) => {
   });
 
   const onSubmit = (data) => {
-    mutate(data);
-  };
-
-  const beforeUpload = (file) => {
-    const isImage = file.type.startsWith("image/");
-    if (!isImage) {
-      message.error("Faqat rasm yuklash mumkin!");
-      return false;
+    const updatedFields = Object.keys(data).reduce((acc, key) => {
+      if (data[key] !== productSingleData[key]) {
+        acc[key] = data[key];
+      }
+      return acc;
+    }, {});
+  
+    // Agar o'zgarish bo'lmasa, API chaqirmaslik
+    if (Object.keys(updatedFields).length === 0) {
+      toast.info("Hech qanday o'zgarish kiritilmadi.");
+      return;
     }
-
-    setValue("image", file); // Rasmni react-hook-form state ga saqlash
-    const reader = new FileReader();
-    reader.onload = () => setPreviewImage(reader.result);
-    reader.readAsDataURL(file);
-
-    return false; // Ant Design uploadni avtomatik yuborishining oldini olish
+  
+    mutate(updatedFields);
   };
+
+  // const beforeUpload = (file) => {
+  //   const isImage = file.type.startsWith("image/");
+  //   if (!isImage) {
+  //     message.error("Faqat rasm yuklash mumkin!");
+  //     return false;
+  //   }
+
+  //   setValue("image", file); // Rasmni react-hook-form state ga saqlash
+  //   const reader = new FileReader();
+  //   reader.onload = () => setPreviewImage(reader.result);
+  //   reader.readAsDataURL(file);
+
+  //   return false; // Ant Design uploadni avtomatik yuborishining oldini olish
+  // };
 
   return (
     <div className="">
@@ -112,27 +123,6 @@ const EditProduct = ({ onClose, productSingleData, refetch }) => {
           />
         </Form.Item>
         <Form.Item
-          label={
-            <span className="text-gray-100 font-semibold">Rulon soni</span>
-          }
-          validateStatus={errors.quantity ? "error" : ""}
-          help={errors.quantity?.message}
-        >
-          <Controller
-            name="quantity"
-            control={control}
-            rules={{ required: "Rulon soni majburiy" }}
-            render={({ field }) => (
-              <Input
-                placeholder="Rulon sonini kiriting"
-                type="number"
-                className="custom-input"
-                {...field}
-              />
-            )}
-          />
-        </Form.Item>
-        <Form.Item
           label={<span className="text-gray-100 font-semibold">Narxi</span>}
           validateStatus={errors.price ? "error" : ""}
           help={errors.price?.message}
@@ -151,7 +141,7 @@ const EditProduct = ({ onClose, productSingleData, refetch }) => {
             )}
           />
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           label={
             <span className="text-gray-100 font-semibold">Rasm yuklash</span>
           }
@@ -191,7 +181,7 @@ const EditProduct = ({ onClose, productSingleData, refetch }) => {
               </Upload>
             )}
           />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item
           label={<span className="text-gray-100 font-semibold">Izoh</span>}
           validateStatus={errors.comment ? "error" : ""}

@@ -16,14 +16,14 @@ const ProductHistory = () => {
   const limit = 10;
   const navigate = useNavigate();
 
-  const { data, isLoading  } = useFetch("products/history", "products/history" );
+  const { data, isLoading  } = useFetch("products/history", "products/history", {page, limit, article: searchQuery} );
 
   const handlePageChange = (page) => {
     setPage(page);
     refetch();
   };
 
-  const onSearch = (value) => setSearchQuery(value);
+  const onSearch = (value) => setSearchQuery(value);  
 
   const itemRender = (page, type, originalElement) => {
     if (type === "prev") {
@@ -93,7 +93,7 @@ const ProductHistory = () => {
       title: "Rasm",
       render: (text) => (
         <div className="max-h-[80px] max-w-[80px]">
-          <img className="h-auto w-full" src={`${text?.action == "DELETE" ? text?.oldData?.image_url : text?.newData?.image}`} crossorigin="anonymous" />
+          <img className="h-auto w-full" src={`${text?.action == "DELETE" ? text?.oldData?.image_url : text?.newData?.image_url}`} crossOrigin="anonymous" />
         </div>
       ),
     },

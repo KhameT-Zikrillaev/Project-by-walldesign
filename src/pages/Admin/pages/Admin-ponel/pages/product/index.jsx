@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Button, Space, Popconfirm, Pagination } from "antd";
+import { Table, Button, Space, Popconfirm, Pagination, Select } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -17,6 +17,8 @@ import { toast } from "react-toastify";
 import ImageModal from "@/components/modal/ImageModal";
 const { Search } = Input;
 
+const { Option } = Select;
+
 const Product = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productSingleData, setProductSingleData] = useState(null);
@@ -27,6 +29,9 @@ const Product = () => {
   const navigate = useNavigate();
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
+  const [warehouseId, setWarehouseId] = useState(null);
+
+  const {data: warehouseData} = useFetch("warehouse", "warehouse", {});
 
   const { data, isLoading, refetch } = useFetch("products", "products", {
     limit,
@@ -80,6 +85,10 @@ const Product = () => {
   const handlePageChange = (page) => {
     setPage(page);
     refetch();
+  };
+
+  const handleChange = (value) => {
+    setWarehouseId(value);
   };
 
   const onSearch = (value) => setSearchQuery(value);
@@ -163,7 +172,7 @@ const Product = () => {
       render: (text) => (
         <div className="max-h-[80px] max-w-[80px]" onClick={() => isOpenModal(text)}>
           
-          <img className="h-auto w-full" src={`${text}`} crossorigin="anonymous"  />
+          <img className="h-auto w-full" src={`${text}`} crossOrigin="anonymous"  />
         </div>
       ),
     },
@@ -202,6 +211,18 @@ const Product = () => {
       <div className="flex justify-between items-center mb-5">
         <div className="text-3xl font-bold  text-gray-100">Mahsulotlar</div>
         <div className="flex gap-3 items-center">
+        <Select
+            value={warehouseId}
+            placeholder="Ombor tanlang"
+            className="custom-select-filter"
+            onChange={handleChange}
+            dropdownClassName="custom-dropdown"
+          >
+            <Option value="">Hammasi</Option>
+           {warehouseData?.data?.warehouses?.map((item) => (
+             <Option value={item.id}>{item.name}</Option>
+           ))}
+          </Select>
           <Search
             placeholder="Qidirish"
             onSearch={onSearch}

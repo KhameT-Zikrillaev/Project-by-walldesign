@@ -16,9 +16,6 @@ export default function CashRegister() {
     setVisibleDistricts((prevVisibleDistricts) => prevVisibleDistricts + 12);
   };
 
-
-
-
   const {data:shops, isLoading} = useFetch(
     warehouseId ? `warehouse/${warehouseId}` : null,
     warehouseId ? `warehouse/${warehouseId}` : null,
