@@ -1,5 +1,5 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import React, { lazy, Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
 import useUserStore from "@/store/useUser";
 import Loading from "@/components/Loading/Loading";
 
@@ -27,7 +27,6 @@ const WarehouseReturnProducts = lazy(() => import("@/pages/Warehouse/pages/Shop/
 const WarehouseCashregister = lazy (() => import("@/pages/Warehouse/pages/Cashregister")) ;
 const WarehouseReportDetailes = lazy (() => import("@/pages/Warehouse/pages/ReportSellerSend/components/ReportDetailes")) ;
 const WarehouseViewDetailesSingleShop = lazy (() => import("@/pages/Warehouse/pages/ReportSellerSend/components/ReportDetailesSingle")) ;
-
 const WarehouseCashregisterDetails = lazy (() => import("@/pages/Warehouse/pages/Cashregister/components/CashregisterDetailes")) ;
 const WarehouseReportWarehouseSend = lazy(() => import("@/pages/Warehouse/pages/ReportWarehouseSend"));
 const WarehouseReportSellerSend = lazy(() => import("@/pages/Warehouse/pages/ReportSellerSend"));
@@ -72,65 +71,55 @@ const getRoutesByRole = (role) => {
     case "staff":
       return (
         <Route path="/warehouse" element={<Warehouse />}>
-        <Route index element={<Profile />} />
-        <Route path="product-list" element={<WarehouseProducts />} />
-        <Route path="send-to-showcase" element={<WarehouseSendProductsToShopView />}/>
-        <Route path="send-to-showcase/:name" element={<WarehouseViewDetaliesSendProducts />}/>
-        <Route path="remove-from-showcase" element={<WarehouseRemoveProductsFromShowcase />}/>
-        <Route path="remove-from-showcase/:name" element={<WarehouseViewDetaliesRemoveProducts />}/>
-        <Route path="transfer-to-warehouse" element={<WarehouseTransferProductsToWarehouse />}/>
-        <Route path="transfer-to-warehouse/:name" element={<WarehouseViewDetaliesTransferProducts />}/>
-        <Route path="order-products" element={<WarehouseOrderProducts />}/>
-        <Route path="order-products/:name" element={<WarehouseDetailProductsLists />}/>
-        <Route path="cash-register" element={<WarehouseCashregister />} />
-        <Route path="cash-register/:name" element={<WarehouseCashregisterDetails />}/>
-        <Route path="shop" element={<WarehouseShop />} />
-        <Route path="report-warehouse-send" element={<WarehouseReportWarehouseSend />}/>
-        <Route path="report-seller-send" element={<WarehouseReportSellerSend />}/>
-        <Route path="report-seller-send/:name" element={<WarehouseReportDetailes />}/>
-        <Route path="report-seller-send/:name/:date" element={<WarehouseViewDetailesSingleShop />}/>
-        <Route path="shop">
-          <Route path="return-products" element={<WarehouseReturnProducts />} />
+          <Route index element={<Profile />} />
+          <Route path="product-list" element={<WarehouseProducts />} />
+          <Route path="send-to-showcase" element={<WarehouseSendProductsToShopView />}/>
+          <Route path="send-to-showcase/:name" element={<WarehouseViewDetaliesSendProducts />}/>
+          <Route path="remove-from-showcase" element={<WarehouseRemoveProductsFromShowcase />}/>
+          <Route path="remove-from-showcase/:name" element={<WarehouseViewDetaliesRemoveProducts />}/>
+          <Route path="transfer-to-warehouse" element={<WarehouseTransferProductsToWarehouse />}/>
+          <Route path="transfer-to-warehouse/:name" element={<WarehouseViewDetaliesTransferProducts />}/>
+          <Route path="order-products" element={<WarehouseOrderProducts />}/>
+          <Route path="order-products/:name" element={<WarehouseDetailProductsLists />}/>
+          <Route path="cash-register" element={<WarehouseCashregister />} />
+          <Route path="cash-register/:name" element={<WarehouseCashregisterDetails />}/>
+          <Route path="shop" element={<WarehouseShop />} />
+          <Route path="report-warehouse-send" element={<WarehouseReportWarehouseSend />}/>
+          <Route path="report-seller-send" element={<WarehouseReportSellerSend />}/>
+          <Route path="report-seller-send/:name" element={<WarehouseReportDetailes />}/>
+          <Route path="report-seller-send/:name/:date" element={<WarehouseViewDetailesSingleShop />}/>
+          <Route path="shop">
+            <Route path="return-products" element={<WarehouseReturnProducts />} />
+          </Route>
         </Route>
-      </Route>
       );
 
     case "seller":
       return (
         <Route path="/seller" element={<Seller />}>
-        <Route index element={<Profile />} />
-        <Route path="product-list" element={<SellerProduct />} />
-        <Route path="warehouse" element={<SellerWarehouse />} />
-        <Route path="report" element={<SellerReport />} />
-      </Route>
+          <Route index element={<Profile />} />
+          <Route path="product-list" element={<SellerProduct />} />
+          <Route path="warehouse" element={<SellerWarehouse />} />
+          <Route path="report" element={<SellerReport />} />
+        </Route>
       );
 
     case "director":
       return (
         <Route path="/director" element={<Director />}>
-        <Route index element={<Profile />} />
-        <Route path="seller-list" element={<DirectorSeller />} />
-        <Route path="product-list" element={<DirectorProduct />} />
-        <Route path="product-list/:name" element={<ProductDetails />} />
-        <Route path="report" element={<DirectorReport />} />
-        <Route path="report/:name" element={<DirectorReportDetails />} />
-      </Route>
+          <Route index element={<Profile />} />
+          <Route path="seller-list" element={<DirectorSeller />} />
+          <Route path="product-list" element={<DirectorProduct />} />
+          <Route path="product-list/:name" element={<ProductDetails />} />
+          <Route path="report" element={<DirectorReport />} />
+          <Route path="report/:name" element={<DirectorReportDetails />} />
+        </Route>
       );
   }
 };
 
 export default function RouterConfig() {
   const { user } = useUserStore();
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   if (user?.role) {
-  //     setLoading(false);
-  //   } else {
-  //     navigate("/");
-  //   }
-  // }, [user]);
 
   if (!user) return <Loading />;
 

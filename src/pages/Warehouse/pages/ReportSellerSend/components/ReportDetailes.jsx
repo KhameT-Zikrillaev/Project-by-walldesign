@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import SearchFormStartEnd from "@/components/SearchFormStartEnd/SearchFormStartEnd";
-import { Spin } from "antd";
+import { Pagination, Spin } from "antd";
 import useFetch from "@/hooks/useFetch";
 import WarehouseSendShopReportCard from "@/components/warehousesendShopReport";
 
@@ -57,7 +57,7 @@ const ReportDetailes = () => {
     { enabled: isFetchEnabled }
   );
     
-  console.log(data);
+  console.log(data?.data[0]);
   
 
   const handleDateSearch = (from, to) => {
@@ -82,22 +82,21 @@ const ReportDetailes = () => {
         </div>
       ) : reportDataArray.length ? (
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {reportDataArray.map((report, index) => (
+          {data?.data[0].map((report, index) => (
             <Link key={index} to={`/warehouse/report-seller-send/${name}/${report.date}`}>
               <WarehouseSendShopReportCard  report={report} />
             </Link>
           ))}
-
           <div className="flex justify-center mt-4 col-span-full">
-            {/* <Pagination
+            <Pagination
               current={page}
               pageSize={limit}
-              total={data.total || 0}
+              total={data?.data[1] || 0}
               onChange={(page) => setPage(page)}
-              showSizeChanger
-              onShowSizeChange={(current, size) => setLimit(size)}
+              // showSizeChanger
+              // onShowSizeChange={(current, size) => setLimit(size)}
               className="custom-pagination"
-            /> */}
+            />
           </div>
         </div>
       ) : (
